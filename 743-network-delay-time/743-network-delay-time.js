@@ -37,14 +37,12 @@ var networkDelayTime = function(times, n, k) {
   }
    
   // console.log(dist)
-  let min = Number.MIN_SAFE_INTEGER,
-      [first, ...remaining] = dist;
+  let min = Number.MIN_SAFE_INTEGER;
   
-  for(let resultDist of remaining){
-    
-    if(resultDist == Number.MAX_SAFE_INTEGER)
+  for(let i = 1; i < dist.length; i++){
+    if(dist[i] == Number.MAX_SAFE_INTEGER)
       return -1;
-    min = Math.max(min, resultDist);
+    min = Math.max(min, dist[i]);
   }
   
   return min;
