@@ -12,6 +12,9 @@
  * }
  */
 
+/*
+Naive way of doing traversal.
+
 function deepestLeavesSum(root: TreeNode | null): number {
   let head: TreeNode | null = root,
       depth: number = 0,
@@ -45,4 +48,25 @@ function traverse(root: TreeNode | null, depth = 0): number {
     return Math.max(traverse(root.left, depth + 1), traverse(root.right, depth + 1));
 
   return depth;
+}
+
+*/
+
+function deepestLeavesSum(root: TreeNode | null): number {
+  let q = [root],
+      output = 0;
+  
+  while(q.length){
+    let newQ = [],
+        sum = 0;
+    
+    for(let node of q){
+      sum += node.val;
+      if(node.left) newQ.push(node.left);
+      if(node.right) newQ.push(node.right);
+    }
+    output = sum;
+    q = newQ;
+  }
+  return output;
 }
