@@ -16,6 +16,8 @@ function myPow(x: number, n: number): number {
 };
 */
 
+// https://leetcode.com/problems/powx-n/discuss/1226372/TypeScript-recursion
+
 function myPow(x: number, n: number): number {
   if(n == 0)
     return 1;
