@@ -1,10 +1,11 @@
+// https://www.youtube.com/watch?v=OxUFaTwKp7E
+
 function mySqrt(x: number): number {  
   let l = 1,
       r = x;
   
   if(x < 2)
     return x;
-  
   
   while(l < r){
     const mid = l + Math.floor((r - l) / 2),
