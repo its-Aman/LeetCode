@@ -1,31 +1,30 @@
 function evalRPN(tokens: string[]): number {
-  const ops = ['+', '-', '*', '/'];
+  const ops = ['+', '-', '*', '/'],
+        ans: number[] = [];
   
-  while(tokens.length > 1){
-    for(let [i, token] of tokens.entries()) {
-      if(ops.includes(token)){
-        let [a, b, op] = tokens.splice(i - 2, 3),
-            ans = perform(+a, +b, op);
-        
-        tokens.splice(i - 2, 0, ans);
-        // console.log({op, a, b, ans, tokens})
-        break;
-      }    
-    }  
-  }
+  for(let token of tokens) {
+    if(ops.includes(token)) {
+      let [a, b] = [ans.pop(), ans.pop()];
+      const result = perform(b, a, token);
+      ans.push(result);
+      // console.log({a, b, token, ans})
+    } else {
+      ans.push(+token);
+    }    
+  }  
     
-  return +tokens[0];
+  return ans.pop();
 };
 
-function perform(a: number, b: number, op: string): string {
-  let ans: number;
+function perform(a: number, b: number, op: string): number {
+  let result: number;
   
   switch(op){
-    case '+': ans = a + b; break;
-    case '-': ans = a - b; break;
-    case '*': ans = a * b; break;
-    case '/': ans = a / b > 0 ? Math.floor(a / b) : Math.ceil(a / b); break;
+    case '+': result = a + b; break;
+    case '-': result = a - b; break;
+    case '*': result = a * b; break;
+    case '/': result = Math.trunc(a / b); break;
   }
   
-  return ans.toString();
+  return result;
 }
