@@ -19,10 +19,5 @@ function getTargetCopy(original: TreeNode | null, cloned: TreeNode | null, targe
   if(original == target)
     return cloned;    
     
-  let left = getTargetCopy(original.left, cloned.left, target);
-  let right = getTargetCopy(original.right, cloned.right, target);
-
-  if(left)
-    return left;
-  return right;
+  return getTargetCopy(original.left, cloned.left, target) || getTargetCopy(original.right, cloned.right, target);
 };
