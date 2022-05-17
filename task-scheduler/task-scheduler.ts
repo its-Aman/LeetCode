@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/task-scheduler/discuss/104500/Java-O(n)-time-O(1)-space-1-pass-no-sorting-solution-with-detailed-explanation
+
 function leastInterval(tasks: string[], n: number): number {
   let counter: number[] = new Array(26).fill(0),
       maxTaskCount: number = 0,
@@ -16,12 +18,6 @@ function leastInterval(tasks: string[], n: number): number {
       tasksWithMostFreq = 1;
     }
   }
-  
-  // partCount = count(A) - 1
-  // emptySlots = partCount * (n - (count of tasks with most frequency - 1))
-  // availableTasks = tasks.length - count(A) * count of tasks with most frenquency
-  // idles = max(0, emptySlots - availableTasks)
-  // result = tasks.length + idles
   
   const partCount = maxTaskCount - 1,
         partLength = n - (tasksWithMostFreq - 1),
