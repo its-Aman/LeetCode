@@ -3,6 +3,7 @@ function criticalConnections(N: number, connections: number[][]): number[][] {
         visited: boolean[] = new Array(N).fill(false),
         ans: number[][] = [],
         g = new Map<number, number[]>();
+  let id = 0;
   
   for (let[a,b] of connections) {
     if (!g.has(a))
@@ -14,25 +15,25 @@ function criticalConnections(N: number, connections: number[][]): number[][] {
     g.get(b).push(a);
   }
 
-    tarjanAlgo(g, -1, 0, 0, visited, ans, low);
+    tarjanAlgo(-1, 0);
     return ans;
-};
 
-function tarjanAlgo(graph: Map<number, number[]>, parentId: number, nodeId: number, id: number, visited: boolean[], ans: number[][], low: number[]){
-  visited[nodeId] = true;
-  low[nodeId] = ++id;
-  let currentNodeLowest = low[nodeId];
-  
-  for(let neighbourId of graph.get(nodeId)){
-    if(parentId == neighbourId)
-      continue;
-    
-    if(!visited[neighbourId])
-      tarjanAlgo(graph, nodeId, neighbourId, id, visited, ans, low);
-    
-    low[nodeId] = Math.min(low[nodeId], low[neighbourId]);
-    
-    if(currentNodeLowest < low[neighbourId])
-      ans.push([nodeId, neighbourId]);
+  function tarjanAlgo(parentId: number, nodeId: number){
+    visited[nodeId] = true;
+    low[nodeId] = ++id;
+    let currentNodeLowest = low[nodeId];
+
+    for(let neighbourId of g.get(nodeId)){
+      if(parentId == neighbourId)
+        continue;
+
+      if(!visited[neighbourId])
+        tarjanAlgo(nodeId, neighbourId);
+
+      low[nodeId] = Math.min(low[nodeId], low[neighbourId]);
+
+      if(currentNodeLowest < low[neighbourId])
+        ans.push([nodeId, neighbourId]);
+    }
   }
 }
