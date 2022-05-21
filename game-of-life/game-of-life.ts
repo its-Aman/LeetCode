@@ -5,6 +5,9 @@
 - Any live cell with two or three live neighbors lives on to the next generation.
 - Any live cell with more than three live neighbors dies, as if by over-population.
 - Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+
+Help taken from below article: 
+https://leetcode.com/problems/game-of-life/discuss/73223/Easiest-JAVA-solution-with-explanation
 */
 
 function gameOfLife(board: number[][]): void {
