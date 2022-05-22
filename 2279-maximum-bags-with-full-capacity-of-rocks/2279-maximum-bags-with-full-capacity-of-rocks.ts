@@ -5,22 +5,20 @@ function maximumBags(capacity: number[], rocks: number[], additionalRocks: numbe
   
 // https://www.youtube.com/watch?v=twiJ9IGn_us
   
-  const N = capacity.length,
-        vacancy = new Array(N).fill(0);
+  const N = capacity.length;
   let fullBagCount = 0;
   
   for(let i = 0; i < N; i++)
-    vacancy[i] = capacity[i] - rocks[i];
+    capacity[i] = capacity[i] - rocks[i];
   
-  vacancy.sort((a, b) => a - b);
+  capacity.sort((a, b) => a - b);
   
   for(let i = 0; i < N; i++){
-    if(vacancy[i] == 0)
+    if(capacity[i] == 0)
       fullBagCount++
     else 
-      if(additionalRocks >= vacancy[i]){
-      additionalRocks -= vacancy[i];
-      vacancy[i] = 0;
+      if(additionalRocks >= capacity[i]){
+      additionalRocks -= capacity[i];
       fullBagCount++;
     } else {
       break;
