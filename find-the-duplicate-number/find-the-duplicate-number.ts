@@ -24,7 +24,9 @@ function findDuplicate_BinarySearch(nums: number[]): number {
   return dup
 };
 
-function findDuplicate(nums: number[]): number {
+// Solution: Approach 6: Sum of Set Bits
+
+function findDuplicate_SumOfSetBits(nums: number[]): number {
   const N = nums.length,
         maxBit = calcMaxBit(nums);
   let dup = 0;
@@ -55,4 +57,24 @@ function calcMaxBit(nums: number[]){
     bits++;
   }
   return bits;
+}
+
+// Solution: Approach 7: Floyd's Tortoise and Hare (Cycle Detection)
+
+function findDuplicate(nums: number[]): number {
+  let tortoise = nums[0],
+      hare = nums[0];
+  
+  do{
+    tortoise = nums[tortoise];
+    hare = nums[nums[hare]];
+  } while(tortoise != hare);
+  
+  tortoise = nums[0];
+
+  while(tortoise != hare){
+    tortoise = nums[tortoise];
+    hare = nums[hare];
+  }
+  return hare;
 }
