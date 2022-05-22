@@ -22,6 +22,8 @@ function countSubstrings_DP_Method(s: string): number {
   return count;
 };
 
+// https://www.youtube.com/watch?v=4RACzI5-du8
+
 function countSubstrings(s: string): number {
   let res = 0;
   
