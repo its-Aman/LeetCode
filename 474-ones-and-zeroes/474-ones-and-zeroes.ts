@@ -17,6 +17,9 @@ function findMaxForm(strs: string[], m: number, n: number): number {
     const current = strs[begin],
           [_m, _n] = map.get(current);
 
+    // made a silly mistake to include 1 when counting the knapsack without considering the zeroes and ones.
+    // feeling dumb. 
+    
     dp[m][n][begin] = knapsack(m, n, begin + 1);
 
     if(m >= _m && n >= _n)
