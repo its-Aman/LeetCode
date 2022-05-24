@@ -38,7 +38,27 @@ function validParantheses(s: string): boolean {
   return stack.length == 0;
 }
 */
+// Solution: Approach 3: Using Stack
 
+function longestValidParentheses(s: string): number {
+  const stack = [-1];
+  let max = 0;
+  
+  for(let i = 0; i < s.length; i++) {
+    if(s.charAt(i) == '('){
+      stack.push(i);
+    } else {
+       stack.pop();
+       if(stack.length)
+         max = Math.max(max, i - stack[stack.length - 1]);
+      else 
+          stack.push(i);
+    }
+  }
+  return max;
+}
+
+/*
 // Solution: Approach 4: Without extra space
 
 function longestValidParentheses(s: string): number {
@@ -74,3 +94,4 @@ function longestValidParentheses(s: string): number {
   
   return max;
 }
+*/
