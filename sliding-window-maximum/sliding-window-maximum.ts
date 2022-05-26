@@ -1,3 +1,4 @@
+/*
 // https://leetcode.com/problems/sliding-window-maximum/discuss/65881/O(n)-solution-in-Java-with-two-simple-pass-in-the-array
 
 function maxSlidingWindow(nums: number[], k: number): number[] {
@@ -20,3 +21,27 @@ function maxSlidingWindow(nums: number[], k: number): number[] {
   
   return max;
 };
+*/
+
+// https://leetcode.com/problems/sliding-window-maximum/discuss/871317/Clear-thinking-process-with-PICTURE-brute-force-to-mono-deque-pythonjavajavascript
+
+function maxSlidingWindow(nums: number[], k: number): number[] {
+  const N = nums.length,
+        q = [],
+        res = [];
+  
+  for(let i = 0; i < N; i++){
+    while(q.length && nums[q[q.length - 1]] <= nums[i])
+      q.pop();
+    
+    q.push(i);
+    
+    if(q[0] == i - k)
+      q.shift();
+    
+    if(i >= k - 1)
+      res.push(nums[q[0]]);
+  }
+  
+  return res;
+}
