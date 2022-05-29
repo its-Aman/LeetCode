@@ -9,7 +9,7 @@
  *     }
  * }
  */
-
+/*
 function sortList(head: ListNode | null): ListNode | null {
   if(!head || !head.next)
     return head;
@@ -89,4 +89,57 @@ function sortList(head: ListNode | null): ListNode | null {
 
     return count;
   }
+}
+*/
+
+function sortList(head: ListNode | null): ListNode | null {
+  
+  if(!head || !head.next)
+    return head;
+  
+  let temp = null,
+      slow = head,
+      fast = head;
+  
+  while(fast && fast.next){
+    temp = slow;
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  temp.next = null;
+  
+  let l1 = sortList(head),
+      l2 = sortList(slow);
+  
+  return mergeList(l1, l2);
+}
+
+function mergeList(l1: ListNode | null, l2: ListNode | null): ListNode | null {
+  let ptr = new ListNode(),
+      curr = ptr;
+  
+  while(l1 || l2){
+    
+    if(!l1){
+      curr.next = l2;
+      break;
+    }
+    
+    if(!l2){
+      curr.next = l1;
+      break;
+    }
+    
+    if(l1.val < l2.val){
+      curr.next = l1;
+      l1 = l1.next;
+    } else {
+      curr.next = l2;
+      l2 = l2.next;
+    }
+    
+    curr = curr.next;
+  }
+  
+  return ptr.next;
 }
