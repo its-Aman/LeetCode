@@ -29,7 +29,7 @@ function mergeTwoLists(list1: ListNode | null, list2: ListNode | null): ListNode
       curr.next = list1;
       list1 = list1.next;
     } else {
-      curr.next = new ListNode(list2.val, new ListNode(list1.val));
+      curr.next = list2;
       list2 = list2.next;
     }
 
