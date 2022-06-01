@@ -40,6 +40,7 @@ function lowestCommonAncestor(root: TreeNode | null, p: TreeNode | null, q: Tree
 */
 
 
+/*
 // Iterative using parent pointer.
 
 function lowestCommonAncestor(root: TreeNode | null, p: TreeNode | null, q: TreeNode | null): TreeNode | null {
@@ -77,4 +78,55 @@ function lowestCommonAncestor(root: TreeNode | null, p: TreeNode | null, q: Tree
     q = parent.get(q);
   
   return q;
+}
+*/
+
+// Iterative without parent pointer.
+
+function lowestCommonAncestor(root: TreeNode | null, p: TreeNode | null, q: TreeNode | null): TreeNode | null {
+  const STATE = {
+    BOTH_PENDING: 2, // both the left and right subtree are pending for processing
+    LEFT_DONE: 1, // left tree is done and right subtree is pending for processing
+    BOTH_DONE: 0 // both the left and right subtree are done processing
+  },
+        stack = [];
+  
+  stack.push([root, STATE.BOTH_PENDING]);
+  
+  let one_node_found = false,
+      LCA = null,
+      child_node = null;
+  
+  while(stack.length){
+    const [parent_node, parent_state] = stack[stack.length - 1];
+    
+    if(parent_state != STATE.BOTH_DONE){
+      
+      if(parent_state == STATE.BOTH_PENDING){
+        
+        if([p, q].includes(parent_node)){
+          if(one_node_found){
+            return LCA;            
+          } else {
+            one_node_found = true;
+            LCA = parent_node;
+          }
+        }
+        child_node = parent_node.left;
+      } else {
+        child_node = parent_node.right;
+      }
+    
+      stack.pop();
+      stack.push([parent_node, parent_state - 1]);
+    
+      if(child_node)
+        stack.push([child_node, STATE.BOTH_PENDING]);
+    } else {
+      if(LCA == stack.pop()[0] && one_node_found)
+        LCA = stack[stack.length - 1][0];
+    }
+  }
+
+  return null;
 }
