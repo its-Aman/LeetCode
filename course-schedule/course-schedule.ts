@@ -1,5 +1,38 @@
-// https://www.youtube.com/watch?v=EgI5nU9etnU
 function canFinish(numCourses: number, prerequisites: number[][]): boolean {
+  const preMap = Array.from(Array(numCourses), () => []),
+        visit = Array(numCourses).fill(0);
+    
+  for(let [s, d] of prerequisites)
+    preMap[s].push(d);
+  
+  for(let i = 0; i < numCourses; i++)
+    if(hasCycle(i))
+      return false;
+
+  return true;
+  
+  function hasCycle(v: number): boolean {
+    if(visit[v] == 1)
+      return false;
+    
+    if(visit[v] == -1)
+      return true;
+    
+    visit[v] = -1;
+    
+    for(let deps of preMap[v]){
+      if(hasCycle(deps))
+        return true;
+    }
+    
+    visit[v] = 1;
+    return false;
+  }
+}
+
+
+// https://www.youtube.com/watch?v=EgI5nU9etnU
+function canFinish_NC(numCourses: number, prerequisites: number[][]): boolean {
   const preMap = [],
         visit = new Set<number>();
   
