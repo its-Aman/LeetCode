@@ -1,4 +1,44 @@
+
+
+// dfs + stack
 function canFinish(numCourses: number, prerequisites: number[][]): boolean {
+  const preMap = Array.from(Array(numCourses), () => []),
+        visit = Array(numCourses).fill(false),
+        stack = [];
+    
+  for(let [s, d] of prerequisites)
+    preMap[s].push(d);
+  
+  for(let i = 0; i < numCourses; i++)
+    if(hasCycle(i))
+      return false;
+
+  return true;
+  
+  function hasCycle(v: number): boolean {
+    if(visit[v]){
+      if(stack.includes(v))
+        return true;
+
+      return false;
+    }
+    
+    visit[v] = true;
+    stack.push(v);
+    
+    for(let deps of preMap[v]){
+      if(hasCycle(deps))
+        return true;
+    }
+    
+    stack.pop();
+    return false;
+  }
+}
+
+
+// this is using bfs with constant memory. 
+function canFinish_BFS(numCourses: number, prerequisites: number[][]): boolean {
   const preMap = Array.from(Array(numCourses), () => []),
         visit = Array(numCourses).fill(0);
     
