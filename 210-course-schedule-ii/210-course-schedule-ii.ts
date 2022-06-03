@@ -40,6 +40,7 @@ function DFS_Stack(numCourses: number, prerequisites: number[][]): number[] {
 };
 
 
+// https://www.youtube.com/watch?v=cIBFEhD77b4
 function KhanAlgoWithTopologicalSort(numCourses: number, prerequisites: number[][]): number[] {
   const adj = Array.from(Array(numCourses), () => []),
         in_degree = Array(numCourses).fill(0),
