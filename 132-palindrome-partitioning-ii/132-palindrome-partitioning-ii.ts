@@ -1,7 +1,6 @@
 function minCut(s: string): number {
   const N = s.length,
         dp = new Array(N).fill(-1),
-        dpPali = new Map<string, boolean>(),
         ans = helper(0);
   
   return ans - 1;
@@ -26,10 +25,6 @@ function minCut(s: string): number {
   }
   
   function isPalindrome(l: number, r: number): boolean {    
-    const key = `${l}_${r}`;
-    if(dpPali.has(key))
-      return dpPali.get(key);
-    
     let ans = true;
 
     while(l <= r){
@@ -40,8 +35,7 @@ function minCut(s: string): number {
       l++;
       r--;
     }
-    
-    dpPali.set(key, ans);
+
     return ans;
   }
 };
