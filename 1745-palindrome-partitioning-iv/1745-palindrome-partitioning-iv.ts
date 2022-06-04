@@ -1,3 +1,4 @@
+// https://leetcode.com/problems/palindrome-partitioning-iv/discuss/1042902/Here's-your-Cake
 function checkPartitioning(S: string): boolean {
   const N = S.length,
         dp = Array.from(Array(N), () => Array(N).fill('_'.repeat(4)));
@@ -19,12 +20,16 @@ function checkPartitioning(S: string): boolean {
   // console.log(dp);
   
   for(let p = 0;  p < N; p++){
+    const left = dp[0][p];
+    
+    if(!left)
+      continue;
+    
     for(let s = p + 2; s < N; s++){
-      const left = dp[0][p],
-            mid = dp[p + 1][s - 1],
+      const mid = dp[p + 1][s - 1],
             right = dp[s][N - 1];
       // console.log({l: S.substring(0, p+1), m: S.substring(p+1, s), r: S.substring(s, N)}, {p, s})
-      if(left && mid && right)
+      if(mid && right)
         return true;
     }
   }
