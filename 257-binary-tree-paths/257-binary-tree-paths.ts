@@ -13,32 +13,26 @@
  */
 
 function binaryTreePaths(root: TreeNode | null): string[] {
-  const set = new Set<string>();
+  const ans = []
   
   backtrack(root, []);
 
-  return Array.from(set.values());
+  return ans;
 
   function backtrack(root: TreeNode | null, curr: number[]) {
+    curr.push(root.val);
 
-    if(root.left && !root.right) {
-      curr.push(root.val);
-      backtrack(root.left, curr);
-      curr.pop();
-    } else if(!root.left && root.right) {
-      curr.push(root.val);
-      backtrack(root.right, curr);
-      curr.pop();
-    } else if(root.left && root.right) {
-      curr.push(root.val);
-      backtrack(root.left, curr);
-      backtrack(root.right, curr);
-      curr.pop();
-    } else {
-      curr.push(root.val);
-      set.add(curr.join('->'));
-      curr.pop();
+    if(!root.left && !root.right){
+      ans.push(curr.join('->'));
+      return;
     }
+    
+    if(root.left) 
+      backtrack(root.left, curr.slice(0));
+
+    if(root.right) 
+      backtrack(root.right, curr.slice(0));
+
   }
   
 };
