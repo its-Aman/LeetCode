@@ -15,39 +15,15 @@ class Trie {
     this.root = new TrieNode();
   }
 
-  public add(word: string): void {
+  public insert(word: string): void {
     let curr = this.root;
     for(let c of word){
-      if(!curr.children[97 - c.charCodeAt(0)])
-        curr.children[97 - c.charCodeAt(0)] = new TrieNode();
-      curr = curr.children[97 - c.charCodeAt(0)];
+      if(!curr.children[c.charCodeAt(0) - 97])
+        curr.children[c.charCodeAt(0) - 97] = new TrieNode();
+      curr = curr.children[c.charCodeAt(0) - 97];
     }
-
     curr.isWord = true;
   }
-  
-  public search(word: string): boolean {
-    let curr = this.root;
-    for(let c of word){
-      if(!curr.children[97 - c.charCodeAt(0)])
-        return false;
-      curr = curr.children[97 - c.charCodeAt(0)];
-    }
-
-    return curr.isWord;
-  }
-
-  public startsWith(word: string): boolean {
-    let curr = this.root;
-    for(let c of word){
-      if(!curr.children[97 - c.charCodeAt(0)])
-        return false;
-      curr = curr.children[97 - c.charCodeAt(0)];
-    }
-
-    return true;
-  }
-
 }
 
 function findWords(board: string[][], words: string[]): string[] {
@@ -59,10 +35,10 @@ function findWords(board: string[][], words: string[]): string[] {
         nbrs = [[0, 1], [0, -1], [1, 0], [-1, 0]];
 
   for(let word of words)
-    trie.add(word);
+    trie.insert(word);
   
-  for(let [i, row] of board.entries())
-    for(let [j, col] of row.entries())
+  for(let i = 0; i < M; i++)
+    for(let j = 0; j < N; j++)
       backtrack('', node, i, j);
 
   return ans;
@@ -78,18 +54,20 @@ function findWords(board: string[][], words: string[]): string[] {
       return;
 
     const temp = board[i][j];
-
-    node = node.children[97 - temp.charCodeAt(0)];
+  
+    if(temp == '#')
+      return;
+  
+    node = node.children[temp.charCodeAt(0) - 97];
 
     if(!node)
       return;
 
     board[i][j] = '#';
-    for(let [x, y] of nbrs){
-      const dx = x + i,
-            dy = y + j;
-      backtrack(currWord.concat(temp), node, dx, dy);
-    }
+
+    for(let [x, y] of nbrs)
+      backtrack(currWord.concat(temp), node, x + i, y + j);
+  
     board[i][j] = temp;
   }
 };
