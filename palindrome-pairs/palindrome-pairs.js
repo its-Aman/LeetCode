@@ -1,3 +1,83 @@
+/*
+
+Trie typescript solution isn't working due to memory constrains. IDK why. 
+
+Wasted my 2 days over it. LC is bad in these things. 
+
+class TrieNode {
+  public next: Map<string, TrieNode>;
+  public index: number;
+  public list: Array<number>;
+  
+  constructor() {
+    this.next = new Map<string, TrieNode>();
+    this.index = -1;
+    this.list = new Array(0);
+  }
+}
+
+function palindromePairs(words: string[]): number[][] {
+  const N = words.length,
+        ans = new Array(),
+        root = new TrieNode();
+  let curr = root;
+  
+  for(let i = 0; i < N; i++) 
+    addWord(curr, words[i], i);
+  
+  curr = root;
+  
+  for(let i = 0; i < N; i++) 
+    search(words, i, curr, ans);
+  
+  return ans;
+};
+
+function addWord(root: TrieNode, word: string, index: number): void {
+  for(let i = word.length - 1; i >= 0; i--) {
+    const j = word.charAt(i);
+
+    if(!root.next.has(j))
+      root.next.set(j, new TrieNode());
+    
+    if(isPalindrome(word, 0, i))
+      root.list.push(index);
+    
+    root = root.next.get(j);
+  }
+  
+  root.list.push(index);
+  root.index = index;
+}
+
+function search(words: string[], i: number, root: TrieNode, ans: number[][]): void {
+  const word = words[i];
+
+  for(let j = 0; j < word.length; j++){
+    if(~root.index && root.index != i && isPalindrome(word, j, word.length - 1))
+      ans.push([i, root.index]);
+    
+    root = root.next.get(word.charAt(j));
+    
+    if(!root)
+      return;
+  }
+  
+  for(let j of root.list)
+    if(i != j)
+      ans.push([i, j]);
+}
+
+function isPalindrome(word: string, i: number, j: number): boolean{
+  while(i < j)
+    if(word.charAt(i++) != word.charAt(j--))
+      return false;
+  return true;
+}
+
+
+*/
+
 // https://leetcode.com/problems/palindrome-pairs/discuss/1918670/Simple-JS-Solution-w-Comments-Map-and-Trie
 
 /**
