@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/match-substring-after-replacement/discuss/2139426/Typescript-solution
+
 function matchReplacement(s: string, sub: string, mappings: string[][]): boolean {
    const set = new Set<string>();
   
