@@ -1,6 +1,7 @@
 // https://leetcode.com/problems/triangle/discuss/38730/DP-Solution-for-Triangle
 function minimumTotal(triangle: number[][]): number {
-  return minimumTotal_TopDownDP(triangle);
+  // return minimumTotal_TopDownDP(triangle);
+  return minimumTotal_BottomUpDP(triangle);
 }
 
 function minimumTotal_TopDownDP(triangle: number[][]): number {
