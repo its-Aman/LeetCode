@@ -1,5 +1,26 @@
 function minDistance(w1: string, w2: string): number {
-  return minDistance_LCS_withDP(w1, w2);
+  return minDistance_LCS_with_1D_DP(w1, w2);
+}
+
+function minDistance_LCS_with_1D_DP(w1: string, w2: string): number {
+  const len1 = w1.length,
+        len2 = w2.length;
+  let dp = new Array<number>(len2 + 1);
+
+  for(let i = 0; i <= len1; i++) {
+    const temp = new Array<number>(len2 + 1);
+    for(let j = 0; j <= len2; j++) {
+      if(!i || !j)
+        temp[j] = i + j;
+      else if(w1.at(i - 1) == w2.at(j - 1))
+        temp[j] = dp[j - 1];
+      else 
+        temp[j] = 1 + Math.min(temp[j - 1], dp[j]);
+    }
+    dp = temp;
+  }
+  
+  return dp[len2];
 }
 
 function minDistance_LCS_withDP(w1: string, w2: string): number {
