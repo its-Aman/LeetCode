@@ -1,3 +1,4 @@
+// https://www.youtube.com/watch?v=w36ekZYq-Ms
 
 function kthSmallest(matrix: number[][], k: number): number {
   const N = matrix.length;
@@ -6,24 +7,17 @@ function kthSmallest(matrix: number[][], k: number): number {
   
   while(low < hi) {
     const mid = low + ((hi - low) >>> 1);
-    let count = 0;
-    for(let i = 0; i < N; i++)
-      count += upper_bound(i, mid);
-
+    let j = N - 1,
+        count = 0;
+    for(let i = 0; i < N; i++) {
+      while(j >= 0 && matrix[i][j] > mid)
+        j--;
+      count += j + 1;
+    }
     if(count < k)
       low = mid + 1;
     else
       hi = mid;
   }
-  
   return low;
-
-  function upper_bound(i: number, target: number): number {
-    for(let j = 0; j < N; j++) {
-      if(matrix[i][j] > target)
-        return j;
-    }
-    
-    return N;
-  }
 };
