@@ -1,7 +1,33 @@
-// overall complexity = O(nlogn) + O(n) + O(n) x O(max(word[i].length))
+function longestStrChain(words: string[]): number {
+  // return longestStrChain_MINE(words);
+  return longestStrChain_SOL(words);
+}
+
+function longestStrChain_SOL(words: string[]): number {
+  const map = new Map<string, number>();
+  
+  words.sort((a, b) => a.length - b.length);
+
+  let max = 0;
+  
+  for(let word of words) {
+    let currMax = 0;
+    for(let i = 0; i < word.length; i++) {
+      const replacedWord = word.substring(0, i).concat(word.substring(i + 1));
+      currMax = Math.max(currMax, (map.get(replacedWord) || 0) + 1);
+    }
+    
+    map.set(word, currMax);
+    max = Math.max(currMax, max);
+  }
+  return max;
+}
+
+function longestStrChain_MINE(words: string[]): number {
+
+  // overall complexity = O(nlogn) + O(n) + O(n) x O(max(word[i].length))
 // ~= O(n x max(word[i].length))
 
-function longestStrChain(words: string[]): number {
   const N = words.length,
         map = new Map<string, number>(),
         dp = new Array<number>(N + 1).fill(1);
