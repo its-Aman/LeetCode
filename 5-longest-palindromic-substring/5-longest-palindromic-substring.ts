@@ -1,4 +1,29 @@
 function longestPalindrome(s: string): string {
+  return longestPalindrome_linear(s);
+}
+
+function longestPalindrome_linear(s:string): string {
+  const N = s.length;
+  let max = '';
+  
+  for(let i = 0; i < N; i++) {
+    const helper = (left: number, right: number) => {
+      while(left >= 0 && right < N && s.at(left) == s.at(right)) {
+        if((right - left + 1) > max.length)
+          max = s.substring(left, right + 1);
+        left--;
+        right++;
+      }
+    }
+    
+    helper(i, i);
+    helper(i, i + 1);
+  }
+  
+  return max;
+}
+
+function longestPalindrome_withDP(s: string): string {
   let max = '';
   const N = s.length,
         dp = Array.from(new Array<Array<boolean>>(N), () => new Array<boolean>(N).fill(false))
