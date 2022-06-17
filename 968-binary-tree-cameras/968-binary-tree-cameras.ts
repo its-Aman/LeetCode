@@ -12,6 +12,8 @@
  * }
  */
 
+// https://leetcode.com/problems/binary-tree-cameras/solution/770395
+
 function minCameraCover(root: TreeNode | null): number {
   enum Camera {
     HAS_CAMERA,
@@ -20,19 +22,19 @@ function minCameraCover(root: TreeNode | null): number {
   };
   
   let cameraCount = 0,
-      state = cover(root);
+      state = getState(root);
   
   if(state == Camera.PLEASE_COVER)
     cameraCount++;
   
   return cameraCount;
   
-  function cover(node: TreeNode): Camera {
+  function getState(node: TreeNode): Camera {
     if(!node)
       return Camera.COVERED;
     
-    const l = cover(node.left),
-          r = cover(node.right);
+    const l = getState(node.left),
+          r = getState(node.right);
     
     if([l, r].includes(Camera.PLEASE_COVER)){
       cameraCount++;
