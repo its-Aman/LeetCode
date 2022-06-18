@@ -1,27 +1,31 @@
 function numDecodings(s: string): number {
-  if(!(s.length || +s.at(0)))
-    return 0;
+  const memo = new Map<string, number>();
   
-  const N = s.length,
-        waysToDecode = new Array<number>(N + 1).fill(0);
+  return dfs(s);
   
-  waysToDecode[0] = 1;
-  waysToDecode[1] = !(+s.at(0)) ? 0 : 1;
-  
-  for(let i = 1; i < N; i++) {
-    const prev = +s.at(i - 1),
-          curr = +s.at(i),
-          combined = prev * 10 + curr;
+  function dfs(s: string): number {
+    if(memo.has(s))
+      return memo.get(s);
     
-    if(!prev && !curr || (!curr && combined > 26))
+    if(s.length && s.at(0) == '0'){
+      memo.set(s, 0);
       return 0;
-    else if(!prev || combined > 26)
-      waysToDecode[i + 1] = waysToDecode[i];
-    else if(!curr)
-      waysToDecode[i + 1] = waysToDecode[i - 1];
-    else
-      waysToDecode[i + 1] = waysToDecode[i] + waysToDecode[i - 1];
-  }
+    }
     
-  return waysToDecode[N];
+    if(!s || s.length == 1){
+      memo.set(s, 1);
+      return 1;      
+    }
+    
+    const firstStr = s.substring(1);
+    memo.set(firstStr, dfs(firstStr));
+
+    if(+s.substring(0,2) <= 26) {
+      const secondStr = s.substring(2);
+      memo.set(secondStr, dfs(secondStr));
+      return memo.get(firstStr) + memo.get(secondStr);
+    } else {
+      return memo.get(firstStr);
+    }
+  }
 };
