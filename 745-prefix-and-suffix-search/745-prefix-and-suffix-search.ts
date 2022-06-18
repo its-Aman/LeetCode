@@ -1,18 +1,10 @@
-/*
-["WordFilter","f","f","f","f","f","f","f","f","f","f"]
-[
-  [["cabaabaaaa","ccbcababac","bacaabccba","bcbbcbacaa","abcaccbcaa","accabaccaa","cabcbbbcca","ababccabcb","caccbbcbab","bccbacbcba"]],
-  ["bccbacbcba","a"],["ab","abcaccbcaa"],["a","aa"],["cabaaba","abaaaa"],["cacc","accbbcbab"],["ccbcab","bac"],["bac","cba"],["ac","accabaccaa"],["bcbb","aa"],["ccbca","cbcababac"]
-]
-
-*/
 class TrieNode {
   public child: Array<TrieNode>;
   public index: number;
 
-  constructor(index = -1) {
+  constructor() {
     this.child = new Array();
-    this.index = index;
+    this.index = -1;
   }
 }
 
@@ -24,25 +16,22 @@ class WordFilter {
       
       for(let [i, word] of words.entries())
         for(let j = 0; j < word.length; j++)
-          this.insert(word.concat('{', word).substring(j), i);
+          this.insert(word.substring(j).concat('{', word), i);
     }
 
     f(prefix: string, suffix: string): number {
-      const index = this.search(suffix.concat('{', prefix));
-      return index;
+      return this.search(suffix.concat('{', prefix));
     }
 
     private insert(word: string, index: number): void {
       let curr = this.root;
-      
       for(let c of word) {
         const i = c.charCodeAt(0) - 97;
         if(!curr.child[i])
-          curr.child[i] = new TrieNode(index);
+          curr.child[i] = new TrieNode();
         curr = curr.child[i];
         curr.index = index;
       }
-      // curr.index = index;
     }
     
     private search(prefix: string): number {
