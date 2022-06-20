@@ -49,7 +49,7 @@ function minimumLengthEncoding(words: string[]): number {
         set = new Set<string>(words);
   let ans = 0;
   
-  for(let word of words)
+  for(let word of set.values())
     trie.insert(reverse(word));
   
   for(let word of set.values())
