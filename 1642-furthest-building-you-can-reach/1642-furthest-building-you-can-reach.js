@@ -4,42 +4,8 @@
  * @param {number} ladders
  * @return {number}
  */
-// https://leetcode.com/problems/furthest-building-you-can-reach/discuss/1177210/Easy-Solution-w-Clear-Explanation-and-Comments-or-Priority-Queue-and-Multiset
 
-var furthestBuilding2 = function(heights, bricks, ladders) {
-  const N = heights.length,
-        pq = new MaxPriorityQueue({priority: x => x});
-  let i = 0;
-  
-  while(i < N - 1 && pq.size() < ladders) {
-    const jumpHeight = heights[i + 1] - heights[i];
-    if(jumpHeight > 0)
-      pq.enqueue(jumpHeight);
-    i++;
-  }
-  
-  while(i < N - 1) {
-    const jumpHeight = heights[i + 1] - heights[i];
-    
-    if(jumpHeight > 0) {
-      
-      if(pq.size() && pq.front().element < jumpHeight) {
-        bricks -= pq.dequeue().element;
-        pq.enqueue(jumpHeight);
-      } else {
-        bricks -= jumpHeight;
-      }
-    }
-    
-    if(bricks < 0)
-      return i;
-    
-    i++;
-  }
-  
-  return i;
-};
-
+// https://leetcode.com/problems/furthest-building-you-can-reach/discuss/918374/Basic-Priority-Queue-Single-Pass-or-Code-with-Comments-or-Corner-Cases
 var furthestBuilding = function(heights, bricks, ladders) {
   const N = heights.length,
         pq = new MaxPriorityQueue({priority: x => x});
