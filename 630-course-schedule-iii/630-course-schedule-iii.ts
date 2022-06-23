@@ -7,17 +7,20 @@ function scheduleCourse(courses: number[][]): number {
   for(let i = 0; i < N; i++) {
     if(time + courses[i][0] <= courses[i][1]) {
       time += courses[i][0];
-      count++
+      // count++;
+      courses[count++] = courses[i];
     } else {
       let max_i = i;
-      for(let j = 0; j < i; j++)
+      for(let j = 0; j < count; j++)
         if(courses[max_i][0] < courses[j][0])
           max_i = j;
       
-      if(courses[i][0] < courses[max_i][0])
+      if(courses[i][0] < courses[max_i][0]) {
         time += courses[i][0] - courses[max_i][0];
+        courses[max_i] = courses[i];
+      }
       
-      courses[max_i][0] = -1;
+      // courses[max_i][0] = -1;
     }
   }
   
