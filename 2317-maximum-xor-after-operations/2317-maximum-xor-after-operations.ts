@@ -1,4 +1,8 @@
 function maximumXOR(nums: number[]): number {
+  return nums.reduce((a, c) => a |= c);
+}
+
+function maximumXOR_old(nums: number[]): number {
   let bits = new Array(32).fill(0),
       mask = 0;
   
