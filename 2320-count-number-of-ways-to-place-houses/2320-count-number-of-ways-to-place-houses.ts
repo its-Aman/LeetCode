@@ -1,14 +1,9 @@
 function countHousePlacements(N: number): BigInt {
   const MOD = 1000000007n;
-  let house = 1n,
-      plot = 1n,
-      total = house + plot;
+  let a = 1n,
+      b = 2n;
+  for(let i = 1; i < N; i++)
+    [a, b] = [b, (a + b) % MOD];
   
-  for(let i = 2; i <= N; i++) {
-    house = plot;
-    plot = total;
-    total = (house + plot) % MOD;
-  }
-  
-  return (total * total) % MOD;
+  return (b * b) % MOD;
 };
