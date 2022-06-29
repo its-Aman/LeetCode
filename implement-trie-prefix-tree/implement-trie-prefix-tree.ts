@@ -1,82 +1,61 @@
 class TrieNode {
-  public children: Map<string, TrieNode>;
+  public children: Array<TrieNode>;
   public isEnd: boolean;
-  public word: string;
 
   constructor(isEnd = false){
-    this.children = new Map<string, TrieNode>();
+    this.children = new Array<TrieNode>(26);
     this.isEnd = isEnd;
-    this.word = '';
   }
 }
 
 class Trie {
-  root: TrieNode;
+  private root: TrieNode;
   
   constructor(){
     this.root = new TrieNode();    
   }
   
-  public insert(key: string) {
+  public insert(word: string) {
     let curr = this.root;
     
-    for(let c of key){
-      if(!curr.children.has(c))
-        curr.children.set(c, new TrieNode());
+    for(let c of word) {
+      const code = c.charCodeAt(0) - 97;
       
-      curr = curr.children.get(c);
+      if(!curr.children[code])
+        curr.children[code] = new TrieNode();
+      
+      curr = curr.children[code];
     }
     curr.isEnd = true;
-    curr.word = key;
   }
 
-  public getWord(key: string): string {
+  public search(word: string): boolean {
     let curr = this.root;
     
-    for(let c of key){
-      if(!curr.children.has(c) || curr.word)
-        break;
-      
-      curr = curr.children.get(c);
-    }
-    return curr.word || key;
-  }
+    for(let c of word) {
+      const code = c.charCodeAt(0) - 97;
 
-  public search(key: string): boolean {
-    let curr = this.root;
-    
-    for(let c of key){
-      if(!curr.children.has(c))
+      if(!curr.children[code])
         return false;
       
-      curr = curr.children.get(c);
+      curr = curr.children[code];
     }
+    
     return curr.isEnd;
   }
 
-  public startsWith(key: string): boolean {
+  public startsWith(prefix: string): boolean {
     let curr = this.root;
     
-    for(let c of key){
-      if(!curr.children.has(c))
+    for(let c of prefix) {
+      const code = c.charCodeAt(0) - 97;
+
+      if(!curr.children[code])
         return false;
       
-      curr = curr.children.get(c);
+      curr = curr.children[code];
     }
+    
     return true;
   }
 }
-
-function replaceWords(dictionary: string[], sentence: string): string {
-  const trie = new Trie(),
-        keys = sentence.split(' ');
-  let result = '';
-  
-  for(let d of dictionary)
-    trie.insert(d);
-  
-  for(let key of keys)
-    result = result.concat(trie.getWord(key), ' ');
-  
-  return result.trim();
-};
