@@ -1,4 +1,25 @@
 function wiggleMaxLength(nums: number[]): number {
+  const N = nums.length;
+  
+  if(N < 2)
+    return N;
+  
+  let prevDiff = nums[1] - nums[0],
+      count = prevDiff == 0 ? 1 : 2;
+  
+  for(let i = 2; i < N; i++) {
+    const diff = nums[i] - nums[i - 1];
+    
+    if((prevDiff >= 0 && diff < 0) || (prevDiff <= 0 && diff > 0)) {
+      count += 1;
+      prevDiff = diff;
+    }
+  }
+  
+  return count;
+}
+
+function wiggleMaxLength_N_1_DP(nums: number[]): number {
   const N = nums.length,
         dp = new Array(N).fill(1);
   let upDP = 1,
