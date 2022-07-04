@@ -1,4 +1,30 @@
 function candy(ratings: number[]): number {
+  const N = ratings.length;
+  
+  let peak = 0,
+      up = 0,
+      down = 0,
+      ans = 1;
+  
+  for(let i = 1; i < N; i++) {
+    if(ratings[i] > ratings[i - 1]) {
+      peak = ++up;
+      down = 0;
+      ans += 1 + up;
+    } else if(ratings[i] == ratings[i - 1]) {
+      peak = up = down = 0;
+      ans += 1;
+    } else {
+      up = 0;
+      down++;
+      ans += down + (down > peak ? 1 : 0);
+    }
+  }
+  
+  return ans;
+}
+
+function candy2(ratings: number[]): number {
   const N = ratings.length,
         candies = new Array(N).fill(1);
   
