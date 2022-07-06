@@ -1,9 +1,15 @@
-function fib(n: number, map = new Map<number, number>()): number {
-  if(n < 2)
-    return n;
+function fib(N: number, map = new Map<number, number>()): number {
+  if(N == 0)
+    return 0;
   
-  if(!map.has(n))
-    map.set(n, fib(n-1, map) + fib(n-2, map));
+  if(N <= 2)
+    return 1;
   
-  return map.get(n);
+  let n1 = 1,
+      n2 = 1;
+  
+  while(N-- > 2)
+    [n1, n2] = [n2, n1 + n2]; 
+  
+  return n2;
 };
