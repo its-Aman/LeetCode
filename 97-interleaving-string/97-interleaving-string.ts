@@ -1,4 +1,8 @@
 function isInterleave(s1: string, s2: string, s3: string): boolean {
+  return isInterleave_2n_dp(s1, s2, s3);
+}
+
+function isInterleave_1n_dp(s1: string, s2: string, s3: string): boolean {
   const L = s1.length,
         M = s2.length,
         N = s3.length;
