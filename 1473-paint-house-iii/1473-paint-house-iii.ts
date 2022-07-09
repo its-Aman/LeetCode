@@ -1,28 +1,24 @@
+// https://www.youtube.com/watch?v=2J4tkJ7v3r4
+
 function minCost(houses: number[], cost: number[][], M: number, N: number, T: number): number {
   const dp = Array.from(new Array(M + 1), () => Array.from(new Array(N + 1), () => new Array(T + 1).fill(-1)));
 
   const ans = getMin(0, 0, 0);
   
-  if(ans == Number.MAX_SAFE_INTEGER)
-    return -1;
-  else
-    return ans;
+  return ans == Infinity ? -1 : ans;
   
   function getMin(idx: number, last_color: number, nbrs: number): number {
     if(idx == M)
-      if(nbrs == T)
-        return 0;
-      else
-        return Number.MAX_SAFE_INTEGER;
+      return nbrs == T ? 0 : Infinity;
     
     if(nbrs > T)
-      return Number.MAX_SAFE_INTEGER;
+      return Infinity;
     
     if(dp[idx][last_color][nbrs] != -1)
       return dp[idx][last_color][nbrs];
     
     if(houses[idx] == 0) {
-      let ans = Number.MAX_SAFE_INTEGER;
+      let ans = Infinity;
       
       for(let curr_color = 0; curr_color < N; curr_color++) {
         if(curr_color + 1 == last_color) {
