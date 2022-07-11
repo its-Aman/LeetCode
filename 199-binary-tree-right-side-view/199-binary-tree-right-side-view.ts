@@ -13,15 +13,15 @@
  */
 
 function rightSideView(root: TreeNode | null): number[] {
-  
   if(!root)
     return [];
   
   let Q = new Array(),
-        ans = new Array();
+      ans = new Array();
   
   Q.push(root);
-  
+  ans.push(Q[Q.length - 1].val);
+
   while(Q.length) {
     let currQ = new Array();
     let j = 0;
@@ -29,9 +29,6 @@ function rightSideView(root: TreeNode | null): number[] {
     while(j < Q.length) {
       const curr = Q[j];
       j++;
-      
-      if(j == Q.length)
-        ans.push(curr.val);
       
       if(curr.left)
         currQ.push(curr.left);
@@ -41,6 +38,9 @@ function rightSideView(root: TreeNode | null): number[] {
     }
     
     Q = currQ;
+  
+    if(Q.length)
+      ans.push(Q[Q.length - 1].val);
   }
   
   return ans;
