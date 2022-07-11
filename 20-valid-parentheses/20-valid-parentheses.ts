@@ -4,12 +4,17 @@ function isValid(s: string): boolean {
   for(let c of s) {
     if(['(', '[', '{'].includes(c)) {
       stack.push(c);
-    } else if(stack.length && (
-          (c == ')' && stack[stack.length - 1] == '(') || 
-          (c == ']' && stack[stack.length - 1] == '[') ||
-          (c == '}' && stack[stack.length - 1] == '{')
-        )) {
-        stack.pop();
+    } else if(stack.length) {
+      const elem = stack.pop();
+      
+      if(
+        !((c == ')' && elem == '(') || 
+        (c == ']' && elem == '[') ||
+        (c == '}' && elem == '{'))
+      ){
+        return false;
+      }
+        
     } else {
       return false;
     }
