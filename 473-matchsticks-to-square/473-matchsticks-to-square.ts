@@ -13,22 +13,27 @@ function makesquare(matchsticks: number[]): boolean {
   return findSquare(0);
   
   function findSquare(idx: number): boolean {
-    // console.log({sides, idx})
     if(idx == N) {
       return sides[0] == sides[1] && sides[1] == sides[2] && sides[2] == sides[3] && sides[3] == sides[0];
     }
       
     for(let s = 0; s < 4; s++) {
-        
-      if(sides[s] + matchsticks[idx] <= possibleSquareSide){
+      if(sides[s] + matchsticks[idx] > possibleSquareSide)
+        continue;
       
-        sides[s] += matchsticks[idx];
+      let j = s;
+      
+      while (--j >= 0)
+        if (sides[s] == sides[j]) 
+          break;
+      if (j != -1) continue;
 
-        if(findSquare(idx + 1))
-          return true;
+      sides[s] += matchsticks[idx];
 
-        sides[s] -= matchsticks[idx];
-      }
+      if(findSquare(idx + 1))
+        return true;
+
+      sides[s] -= matchsticks[idx];
     }
 
     return false;
