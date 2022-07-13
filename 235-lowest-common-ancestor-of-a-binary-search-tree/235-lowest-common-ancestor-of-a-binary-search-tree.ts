@@ -13,6 +13,25 @@
  */
 
 function lowestCommonAncestor(root: TreeNode | null, p: TreeNode | null, q: TreeNode | null): TreeNode | null {
+  if(!root)
+    return null;
+  
+  let curr = root;
+  
+  while(true) {
+    
+  if(p.val > curr.val && q.val > curr.val)
+    curr = curr.right;
+  else if(p.val < curr.val && q.val < curr.val)
+    curr = curr.left;
+  else
+    break;
+  }
+  
+  return curr;
+}
+
+function lowestCommonAncestor_mine(root: TreeNode | null, p: TreeNode | null, q: TreeNode | null): TreeNode | null {
   let parent_p = p,
       parent_q = q;
   
