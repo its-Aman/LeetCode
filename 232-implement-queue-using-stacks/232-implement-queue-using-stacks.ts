@@ -24,7 +24,18 @@ class MyQueue {
     }
 
     peek(): number {
-      return this.stack[0];
+      let temp = new Array<number>();
+      
+      while(this.stack.length)
+        temp.push(this.stack.pop());
+      
+      const item = temp.pop();
+      temp.push(item);
+      
+      while(temp.length)
+        this.stack.push(temp.pop());
+      
+      return item;
     }
 
     empty(): boolean {
