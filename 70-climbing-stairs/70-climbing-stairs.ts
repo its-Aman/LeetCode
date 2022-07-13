@@ -1,9 +1,17 @@
-function climbStairs(n: number, memo = new Map<number, number>()): number {
-  if(n <= 3)
-    return n;
+function climbStairs(N: number): number {
+  if(N < 4)
+    return N;
   
-  if(!memo.has(n))
-    memo.set(n, climbStairs(n-1, memo) + climbStairs(n-2, memo));
+  const dp = new Array<number>(N + 1);
+
+  for(let i = 0; i <= N; i++){
+      
+    if(i < 4) {
+      dp[i] = i;
+    } else {
+      dp[i] = dp[i - 1] + dp[i - 2];
+    }
+  }
   
-  return memo.get(n);
+  return dp[N];
 };
