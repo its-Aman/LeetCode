@@ -1,45 +1,27 @@
 class MyQueue {
-    private stack = new Array<number>();
+    private st_push = new Array<number>();
+    private st_pop = new Array<number>();
 
-    constructor() {
-
-    }
+    constructor() {}
 
     push(x: number): void {
-      this.stack.push(x);
+      this.st_push.push(x);
     }
 
     pop(): number {
-      let temp = new Array<number>();
+      if(!this.st_pop.length)
+        while(this.st_push.length)
+          this.st_pop.push(this.st_push.pop());
       
-      while(this.stack.length)
-        temp.push(this.stack.pop());
-      
-      const item = temp.pop();
-      
-      while(temp.length)
-        this.stack.push(temp.pop());
-      
-      return item;
+      return this.st_pop.pop();
     }
 
     peek(): number {
-      let temp = new Array<number>();
-      
-      while(this.stack.length)
-        temp.push(this.stack.pop());
-      
-      const item = temp.pop();
-      temp.push(item);
-      
-      while(temp.length)
-        this.stack.push(temp.pop());
-      
-      return item;
+      return this.st_pop[this.st_pop.length - 1] ?? this.st_push[0];
     }
 
     empty(): boolean {
-      return this.stack.length == 0;
+      return !this.st_push.length && !this.st_pop.length;
     }
 }
 
