@@ -12,19 +12,23 @@
  * }
  */
 function diameterOfBinaryTree(root: TreeNode | null): number {
-  if(!root)
-    return 0;
+  let maxDia = 0;
   
-  const dia = depth(root.left) + depth(root.right),
-        lDia = diameterOfBinaryTree(root.left),
-        rDia = diameterOfBinaryTree(root.right);
+  findDia(root);
   
-  return Math.max(dia, Math.max(lDia, rDia));
+  return maxDia
   
-  function depth(root: TreeNode | null): number {
+  
+  function findDia(root: TreeNode | null): number {
     if(!root)
       return 0;
 
-    return 1 + Math.max(depth(root.left), depth(root.right));
+    const lDia = findDia(root.left),
+          rDia = findDia(root.right),
+          dia = lDia + rDia;
+    
+    maxDia = Math.max(maxDia, dia);
+    
+    return 1 + Math.max(lDia, rDia);
   }
 }
