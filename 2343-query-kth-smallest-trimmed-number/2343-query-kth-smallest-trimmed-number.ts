@@ -4,7 +4,7 @@ function smallestTrimmedNumbers(nums: string[], queries: number[][]): number[] {
         ans = new Array<number>(0);
   
   for(let [k, trim] of queries) {
-    const processedArr = nums.map(num => BigInt(num.slice(M - trim)))
+    const processedArr = nums.map(num => num.slice(M - trim))
                     .map((item, i)=>[BigInt(item), BigInt(i)])
                     .sort(([a1, b1], [a2, b2]) => a1 == a2 ? sortFn(b1, b2) : sortFn(a1, a2));
     
