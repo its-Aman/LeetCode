@@ -4,11 +4,11 @@ function smallestTrimmedNumbers(nums: string[], queries: number[][]): number[] {
         ans = new Array<number>(0);
   
   for(let [k, trim] of queries) {
-    const trimmed = nums.map(num => BigInt(num.slice(M - trim)));
-    const mapped = trimmed.map((item,i)=>[BigInt(item), BigInt(i)]);
-    const sortedMapped = mapped.sort(([a1,b1],[a2,b2]) => a1 == a2 ? sortFn(b1, b2) : sortFn(a1, a2));
+    const processedArr = nums.map(num => BigInt(num.slice(M - trim)))
+                    .map((item, i)=>[BigInt(item), BigInt(i)])
+                    .sort(([a1, b1], [a2, b2]) => a1 == a2 ? sortFn(b1, b2) : sortFn(a1, a2));
     
-    ans.push(Number(mapped[k - 1][1]));
+    ans.push(Number(processedArr[k - 1][1]));
   }
   
   return ans;
