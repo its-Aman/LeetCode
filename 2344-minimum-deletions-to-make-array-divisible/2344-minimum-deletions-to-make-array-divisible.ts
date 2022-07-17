@@ -11,8 +11,11 @@ function minOperations(nums: number[], numsDivide: number[]): number {
   return -1;
   
   function gcd(a: number, b: number): number {    
-    while(b)
+    while(b) {
       [a, b] = [b, a % b];
+      if(a == 1)
+        return 1;
+    }
 
     return a;
   }
