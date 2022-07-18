@@ -8,15 +8,8 @@ function subarraySum(nums: number[], K: number): number {
   
   for(let i = 0; i < N; i++) {
     prefix += nums[i];
-    const left = prefix - K;
-    
-    if(map.has(left))
-      ans += map.get(left);
-    
-    if(map.has(prefix))
-      map.set(prefix, 1 + map.get(prefix));
-    else
-      map.set(prefix, 1);
+    ans += map.get(prefix - K) || 0;
+    map.set(prefix, 1 + (map.get(prefix) || 0));    
   }
 
   return ans;
