@@ -1,4 +1,44 @@
 function numMatchingSubseq(S: string, words: string[]): number {
+  const idxs = Array.from(new Array<string[]>(26), () => []);
+  let ans = 0;
+  
+  for(let i = 0; i < S.length; i++)
+    idxs[S.charCodeAt(i) - 'a'.charCodeAt(0)].push(i);
+  
+  for(let word of words) {
+    let found = true;
+    
+    for(let i = 0, prev = -1; found && i < word.length; i++) {
+      const curr = idxs[word.charCodeAt(i) - 'a'.charCodeAt(0)];
+      const idx = upper_bound(curr, prev);
+      if(idx == curr.length)
+        found = false;
+      else
+        prev = curr[idx];
+    }
+    
+    ans += found ? 1 : 0;
+  }
+  
+  return ans;
+  
+  function upper_bound(arr: number[], index: number): number {
+    let l = -1,
+        r = arr.length;
+    
+    while(1 + l < r) {
+      let m = (l + r) >>> 1;
+      if(arr[m] <= index)
+        l = m;
+      else
+        r = m; 
+    }
+    
+    return 1 + l;
+  }
+}
+
+function numMatchingSubseq_array_dict(S: string, words: string[]): number {
   const N = S.length,
         dict = Array.from(new Array<string[]>(26), () => []);
   let ans = 0;
