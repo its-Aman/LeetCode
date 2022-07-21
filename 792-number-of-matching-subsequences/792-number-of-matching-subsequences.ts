@@ -15,6 +15,9 @@ function numMatchingSubseq(S: string, words: string[]): number {
         found = false;
       else
         prev = curr[idx];
+      
+      if(!found)
+        break;
     }
     
     ans += found ? 1 : 0;
