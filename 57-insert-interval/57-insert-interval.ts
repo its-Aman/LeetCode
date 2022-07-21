@@ -22,16 +22,14 @@ function insert(intervals: number[][], newInterval: number[]): number[][] {
   
   intervals.splice(l, 0, newInterval);
   
-  // console.log({l, N, intervals});
-  
-  return mergeIntervals(intervals);
+  return mergeIntervals(intervals, Math.max(0, l - 1));
 };
 
-function mergeIntervals(intervals: number[][]): number[][] {
+function mergeIntervals(intervals: number[][], start: number): number[][] {
   const N = intervals.length,
-        ans = new Array(0);
+        ans = intervals.slice(0, start);
   
-  for(let i = 0; i < N; i++) {
+  for(let i = start; i < N; i++) {
     let curr = intervals[i];
     
     while((i + 1 < N) && intervals[i + 1][0] >= curr[0] && intervals[i + 1][0] <= curr[1]) {
