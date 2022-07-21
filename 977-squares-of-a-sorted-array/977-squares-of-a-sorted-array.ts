@@ -6,14 +6,14 @@ function sortedSquares(nums: number[]): number[] {
       idx = N - 1;
   
   while(i <= j) {
-    const ith = nums[i] * nums[i],
-          jth = nums[j] * nums[j];
+    const ith = Math.abs(nums[i]),
+          jth = Math.abs(nums[j]);
     
     if(ith > jth) {
-      ans[idx--] = ith;
+      ans[idx--] = ith * ith;
       i++;
     } else {
-      ans[idx--] = jth;
+      ans[idx--] = jth * jth;
       j--; 
     }
   }
