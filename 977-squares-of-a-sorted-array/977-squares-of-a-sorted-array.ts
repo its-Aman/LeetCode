@@ -1,5 +1,22 @@
 function sortedSquares(nums: number[]): number[] {
-  return nums
-    .sort((a, b) => Math.abs(a) - Math.abs(b))
-    .map(num => num * num);
+  const N = nums.length,
+        ans = new Array(N);
+  let i = 0,
+      j = N - 1,
+      idx = N - 1;
+  
+  while(i <= j) {
+    const ith = nums[i] * nums[i],
+          jth = nums[j] * nums[j];
+    
+    if(ith > jth) {
+      ans[idx--] = ith;
+      i++;
+    } else {
+      ans[idx--] = jth;
+      j--; 
+    }
+  }
+
+  return ans;
 };
