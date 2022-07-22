@@ -1,5 +1,6 @@
 function updateMatrix(mat: number[][]): number[][] {
-  return updateMatrix_dp(mat);
+  // return updateMatrix_dp(mat);
+  return updateMatrix_bfs(mat);
 }
 
 function updateMatrix_dp(mat: number[][]): number[][] {
@@ -65,8 +66,6 @@ function updateMatrix_bfs(mat: number[][]): number[][] {
   while(i < Q.length) {
     const [r, c] = Q[i++];
 
-    console.log({r, c, i, Q, ans})
-    
     for(let [x, y] of dirs) {
       let dr = x + r,
           dc = y + c;
