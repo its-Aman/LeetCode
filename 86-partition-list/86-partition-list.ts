@@ -11,6 +11,29 @@
  */
 
 function partition(head: ListNode | null, X: number): ListNode | null {
+  let before_dummy = new ListNode(0),
+      before = before_dummy,
+      after_dummy = new ListNode(0),
+      after = after_dummy;
+  
+  while(head) {
+    if(head.val < X){
+      before.next = head;
+      before = before.next;
+    } else {
+      after.next = head;
+      after = after.next;
+    }
+    
+    head = head.next;
+  }
+  
+  after.next = null;
+  before.next = after_dummy.next;
+  return before_dummy.next;
+}
+
+function partition_old(head: ListNode | null, X: number): ListNode | null {
   let curr = head,
       prev = null,
       Q = [],
