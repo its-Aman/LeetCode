@@ -4,9 +4,9 @@ function combinationSum(candidates: number[], T: number): number[][] {
   
   candidates.sort((a, b) => a - b);
   
-  for(let [i, candidate] of candidates.entries())
-    if(candidate <= T)
-      backtrack(candidate, [candidate], i);
+  for(let i = 0; i < N; i++)
+    if(candidates[i] <= T)
+      backtrack(candidates[i], [candidates[i]], i);
   
   return ans;
   
