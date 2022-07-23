@@ -1,32 +1,31 @@
-function combinationSum(candidates: number[], target: number): number[][] {
+function combinationSum(candidates: number[], T: number): number[][] {
   const N = candidates.length,
-        ans = [];
+        ans = new Array(0);
   
   candidates.sort((a, b) => a - b);
   
-  for(let i = 0; i < N; i++){
-    backtrack(i, candidates[i], [candidates[i]])
-  }
+  for(let [i, candidate] of candidates.entries())
+    if(candidate <= T)
+      backtrack(candidate, [candidate], i);
   
   return ans;
-
-  function backtrack(i: number, currSum: number, group: number[]): void {
-    if(currSum == target){
-      ans.push(group.slice(0));
-      return;      
-    }
-
-    if(currSum > target)
+  
+  function backtrack(sum: number, currItems: number[], idx: number): void {
+    
+    if((sum > T) || (idx >= N))
       return;
     
-    for(let j = i; j < N; j++){
-      if(currSum + candidates[j] > target)
+    if(sum == T) {
+      ans.push(currItems)
+    }
+  
+    for(let i = idx; i < N; i++) {
+      if(sum + candidates[i] > T)
         break;
-
-      group.push(candidates[j])
-      backtrack(j, currSum + candidates[j], group.slice(0));
-      group.pop();
+      
+      currItems.push(candidates[i]);
+      backtrack(sum + candidates[i], currItems.slice(), i);
+      currItems.pop();
     }
   }
-  
 };
