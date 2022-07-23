@@ -68,15 +68,40 @@ class SegmentTree {
     }
 }
 
+class BinaryIndexedTree {
+    private N = 0;
+    private tree: number[];
+
+    constructor(N: number) {
+        this.N = N;
+        this.tree = new Array(1 + this.N).fill(0);
+    }
+
+
+    public update(i: number, val: number): void {
+        for (; i <= this.N; i += (i & -i))
+            this.tree[i] += val;
+    }
+
+    public query(i: number): number {
+        let res = 0;
+        for (; i > 0; i -= (i & -i))
+            res += this.tree[i];
+
+        return res;
+    }
+}
+
 function countSmaller(nums: number[]): number[] {
   const MAX = 1 + 1e4,
         N = nums.length,
-        sgTree = new SegmentTree(2 * MAX),
+        // sgTree = new SegmentTree(2 * MAX),
+        bitTree = new BinaryIndexedTree(2 * MAX),
         ans = new Array(N).fill(0);
   
   for(let i = N - 1; i >= 0; i--) {
-    sgTree.update(nums[i] + MAX);
-    ans[i] = sgTree.query(nums[i] + MAX - 1);
+    bitTree.update(nums[i] + MAX, 1);
+    ans[i] = bitTree.query(nums[i] + MAX - 1);
   }
   
   return ans;
