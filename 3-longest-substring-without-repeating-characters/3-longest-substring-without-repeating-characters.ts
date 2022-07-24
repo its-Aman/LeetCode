@@ -1,18 +1,18 @@
-function lengthOfLongestSubstring(s: string): number {
-  if(!s || s.length == 0)
+function lengthOfLongestSubstring(S: string): number {
+  if(!S || S.length == 0)
     return 0;
   
-  let i = 0,
-      j = 0,
-      ans = -1,
-      map = new Map<string, number>();
+  const N = S.length,
+        map = new Map<string, number>();
+  let ans = 0;
   
-  for(let i = 0, j = 0; i < s.length; i++){
+  for(let i = 0, j = 0; i < N; i++) {
     
-    if(map.has(s.charAt(i)))
-      j = Math.max(j, map.get(s.charAt(i)) + 1);
-    
-    map.set(s.charAt(i), i);
+    if(map.has(S.at(i))) {
+      j = Math.max(j, 1 + map.get(S.at(i)))
+    }
+
+    map.set(S.at(i), i);
     ans = Math.max(ans, i - j + 1);
   }
   
