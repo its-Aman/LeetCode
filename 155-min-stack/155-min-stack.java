@@ -1,32 +1,37 @@
 public class MinStack {
   
 	Stack<Integer> stack;
-	Queue<Integer> q;
+	int min = Integer.MAX_VALUE;
 
 	public MinStack() {
-		stack = new Stack<>();
-		q = new PriorityQueue<>();
+		this.stack = new Stack<>();
+
 	}
 
 	public void push(int val) {
-		stack.push(val);
-		q.offer(val);
+		this.stack.push(val);
+		this.min = Math.min(this.min, val);
 	}
 
 	public void pop() {
-		int val = stack.pop();
-
-		q.remove(val);
-  }
+		if(this.min == this.stack.pop()) {
+			if (this.stack.size() > 0) {
+				this.min = Collections.min(this.stack);
+			} else {
+				this.min = Integer.MAX_VALUE;
+			}
+		}
+	}
 
 	public int top() {
-		return stack.peek();
+		return this.stack.peek();
 	}
 
 	public int getMin() {
-		return q.peek();
+		return this.min;
 	}
 }
+
 
 /**
  * Your MinStack object will be instantiated and called as such:
