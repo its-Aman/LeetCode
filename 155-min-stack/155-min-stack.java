@@ -1,34 +1,41 @@
 public class MinStack {
+
+  // MinNode class
   
-	Stack<Integer> stack;
-	int min = Integer.MAX_VALUE;
+  private class MinNode  {
+    int val;
+    int min;
+    MinNode next;
 
-	public MinStack() {
-		this.stack = new Stack<>();
+    public MinNode(int val, int min, MinNode next) {
+      this.val = val;
+      this.min = min;
+      this.next = next;
+    }
+  }
+  
+	MinNode head;
 
-	}
+	public MinStack() {	}
 
 	public void push(int val) {
-		this.stack.push(val);
-		this.min = Math.min(this.min, val);
-	}
-
-	public void pop() {
-		if(this.min == this.stack.pop()) {
-			if (this.stack.size() > 0) {
-				this.min = Collections.min(this.stack);
-			} else {
-				this.min = Integer.MAX_VALUE;
-			}
+		if (this.head == null) {
+			this.head = new MinNode(val, val, null);
+		} else {
+			this.head = new MinNode(val, Math.min(val, head.min), head);
 		}
 	}
 
+	public void pop() {
+		this.head = this.head.next;
+	}
+
 	public int top() {
-		return this.stack.peek();
+		return this.head.val;
 	}
 
 	public int getMin() {
-		return this.min;
+		return this.head.min;
 	}
 }
 
