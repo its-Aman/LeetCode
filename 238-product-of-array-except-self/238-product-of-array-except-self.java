@@ -4,9 +4,12 @@ class Solution {
       int N = nums.length;
       int[] ans = new int[N];
 
-      Arrays.fill(ans, 1);
-
       for(int i = 0, left = 1, right = 1; i < N; i++) {
+        if(i < N / 2 + N % 2) {
+          ans[i] = 1;
+          ans[N - 1 - i] = 1;
+        }
+        
         ans[i] *= left;
         left *= nums[i];
 
