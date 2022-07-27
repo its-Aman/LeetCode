@@ -23,7 +23,7 @@ class Solution {
 
 	private void buildGraph(int numCourses, int[][] prerequisites) {
 		for (int i = 0; i < numCourses; i++) {
-			this.graph.put(i, new ArrayList<Integer>());
+			this.graph.put(i, new LinkedList<Integer>());
 		}
 
 		for (int[] item : prerequisites) {
