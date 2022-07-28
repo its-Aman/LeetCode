@@ -16,7 +16,7 @@ class Solution {
 	}
 
 	public void bfs(char[][] grid, int i, int j) {
-		if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length)
+		if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] == '0')
 			return;
 
 		int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
@@ -26,11 +26,8 @@ class Solution {
 			int dx = i + dirs[k][0];
 			int dy = j + dirs[k][1];
 
-			if (dx < 0 || dx >= grid.length || dy < 0 || dy >= grid[0].length)
-				continue;
-
-			if (grid[dx][dy] == '1')
-				this.bfs(grid, dx, dy);
+			this.bfs(grid, dx, dy);
 		}
 	}
+
 }
