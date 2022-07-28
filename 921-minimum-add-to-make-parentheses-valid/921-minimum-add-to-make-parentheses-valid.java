@@ -1,22 +1,21 @@
 class Solution {
 	public int minAddToMakeValid(String S) {
 		int ans = 0;
-		Stack<String> stack = new Stack<>();
+		int openCnt = 0;
 
 		for (char c : S.toCharArray()) {
 			if (c == '(') {
-				ans += 1;
-				stack.push("" + c);
+				openCnt += 1;
 			} else {
-				if (stack.size() > 0) {
-					ans -= 1;
-					stack.pop();
-				} else {
+				if (openCnt == 0) {
 					ans += 1;
+				} else {
+					openCnt -= 1;
 				}
 			}
 		}
 
-		return Math.abs(ans);
+		return ans + openCnt;
 	}
+
 }
