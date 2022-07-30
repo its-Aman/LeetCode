@@ -16,6 +16,7 @@ class Solution {
 			for (int i = 0; i < 26; i++) {
 				if (clonedMap[i] > 0) {
 					isAdd = false;
+          break;
 				}
 			}
 
