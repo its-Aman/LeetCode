@@ -1,67 +1,61 @@
 class NumArray {
+
   private int N;
-  private int[] segmentTree;
-  
+	private int[] BIT;
+	private int[] originalArr;
+
   public NumArray(int[] nums) {
-    this.N = nums.length;
-    this.segmentTree = new int[4 * this.N];
-    this.build(nums, 1, 0, this.N - 1);
-  }
-  
-  private void build(int[] arr, int vtx, int left, int right) {
-    if(left == right) {
-      this.segmentTree[vtx] = arr[left];
-    } else {
-      int mid = left + (right - left) / 2;
-      
-      this.build(arr, 2 * vtx, left, mid);
-      this.build(arr, 2 * vtx + 1, mid + 1, right);
-      
-      this.segmentTree[vtx] = this.segmentTree[2*vtx] + this.segmentTree[2*vtx + 1];
-    }
-  }
-  
-  public void update(int index, int val) {
-    this.update(1, 0, this.N - 1, index, val);
-  }
-  
-  private void update(int vtx, int left, int right, int idx, int value) {
-    if(left == right) {
-      this.segmentTree[vtx] = value;
-    } else {
-      int mid = left + (right - left) / 2;
-      
-      if(idx <= mid) {
-        this.update(2 * vtx, left, mid, idx, value);
-      } else {
-        this.update(2 * vtx + 1, mid + 1, right, idx, value);
-      }
-      
-      this.segmentTree[vtx] = this.segmentTree[2*vtx] + this.segmentTree[2*vtx + 1];
-    }
+		this.N = nums.length;
+		this.BIT = new int[this.N + 1];
+		this.originalArr = nums;
+
+		this.buildTree();
   }
 
+	public void update(int idx, int value) {
+		int delta = value - this.originalArr[idx];
+		this.originalArr[idx] = value;
+		int x = idx + 1;
+
+		while (x <= this.N) {
+			this.BIT[x] += delta;
+			x += x & -x;
+		}
+	}
+
+
   public int sumRange(int left, int right) {
-    return this.sumRange(1, 0, this.N - 1, left, right);
-  }
-  
-  public int sumRange(int vtx, int left, int right, int qLeft, int qRight) {
-    if(qLeft > qRight) {
-      return 0;
-    }
-    
-    if(left == qLeft && right == qRight){
-      return this.segmentTree[vtx];
+    if(left > 0) {
+      return this.query(right) - this.query(left - 1);
     } else {
-      int mid = left + (right - left) / 2;
-      
-      return (
-        this.sumRange(2 * vtx, left, mid, qLeft, Math.min(qRight, mid)) + 
-        this.sumRange(2 * vtx + 1, mid + 1, right, Math.max(qLeft, mid + 1), qRight)
-      );
+      return this.query(right);
     }
   }
   
+  private int query(int idx) {
+		int ans = 0;
+		int x = idx + 1;
+
+		while (x > 0) {
+			ans += this.BIT[x];
+			x -= x & -x;
+		}
+
+		return ans;
+	}
+  
+  private void buildTree() {
+    
+		for (int i = 0; i < this.N; i++) {
+			int x = i + 1;
+
+			while (x <= this.N) {
+				this.BIT[x] += this.originalArr[i];
+				x += x & -x;
+			}
+		}
+	}
+
 }
 
 /**
