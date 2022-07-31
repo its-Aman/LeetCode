@@ -2,11 +2,11 @@ class Solution {
     public int closestMeetingNode(int[] edges, int node1, int node2) {
       int dist = 0;
       int curr = 0;
-
       int node1Dist[] = new int[edges.length];
-      Arrays.fill(node1Dist, -1);
+      int node2Dist[] = new int[edges.length];
       
-      int node2Dist[] = node1Dist.clone();
+      Arrays.fill(node1Dist, -1);
+      Arrays.fill(node2Dist, -1);
       
       curr = node1;
       dist = 0;
