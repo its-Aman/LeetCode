@@ -1,3 +1,5 @@
+// https://codeforces.com/blog/entry/57292
+
 class NumArray {
 
   private int N;
