@@ -1,56 +1,88 @@
 class Solution {
-	private Set<String> visited = new HashSet<>();
-	private Map<String, List<String>> adjecent = new HashMap<>();
 
-	public List<List<String>> accountsMerge(List<List<String>> accounts) {
-		for (List<String> account : accounts) {
-			String firstEmail = account.get(1);
+	public List<List<String>> accountsMerge(List<List<String>> accountsList) {
+		DSU dsu = new DSU(accountsList.size());
+		Map<String, Integer> emailGroup = new HashMap<>();
 
-			for (int i = 2; i < account.size(); i++) {
-				String currEmail = account.get(i);
+		for (int i = 0; i < accountsList.size(); i++) {
 
-				this.adjecent.putIfAbsent(firstEmail, new ArrayList<>());
-				this.adjecent.get(firstEmail).add(currEmail);
+			for (int j = 1; j < accountsList.get(i).size(); j++) {
 
-				this.adjecent.putIfAbsent(currEmail, new ArrayList<>());
-				this.adjecent.get(currEmail).add(firstEmail);
+				String email = accountsList.get(i).get(j);
 
+				if (!emailGroup.containsKey(email)) {
+					emailGroup.put(email, i);
+				} else {
+					dsu.union(i, emailGroup.get(email));
+				}
 			}
 		}
 
-		List<List<String>> mergedAccounts = new ArrayList<>();
+		Map<Integer, List<String>> components = new HashMap<>();
 
-		for (List<String> account : accounts) {
-			String name = account.get(0);
-			String firstEmail = account.get(1);
+		for (String email : emailGroup.keySet()) {
+			int group = emailGroup.get(email);
+			int groupRep = dsu.find(group);
 
-			if (this.visited.contains(firstEmail)) {
-				continue;
-			}
-
-			List<String> mergedAccount = new ArrayList<>();
-			mergedAccount.add(name);
-
-			this.DFS(mergedAccount, firstEmail);
-
-			Collections.sort(mergedAccount.subList(1, mergedAccount.size()));
-			mergedAccounts.add(mergedAccount);
+			components.putIfAbsent(groupRep, new ArrayList<String>());
+			components.get(groupRep).add(email);
 		}
 
-		return mergedAccounts;
+		List<List<String>> mergedAccount = new ArrayList<>();
+
+		for (int group : components.keySet()) {
+			List<String> component = components.get(group);
+			Collections.sort(component);
+			component.add(0, accountsList.get(group).get(0));
+			mergedAccount.add(component);
+		}
+
+		return mergedAccount;
 	}
 
-	private void DFS(List<String> mergedAccount, String email) {
-		this.visited.add(email);
-		mergedAccount.add(email);
+	class DSU {
+		int[] representatives;
+		int[] size;
 
-		if (!this.adjecent.containsKey(email)) {
-			return;
+		public DSU(int size) {
+			this.representatives = new int[size];
+			this.size = new int[size];
+
+			for (int i = 0; i < size; i++) {
+				this.representatives[i] = i;
+				this.size[i] = 1;
+			}
 		}
 
-		for (String otherEmail : this.adjecent.get(email)) {
-			if (!this.visited.contains(otherEmail)) {
-				this.DFS(mergedAccount, otherEmail);
+		public int find(int x) {
+			int temp = x;
+
+			while (temp != this.representatives[temp]) {
+				temp = this.representatives[temp];
+			}
+
+			while (x != temp) {
+				int next = this.representatives[x];
+				this.representatives[x] = temp;
+				x = next;
+			}
+
+			return temp;
+		}
+
+		public void union(int x, int y) {
+			int xx = this.find(x);
+			int yy = this.find(y);
+
+			if (xx == yy)
+				return;
+
+			if (this.size[xx] >= this.size[yy]) {
+				this.representatives[yy] = xx;
+				this.size[xx] += this.size[yy];
+			} else {
+				this.representatives[xx] = yy;
+				this.size[yy] += this.size[xx];
 			}
 		}
 	}
