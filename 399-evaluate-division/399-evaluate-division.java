@@ -17,9 +17,11 @@ class Solution {
 		String lastP = this.root.get(s);
 		String p = this.find(lastP);
 
-		this.root.put(s, p);
-		this.dist.put(s, this.dist.get(s) * this.dist.get(lastP));
-
+		if (lastP != p) {
+			this.root.put(s, p);
+			this.dist.put(s, this.dist.get(s) * this.dist.get(lastP));
+		}
+        
 		return p;
 	}
 
