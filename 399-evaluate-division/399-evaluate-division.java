@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/evaluate-division/discuss/147281/Java-Union-Find-solution-faster-than-99
+
 class Solution {
 	Map<String, String> root = new HashMap<>();
 	Map<String, Double> dist = new HashMap<>();
@@ -14,15 +16,15 @@ class Solution {
 		}
 
 //		Path Compression
-		String lastP = this.root.get(s);
-		String p = this.find(lastP);
+		String lastParent = this.root.get(s);
+		String newParent = this.find(lastParent);
 
-		if (lastP != p) {
-			this.root.put(s, p);
-			this.dist.put(s, this.dist.get(s) * this.dist.get(lastP));
+		if (!lastParent.equals(newParent)) {
+			this.root.put(s, newParent);
+			this.dist.put(s, this.dist.get(s) * this.dist.get(lastParent));
 		}
-        
-		return p;
+
+		return newParent;
 	}
 
 	public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
@@ -48,20 +50,12 @@ class Solution {
 			String x = q.get(0);
 			String y = q.get(1);
 
-			if (!this.root.containsKey(x) || !this.root.containsKey(y)) {
+			if (!this.root.containsKey(x) || !this.root.containsKey(y) || !this.find(x).equals(this.find(y))) {
 				ans[i] = -1.0;
-				continue;
+			} else {
+				ans[i] = this.dist.get(x) / this.dist.get(y);
 			}
 
-			String xx = this.find(x);
-			String yy = this.find(y);
-
-			if (!xx.equals(yy)) {
-				ans[i] = -1.0;
-				continue;
-			}
-
-			ans[i] = this.dist.get(x) / this.dist.get(y);
 		}
 
 		return ans;
