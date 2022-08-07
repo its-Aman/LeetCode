@@ -7,15 +7,15 @@ class Solution {
         
         for(int i = 0; i < tasks.length; i++) {
                 
-            if(map.containsKey(tasks[i]) && map.get(tasks[i]) > currTime) {
-                currTime = map.get(tasks[i]);                
-            }
+//             if(map.containsKey(tasks[i]) && map.get(tasks[i]) > currTime) {
+//                 currTime = map.get(tasks[i]);                
+//             }
             
-            map.put(tasks[i], 1 + currTime + space);
+//             map.put(tasks[i], 1 + currTime + space);
+//             currTime += 1;
+            
+            map.put(tasks[i], 1 + space + (currTime = Math.max(currTime, map.getOrDefault(tasks[i], currTime))));
             currTime += 1;
-            
-            // map.put(tasks[i], 1 + space + (currTime = Math.max(currTime, map.getOrDefault(tasks[i], currTime))));
-            // currTime += 1;
 
         }
 
