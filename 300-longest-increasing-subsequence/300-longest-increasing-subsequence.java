@@ -30,9 +30,6 @@ class Solution {
 			}
 		}
 
-		if (lo < list.length && list[lo] < num)
-			lo += 1;
-
 		return lo;
 	}
 }
