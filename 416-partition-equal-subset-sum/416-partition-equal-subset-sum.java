@@ -8,26 +8,22 @@ class Solution {
 		int N = nums.length;
 		int target = sum / 2;
 
-		boolean[] prev = new boolean[target + 1];
-		boolean[] curr = new boolean[target + 1];
+		boolean[] knapsack = new boolean[target + 1];
 
-		prev[0] = true;
+		knapsack[0] = true;
 
 		for (int i = 1; i <= N; i++) {
 
-			for (int j = 0; j <= target; j++) {
+			for (int j = target; j >= 0; j--) {
 
 				if (j - nums[i - 1] >= 0) {
-					curr[j] = prev[j] || prev[j - nums[i - 1]];
-				} else {
-					curr[j] = prev[j];
+					knapsack[j] = knapsack[j] || knapsack[j - nums[i - 1]];
 				}
 
 			}
 
-			prev = curr.clone();
 		}
 
-		return curr[target];
+		return knapsack[target];
     }
 }
