@@ -7,24 +7,27 @@ class Solution {
 
 		int N = nums.length;
 		int target = sum / 2;
-		boolean[][] knapsack = new boolean[N + 1][target + 1];
 
-		knapsack[0][0] = true;
+		boolean[] prev = new boolean[target + 1];
+		boolean[] curr = new boolean[target + 1];
+
+		prev[0] = true;
 
 		for (int i = 1; i <= N; i++) {
 
 			for (int j = 0; j <= target; j++) {
 
 				if (j - nums[i - 1] >= 0) {
-					knapsack[i][j] = knapsack[i - 1][j] || knapsack[i - 1][j - nums[i - 1]];
+					curr[j] = prev[j] || prev[j - nums[i - 1]];
 				} else {
-					knapsack[i][j] = knapsack[i - 1][j];
+					curr[j] = prev[j];
 				}
 
 			}
 
+			prev = curr.clone();
 		}
 
-		return knapsack[N][target];
+		return curr[target];
     }
 }
