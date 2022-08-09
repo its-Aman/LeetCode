@@ -1,29 +1,25 @@
+// https://leetcode.com/problems/partition-equal-subset-sum/discuss/462699/Whiteboard-Editorial.-All-Approaches-explained.
+
+// https://leetcode.com/problems/partition-equal-subset-sum/discuss/1624939/C%2B%2BPython-5-Simple-Solutions-w-Explanation-or-Optimization-from-Brute-Force-to-DP-to-Bitmask
+
+import java.math.BigInteger;
+
 class Solution {
     public boolean canPartition(int[] nums) {
-		int sum = IntStream.of(nums).reduce((int left, int right) -> left + right).getAsInt();
+		int sum = 0;
+		for (int num : nums)
+			sum += num;
 
-		if (sum % 2 != 0)
+		if ((sum & 1) == 1)
 			return false;
 
-		int N = nums.length;
-		int target = sum / 2;
+		String one = "1";
+		BigInteger bit = new BigInteger(one).shiftLeft(sum >> 1);
 
-		boolean[] knapsack = new boolean[target + 1];
-
-		knapsack[0] = true;
-
-		for (int i = 1; i <= N; i++) {
-
-			for (int j = target; j >= 0; j--) {
-
-				if (j - nums[i - 1] >= 0) {
-					knapsack[j] = knapsack[j] || knapsack[j - nums[i - 1]];
-				}
-
-			}
-
+		for (int num : nums) {
+			bit = bit.or(bit.shiftRight(num));
 		}
 
-		return knapsack[target];
+		return bit.testBit(0);
     }
 }
