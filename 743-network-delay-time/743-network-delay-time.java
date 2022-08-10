@@ -2,7 +2,39 @@ class Solution {
 
     public int networkDelayTime(int[][] times, int N, int K) {
         // return this.networkDelayTime_Dijkstra(times, N, K);
-        return this.networkDelayTime_BellmanFord(times, N, K);
+        // return this.networkDelayTime_BellmanFord(times, N, K);
+        return this.networkDelayTime_Floyd_Warshall(times, N, K);
+    }
+    
+    public int networkDelayTime_Floyd_Warshall(int[][] times, int N, int K) {
+        long[][] dist = new long[N][N];
+
+        Stream.of(dist).forEach((long[] row) -> Arrays.fill(row, Integer.MAX_VALUE));
+
+        for (int[] time : times) {
+            int u = time[0];
+            int v = time[1];
+            int w = time[2];
+
+            dist[u-1][v-1] = w;
+        }
+        
+        for(int i = 0; i < N; i++)
+            dist[i][i] = 0;
+        
+        for(int k = 0; k < N; k++)
+            for(int i = 0; i < N; i++)
+                for(int j = 0; j < N; j++)
+                    dist[i][j] = Math.min(dist[i][k] + dist[k][j], dist[i][j]);
+
+        long ans = Integer.MIN_VALUE;
+        
+        for(int i = 0; i < N; i++) {
+            if(dist[K - 1][i] == Integer.MAX_VALUE)
+                return -1;
+            ans = Math.max(ans, dist[K - 1][i]);
+        }
+        return (int)ans;
     }
 
     public int networkDelayTime_BellmanFord(int[][] times, int N, int K) {
