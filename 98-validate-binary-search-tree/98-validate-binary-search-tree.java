@@ -14,43 +14,17 @@
  * }
  */
 class Solution {
-  
-    public boolean isValidBST(TreeNode root) {
-      if(root == null || (root.left == null && root.right == null))
-        return true;
-      
-      return isValidBST(root, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public boolean isValidBST(TreeNode root) {       
+        return this.isValidBST(root, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);        
     }
-
-    public boolean isValidBST(TreeNode node, Double low, Double high) {
-      if(node == null)
-        return true;
-
-      if(low >= node.val || high <= node.val)
-        return false;
-      
-      return isValidBST(node.left, low, new Double(node.val)) && isValidBST(node.right, new Double(node.val), high);
+    
+    public boolean isValidBST(TreeNode root, Double min, Double max) {
+        if(root == null)
+            return true;
+        
+        if(root.val <= min || root.val >= max)
+            return false;
+        
+        return this.isValidBST(root.left, min, new Double(root.val)) && this.isValidBST(root.right, new Double(root.val), max);
     }
 }
-
-/*
---------------------
-5
--2147483648
-2147483647
---------------------
-4
--2147483648
-5
---------------------
---------------------
---------------------
-6
-5
-2147483647
---------------------
-3
-5
-6
-
-*/
