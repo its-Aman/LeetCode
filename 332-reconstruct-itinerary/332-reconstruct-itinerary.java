@@ -1,35 +1,31 @@
 class Solution {
-	LinkedList<String> res = new LinkedList<>();
-
-	Map<String, Queue<String>> graph = new HashMap<>();
-	Map<String, Integer> out = new HashMap<>();
-
 	public List<String> findItinerary(List<List<String>> tickets) {
+		Map<String, Queue<String>> graph = new HashMap<>();
+		List<String> list = new ArrayList<>();
 
 		for (var ticket : tickets) {
 			String from = ticket.get(0);
 			String to = ticket.get(1);
 
-			this.out.put(from, 1 + this.out.getOrDefault(from, 0));
-
-			this.graph.putIfAbsent(from, new PriorityQueue<>());
-			this.graph.get(from).offer(to);
+			graph.putIfAbsent(from, new PriorityQueue<>());
+			graph.get(from).offer(to);
 		}
 
-		this.dfs("JFK");
+		this.dfs("JFK", graph, list);
+        
+		Collections.reverse(list);
 
-		return this.res;
+		return list;
 	}
 
-	private void dfs(String at) {
+	private void dfs(String at, Map<String, Queue<String>> graph, List<String> list) {
+		Queue<String> pq = graph.get(at);
 
-		while (this.out.getOrDefault(at, 0) != 0) {
-			this.out.put(at, this.out.get(at) - 1);
-
-			String next = this.graph.get(at).poll();
-			this.dfs(next);
+		while (pq != null && !pq.isEmpty()) {
+			String next = pq.poll();
+			this.dfs(next, graph, list);
 		}
 
-		this.res.addFirst(at);
+		list.add(at);
 	}
 }
