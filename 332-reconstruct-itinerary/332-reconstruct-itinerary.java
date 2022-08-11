@@ -1,31 +1,22 @@
 class Solution {
 	public List<String> findItinerary(List<List<String>> tickets) {
-		Map<String, Queue<String>> graph = new HashMap<>();
-		List<String> list = new ArrayList<>();
+		Map<String, PriorityQueue<String>> targets = new HashMap<>();
+		LinkedList<String> route = new LinkedList<String>();
+		Stack<String> stack = new Stack<>();
 
-		for (var ticket : tickets) {
-			String from = ticket.get(0);
-			String to = ticket.get(1);
+		for (var ticket : tickets)
+			targets.computeIfAbsent(ticket.get(0), k -> new PriorityQueue<String>()).add(ticket.get(1));
 
-			graph.putIfAbsent(from, new PriorityQueue<>());
-			graph.get(from).offer(to);
+		stack.push("JFK");
+
+		while (!stack.empty()) {
+
+			while (targets.containsKey(stack.peek()) && !targets.get(stack.peek()).isEmpty())
+				stack.push(targets.get(stack.peek()).poll());
+
+			route.addFirst(stack.pop());
 		}
 
-		this.dfs("JFK", graph, list);
-        
-		Collections.reverse(list);
-
-		return list;
-	}
-
-	private void dfs(String at, Map<String, Queue<String>> graph, List<String> list) {
-		Queue<String> pq = graph.get(at);
-
-		while (pq != null && !pq.isEmpty()) {
-			String next = pq.poll();
-			this.dfs(next, graph, list);
-		}
-
-		list.add(at);
+		return route;
 	}
 }
