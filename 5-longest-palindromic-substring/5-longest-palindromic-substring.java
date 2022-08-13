@@ -1,6 +1,32 @@
 class Solution {
-
     public String longestPalindrome(String S) {
+        return this.longestPalindrome_DP(S);
+    }
+
+    private String longestPalindrome_DP(String S) {
+        int N = S.length();
+        String ans = "";
+        boolean[][] dp = new boolean[N][N];
+        
+        for(int g = 0; g < N; g++) {
+            
+            for(int i = 0, j = g; j < N; i++, j++) {
+                if(g == 0)
+                    dp[i][j] = true;
+                else if(g == 1)
+                    dp[i][j] = S.charAt(i) == S.charAt(j);
+                else
+                    dp[i][j] = S.charAt(i) == S.charAt(j) && dp[i + 1][j - 1];
+
+                if(dp[i][j] && j - i + 1 > ans.length())
+                    ans = S.substring(i, j + 1);
+            }
+        }
+            
+        return ans;
+    }
+    
+    private String longestPalindrome_linear(String S) {
 		String max = "";
 
 		for (int i = 0; i < S.length(); i++) {
