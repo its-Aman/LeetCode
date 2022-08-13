@@ -15,29 +15,31 @@
  */
 class Solution {
 
-	Map<Integer, Integer> map = new HashMap<>();
 	int pIdx;
+	int iIdx;
 
 	public TreeNode buildTree(int[] preorder, int[] inorder) {
 		this.pIdx = 0;
-
-		for (int i = 0; i < inorder.length; i++)
-			map.put(inorder[i], i);
-
-		return this.buildTree(preorder, 0, preorder.length - 1);
+        this.iIdx = 0;
+        
+		return this.buildTree(preorder, inorder, Integer.MIN_VALUE);
 	}
 
-	public TreeNode buildTree(int[] preorder, int left, int right) {
+	public TreeNode buildTree(int[] preorder, int[] inorder, int stop) {
+        if(this.pIdx >= preorder.length){
+            return null;
+        }
+        
+        if(inorder[this.iIdx] == stop) {
+            this.iIdx += 1;
+            return null;
+        }
 
-		if (left > right)
-			return null;
-
-		int rootVal = preorder[this.pIdx];
-		this.pIdx += 1;
+		int rootVal = preorder[this.pIdx++];
 		TreeNode root = new TreeNode(rootVal);
 
-		root.left = this.buildTree(preorder, left, map.get(rootVal) - 1);
-		root.right = this.buildTree(preorder, map.get(rootVal) + 1, right);
+		root.left = this.buildTree(preorder, inorder, rootVal);
+		root.right = this.buildTree(preorder, inorder, stop);
 
 		return root;
 	}
