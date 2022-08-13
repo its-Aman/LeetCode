@@ -1,23 +1,27 @@
 class Solution {
 	public List<List<Integer>> subsets(int[] nums) {
 		List<List<Integer>> ans = new LinkedList<>();
+		int N = nums.length;
 
-		this.backtrack(0, new Stack<Integer>(), ans, nums);
+		for (int i = 0; i < Math.pow(2, N); i++) {
+			List<Integer> curr = new ArrayList<>();
+			int k = i;
 
-		return ans;
-	}
+			for (int j = 0; j < N; j++) {
 
-	private void backtrack(int idx, Stack<Integer> curr, List<List<Integer>> ans, int[] nums) {
-		if (idx > nums.length)
-			return;
+				if (k == 0) {
+					break;
+				}
 
-		ans.add(new LinkedList<>(curr));
-
-		for (int i = idx; i < nums.length; i++) {
-			curr.push(nums[i]);
-			this.backtrack(i + 1, curr, ans, nums);
-			curr.pop();
+				if ((k & 1) == 1) {
+					curr.add(nums[j]);
+				}
+				k >>= 1;
+			}
+			
+			ans.add(curr);
 		}
-
+        
+		return ans;
 	}
 }
