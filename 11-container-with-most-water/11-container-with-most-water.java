@@ -7,10 +7,18 @@ class Solution {
 		while (lo < hi) {
 			int currArea = (hi - lo) * Math.min(height[lo], height[hi]);
 			area = Math.max(area, currArea);
-			if (height[lo] < height[hi])
-				lo += 1;
-			else
-				hi -= 1;
+
+			if (height[lo] < height[hi]) {
+				int currLo = height[lo];
+
+				while (lo < hi && currLo >= height[lo])
+					lo += 1;
+			} else {
+				int currHi = height[hi];
+
+				while (lo < hi && currHi >= height[hi])
+					hi -= 1;
+			}
 		}
 
 		return area;
