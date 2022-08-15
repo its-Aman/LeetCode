@@ -1,36 +1,43 @@
 class Solution {
 
-    public List<Integer> findAnagrams(String S, String P) {
+	public List<Integer> findAnagrams(String S, String P) {
 		List<Integer> ans = new ArrayList<>();
 
 		if (P.length() > S.length())
 			return ans;
 
-		Map<Character, Integer> pCount = new HashMap<>();
-		Map<Character, Integer> sCount = new HashMap<>();
+		int[] pCount = new int[26];
+		int[] sCount = new int[26];
 
 		for (int i = 0; i < P.length(); i++) {
-			pCount.put(P.charAt(i), 1 + pCount.getOrDefault(P.charAt(i), 0));
-			sCount.put(S.charAt(i), 1 + sCount.getOrDefault(S.charAt(i), 0));
+			pCount[P.charAt(i) - 'a'] += 1;
+			sCount[S.charAt(i) - 'a'] += 1;
 		}
 
 		for (int curr = 0; curr <= S.length() - P.length(); curr++) {
 			int next = curr + P.length();
+			boolean isAnagram = true;
 
-			if (pCount.equals(sCount))
+			for (int k = 0; k < 26; k++) {
+				if (pCount[k] != sCount[k]) {
+					isAnagram = false;
+					break;
+				}
+			}
+
+			if (isAnagram)
 				ans.add(curr);
 
-			if (next < S.length())
-				sCount.put(S.charAt(next), 1 + sCount.getOrDefault(S.charAt(next), 0));
+			sCount[S.charAt(curr) - 'a'] -= 1;
 
-			if (sCount.get(S.charAt(curr)) == 1)
-				sCount.remove(S.charAt(curr));
-			else
-				sCount.put(S.charAt(curr), sCount.get(S.charAt(curr)) - 1);
+			if (curr + P.length() >= S.length())
+				break;
+			
+			sCount[S.charAt(next) - 'a'] += 1;
+
 		}
 
 		return ans;
 	}
-
     
 }
