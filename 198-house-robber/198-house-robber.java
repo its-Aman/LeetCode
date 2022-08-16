@@ -1,14 +1,15 @@
 class Solution {
     public int rob(int[] nums) {
         int N = nums.length;        
-        int[] dp = new int[N + 1];
+        int rob = 0;
+        int noRob = 0;
         
-        dp[1] = nums[0];
-        
-        for(int i = 1; i < N; i++) {
-            dp[i + 1] = Math.max(dp[i], nums[i] + dp[i - 1]);
+        for(int i = 0; i < N; i++) {
+            int prevLoot = rob;
+            rob = Math.max(rob, nums[i] + noRob);
+            noRob = prevLoot;
         }
         
-        return dp[N];
+        return rob;
     }
 }
