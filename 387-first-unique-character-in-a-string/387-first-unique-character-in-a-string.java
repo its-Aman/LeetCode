@@ -1,17 +1,14 @@
 class Solution {
-    public int firstUniqChar(String S) {
-        int[] alphabets = new int[26];
-        Arrays.fill(alphabets, -1);
-        
-        for(int i = 0; i < S.length(); i++) {
-            alphabets[S.charAt(i) - 'a'] += 1;
-        }
+	public int firstUniqChar(String S) {
+		int max = S.length();
 
-        for(int i = 0; i < S.length(); i++) {
-            if(alphabets[S.charAt(i) - 'a'] == 0)
-                return i;
-        }
+		for (char ch = 'a'; ch <= 'z'; ch++) {
+			int idx = S.indexOf(ch);
 
-        return -1;
-    }
+			if (idx != -1 && idx == S.lastIndexOf(ch))
+				max = Math.min(max, idx);
+		}
+
+		return max == S.length() ? -1 : max;
+	}
 }
