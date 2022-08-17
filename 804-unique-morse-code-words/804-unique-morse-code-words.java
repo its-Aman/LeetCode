@@ -4,14 +4,12 @@ class Solution {
         Set<String> uniqTransformations = new HashSet<>();
         
         for(String word: words) {
-            StringBuilder sb = new StringBuilder();
-            
+            String curr = new String();
             for(char c: word.toCharArray()) {
-                sb.append(morse[c-'a']);
+                curr = curr.concat(morse[c-'a']);
             }
             
-            System.out.println(sb.toString());
-            uniqTransformations.add(sb.toString());
+            uniqTransformations.add(curr);
         }
         
         return uniqTransformations.size();
