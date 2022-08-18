@@ -1,27 +1,35 @@
 class Solution {
 
     public int minSetSize(int[] arr) {
-		int N = arr.length;
-		int ans = 0;
-		int half = 0;
 
-		Map<Integer, Integer> occ = new HashMap<>();
-		PriorityQueue<Pair<Integer, Integer>> pq = new PriorityQueue<>(
-				(Pair<Integer, Integer> p1, Pair<Integer, Integer> p2) -> p2.getValue() - p1.getValue());
+		int N = arr.length, min = 1000000, max = 0;
 
-		for (int item : arr)
-			occ.put(item, 1 + occ.getOrDefault(item, 0));
+		for (int val : arr) {
+			min = Math.min(val, min);
+			max = Math.max(val, max);
+		}
 
-		for (Map.Entry<Integer, Integer> item : occ.entrySet())
-			pq.offer(new Pair<Integer, Integer>(item.getKey(), item.getValue()));
+		int[] count = new int[max - min + 1];
 
-		while (!pq.isEmpty()) {
-			Pair<Integer, Integer> curr = pq.poll();
-			half += curr.getValue();
-			ans += 1;
+		for (int val : arr)
+			count[val - min] += 1;
 
-			if (half >= N / 2)
-				return ans;
+		int[] bucket = new int[N + 1];
+
+		for (int cnt : count)
+			if (cnt != 0)
+				bucket[cnt] += 1;
+
+		int sum = 0, size = 0, half = N >> 1;
+
+		for (int i = N; i > 0; i--) {
+			while (bucket[i]-- != 0) {
+				sum += i;
+				size += 1;
+
+				if (sum >= half)
+					return size;
+			}
 		}
 
 		return -1;
