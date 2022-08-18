@@ -6,12 +6,14 @@ class WordDictionary {
 	}
 
 	private TrieNode root;
-
+	private int maxDepth = 0;
+    
 	public WordDictionary() {
 		this.root = new TrieNode();
 	}
 
 	public void addWord(String word) {
+		this.maxDepth = Math.max(this.maxDepth, word.length());
 		TrieNode curr = this.root;
 
 		for (char c : word.toCharArray()) {
@@ -24,6 +26,9 @@ class WordDictionary {
 	}
 
 	public boolean search(String word) {
+		if (word.isEmpty() || word.length() > this.maxDepth)
+			return false;
+
 		return this.search(word, this.root, 0);
 	}
 
