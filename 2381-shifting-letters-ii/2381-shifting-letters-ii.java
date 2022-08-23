@@ -9,9 +9,11 @@ class Solution {
 			line[s[1] + 1] += s[2] == 1 ? -1 : 1;
 		}
 
-		for (int i = 0, val = 0; i < S.length(); i++) {
-			val = (val + line[i]) % 26;
-			cs[i] = (char) ('a' + (26 + (cs[i] - 'a') + val) % 26);
+		for (int i = 0, prefix = 0; i < S.length(); i++) {
+			prefix = (prefix + line[i]) % 26;
+			int increaseBy = (cs[i] - 'a' + prefix) % 26;
+			int onlyPositiveMod = (increaseBy + 26) % 26;
+			cs[i] = (char) ('a' + onlyPositiveMod);
 		}
 
 		return new String(cs);
