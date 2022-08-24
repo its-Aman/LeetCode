@@ -1,14 +1,24 @@
 class Solution {
     public int findDuplicate(int[] nums) {
-        Set<Integer> seen = new HashSet<>();
+        int tortoise = nums[0], hare = nums[0];
         
-        for(int i = 0; i < nums.length; i++) {
-            if(seen.contains(nums[i]))
-                return nums[i];
-            else
-                seen.add(nums[i]);
+        do{
+            tortoise = nums[tortoise];
+            hare = nums[hare];
+            hare = nums[hare];
+            // System.out.println("t: " + tortoise + "\t h: " + hare);
+        } while(tortoise != hare);
+        
+        tortoise = nums[0];
+        // System.out.println("reset---");
+        
+        while(tortoise != hare) {
+            tortoise = nums[tortoise];
+            hare = nums[hare];            
+            // System.out.println("t: " + tortoise + "\t h: " + hare);
         }
         
-        return -1;
+        // System.out.println("ans: "+hare);
+        return hare;
     }
 }
