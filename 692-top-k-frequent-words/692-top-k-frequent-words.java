@@ -1,31 +1,28 @@
 class Solution {
 	public List<String> topKFrequent(String[] words, int K) {
 		Map<String, Integer> map = new HashMap<>();
-		int i = 0;
 
 		for (String word : words)
-			if (!map.containsKey(word))
-				map.put(word, i++);
-
-		int[] freq = new int[i + 1];
-
-		for (String word : words)
-			freq[map.get(word)] += 1;
+			map.put(word, map.getOrDefault(word, 0) + 1);
 
 		Queue<Pair<String, Integer>> q = new PriorityQueue<>((Pair<String, Integer> p1, Pair<String, Integer> p2) -> {
 			if (p2.getValue() != p1.getValue())
-				return p2.getValue() - p1.getValue();
+				return p1.getValue() - p2.getValue();
 			else
-				return p1.getKey().compareTo(p2.getKey());
+				return p2.getKey().compareTo(p1.getKey());
 		});
 
-		for (String word : map.keySet())
-			q.offer(new Pair<>(word, freq[map.get(word)]));
+		for (String word : map.keySet()) {
+			q.offer(new Pair<>(word, map.get(word)));
 
-		List<String> ans = new ArrayList<>();
+			if (q.size() > K)
+				q.poll();
+		}
 
-		while (K-- > 0)
-			ans.add(q.poll().getKey());
+		LinkedList<String> ans = new LinkedList<>();
+
+		while (!q.isEmpty())
+			ans.addFirst(q.poll().getKey());
 
 		return ans;
 	}
