@@ -32,11 +32,11 @@ class Solution {
         sum -= curr.val;
         
         if(sum == 0 && curr.left == null && curr.right == null){
-            this.ans.add(list);
-            return;   
+            this.ans.add(new ArrayList<>(list));
         }
         
-        this.go(curr.left, sum, new ArrayList<>(list));
-        this.go(curr.right, sum, new ArrayList<>(list));        
+        this.go(curr.left, sum, list);
+        this.go(curr.right, sum, list);        
+        list.remove(list.size() - 1);
     }
 }
