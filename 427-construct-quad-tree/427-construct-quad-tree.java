@@ -45,31 +45,21 @@ class Solution {
 	}
 
 	public Node construct(int[][] grid, int N, int x, int y) {
-		Node curr = new Node();
-
 		if (N <= 1)
 			return new Node(grid[x][y] == 1, true);
 
-		int one = 0;
+		int one = 0, total = N * N;
 
 		for (int i = 0; i < N; i++)
 			for (int j = 0; j < N; j++)
 				one += 1 & grid[x + i][y + j];
 
-		int total = N * N;
-
 		if (one == total || one == 0) {
-			curr.isLeaf = true;
-			curr.val = one == total;
+			return new Node(one == total, true);
 		} else {
 			N /= 2;
-			curr.isLeaf = false;
-			curr.topLeft = this.construct(grid, N, x, y);
-			curr.topRight = this.construct(grid, N, x, y + N);
-			curr.bottomLeft = this.construct(grid, N, x + N, y);
-			curr.bottomRight = this.construct(grid, N, x + N, y + N);
+			return new Node(false, false, this.construct(grid, N, x, y), this.construct(grid, N, x, y + N),
+					this.construct(grid, N, x + N, y), this.construct(grid, N, x + N, y + N));
 		}
-
-		return curr;
 	}
 }
