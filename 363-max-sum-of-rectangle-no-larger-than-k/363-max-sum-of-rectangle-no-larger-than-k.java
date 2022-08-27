@@ -3,7 +3,7 @@ class Solution {
 
 		int R = M.length, C = M[0].length, ans = Integer.MIN_VALUE;
 
-        if (C > R) {
+        if (R > C) {
 			int[][] MM = new int[C][R];
 
 			for (int r = 0; r < R; r++)
