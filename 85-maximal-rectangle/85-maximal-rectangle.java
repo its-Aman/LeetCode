@@ -4,12 +4,12 @@ class Solution {
 		int[] temp = new int[C];
 
 		for (int r = 0; r < R; r++) {
-			for (int c = 0; c < C; c++) {
+
+			for (int c = 0; c < C; c++)
 				if (M[r][c] == '0')
 					temp[c] = 0;
 				else
 					temp[c] += M[r][c] - '0';
-			}
 
 			ans = Math.max(ans, this.findMaxArea(temp));
 		}
@@ -19,23 +19,23 @@ class Solution {
 
 	private int findMaxArea(int[] nums) {
 		int N = nums.length, ans = Integer.MIN_VALUE;
-		Stack<Pair<Integer, Integer>> stack = new Stack<>();
+		Stack<int[]> stack = new Stack<>();
 
 		for (int i = 0; i < N; i++) {
 			int start = i;
 
-			while (!stack.isEmpty() && stack.peek().getKey() > nums[i]) {
+			while (!stack.isEmpty() && stack.peek()[0] > nums[i]) {
 				var curr = stack.pop();
-				ans = Math.max(ans, curr.getKey() * (i - curr.getValue()));
-				start = curr.getValue();
+				ans = Math.max(ans, curr[0] * (i - curr[1]));
+				start = curr[1];
 			}
 
-			stack.push(new Pair<>(nums[i], start));
+			stack.push(new int[] { nums[i], start });
 		}
 
 		while (!stack.isEmpty()) {
 			var curr = stack.pop();
-			ans = Math.max(ans, curr.getKey() * (N - curr.getValue()));
+			ans = Math.max(ans, curr[0] * (N - curr[1]));
 		}
 
 		return ans;
