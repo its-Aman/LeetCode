@@ -1,6 +1,22 @@
 class Solution {
 
     public int minSubArrayLen(int K, int[] nums) {
+        int N = nums.length, ans = Integer.MAX_VALUE, left = 0, sum = 0;
+
+        for (int i = 0; i < N; i++) {
+            sum += nums[i];
+
+            while (sum >= K) {
+                ans = Math.min(ans, i - left + 1);
+                sum -= nums[left];
+                left += 1;
+            }
+        }
+
+        return ans == Integer.MAX_VALUE ? 0 : ans;
+    }
+
+    public int minSubArrayLen_NlonG(int K, int[] nums) {
         int N = nums.length, ans = Integer.MAX_VALUE;
         int[] prefix = new int[N + 1];
 
