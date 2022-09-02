@@ -1,7 +1,7 @@
 class Solution {
     public int numSubarraysWithSum(int[] nums, int K) {
-        return numSubarraysWithSum_Arr(nums, K);
-        // return numSubarraysWithSum_3Pointer(nums, K);
+        // return numSubarraysWithSum_Arr(nums, K);
+        return numSubarraysWithSum_3Pointer(nums, K);
     }
 
     public int numSubarraysWithSum_3Pointer(int[] nums, int K) {
