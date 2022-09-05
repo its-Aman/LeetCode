@@ -9,7 +9,7 @@ class Solution {
     }
 
     private String decodeString(Queue<Character> q) {
-        StringBuilder sb = new StringBuilder();
+        String curr = "";
         int num = 0;
 
         while (!q.isEmpty()) {
@@ -18,14 +18,14 @@ class Solution {
             if (Character.isDigit(c)) {
                 num = num * 10 + c - '0';
             } else if (c == '[') {
-                sb.append(this.decodeString(q).repeat(num));
+                curr = curr.concat(this.decodeString(q).repeat(num));
                 num = 0;
             } else if (c == ']') {
                 break;
             } else {
-                sb.append(c);
+                curr = curr.concat(Character.toString(c));
             }
         }
-        return sb.toString();
+        return curr;
     }
 }
