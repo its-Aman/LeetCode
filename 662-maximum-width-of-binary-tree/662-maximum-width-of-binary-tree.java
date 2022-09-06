@@ -15,34 +15,42 @@
  */
 class Solution {
     public int widthOfBinaryTree(TreeNode root) {
-        if(root == null)
+        if (root == null)
             return 0;
-        
-        Deque<Pair<TreeNode, Integer>> dq = new ArrayDeque<>();
-        int ans = 1;
-        
-        dq.offer(new Pair<>(root, 0));
-        
-        while(!dq.isEmpty()) {
-            int size = dq.size();
-            int start = dq.peekFirst().getValue();
-            int end = dq.peekLast().getValue();
-            
-            ans = Math.max(ans, end - start + 1);
-            
-            while(size-- > 0) {
-                var currP = dq.pollFirst();
+
+        Queue<Pair<TreeNode, Integer>> q = new LinkedList<>();
+        int ans = 0;
+
+        q.offer(new Pair<>(root, 0));
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            int minimal = q.peek().getValue();
+            int start = 0, end = 0;
+
+            for (int i = 0; i < size; i++) {
+                var currP = q.poll();
                 var curr = currP.getKey();
-                int idx = currP.getValue() - start;
-                
-                if(curr.left != null)
-                    dq.offerLast(new Pair<>(curr.left, 2 * idx + 1));
-                
-                if(curr.right != null)
-                    dq.offerLast(new Pair<>(curr.right, 2 * idx + 2));
+                int idx = currP.getValue() - minimal;
+
+                if (i == 0)
+                    start = idx;
+
+                if (i + 1 == size)
+                    end = idx;
+
+                if (curr.left != null) {
+                    q.offer(new Pair<>(curr.left, 2 * idx + 1));
+                }
+
+                if (curr.right != null) {
+                    q.offer(new Pair<>(curr.right, 2 * idx + 2));
+                }
             }
+
+            ans = Math.max(ans, end - start + 1);
         }
-        
+
         return ans;
     }
 }
