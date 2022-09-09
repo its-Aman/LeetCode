@@ -11,6 +11,18 @@ class Solution {
         return ans;
     }
     
+    /*
+    
+        Our goal is to find a character with two stats higher than our character[i]. ( 1 <= i <= n = len(a) )
+        If [5,3] and [5,4] appear at the same time, then B must be better than A.
+        So for characters with the same attack, we only need to record the one with the largest defense.
+        That is ct[a[i][0]]=max(a[i][1],ct[a[i][0]]); .
+        [6,4],[5,5] is always better than [4,3] -> ct[j]=max(ct[j],ct[j+1]~ct[100000]) ( 1 <= j <= 1e5 )
+        If ct[j] = max(ct[j]~ct[1e5]), then ct[a[i][0]+1]>a[i][1] means that any a[k] ( 1 <= k <=n, k != i ) is both better than a[i].
+        Time complexity is O(n) because both max(a[i]), n <1e5.     
+    
+    */
+    
     public int numberOfWeakCharacters(int[][] properties) {
         int maxAttack = 0;
         // Find the maximum atack value
