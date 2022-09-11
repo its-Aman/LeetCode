@@ -13,35 +13,25 @@ class Solution {
         return ans;
     }
 
+    // https://codeforces.com/blog/entry/18051
     class SegmentTree {
         int N = (int) 1e5 + 1;
         int[] tree = new int[2 * N];
 
         public int query(int l, int r) {
-            l += N;
-            r += N;
             int ans = 0;
 
-            while (l < r) {
-                if ((l & 1) >= 1)
-                    ans = Math.max(ans, tree[l++]);
-
-                if ((r & 1) >= 1)
-                    ans = Math.max(ans, tree[--r]);
-                l >>= 1;
-                r >>= 1;
+            for (l += N, r += N; l < r; l >>= 1, r >>= 1) {
+                if ((l & 1) >= 1) ans = Math.max(ans, tree[l++]);
+                if ((r & 1) >= 1) ans = Math.max(ans, tree[--r]);
             }
 
             return ans;
         }
 
         public void update(int idx, int val) {
-            idx += N;
-            tree[idx] = val;
-            while (idx > 1) {
-                idx >>= 1;
-                tree[idx] = Math.max(tree[idx * 2], tree[idx * 2 + 1]);
-            }
+            for (tree[idx += N] = val; idx > 1; idx >>= 1)
+                tree[idx >> 1] = Math.max(tree[idx], tree[idx ^ 1]);
         }
     }
 }
