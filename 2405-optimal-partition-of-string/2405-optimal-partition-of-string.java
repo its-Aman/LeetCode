@@ -1,14 +1,16 @@
 class Solution {
     public int partitionString(String S) {
-        int N = S.length(), ans = 1;
-        int[] count = new int[26];
+        int ans = 1, flag = 0;
 
-        for (int i = 0; i < N; i++) {
-            if (count[S.charAt(i) - 'a'] == 1) {
+        for (int i = 0; i < S.length(); i++) {
+            int n = S.charAt(i) - 'a';
+            int bit = 1 << n;
+            if ((flag & bit) >= 1) {
+                flag = 0;
                 ++ans;
-                count = new int[26];
             }
-            ++count[S.charAt(i) - 'a'];
+
+            flag = flag | bit;
         }
 
         return ans;
