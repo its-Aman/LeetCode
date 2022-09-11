@@ -1,6 +1,6 @@
 class Solution {
     public int mostFrequentEven(int[] nums) {
-        int[] count = new int[(int)1e5+2];
+        int[] count = new int[100_001];
         int freq = 0, ans = Integer.MIN_VALUE;
 
         for (int num : nums){
