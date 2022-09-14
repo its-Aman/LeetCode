@@ -1,4 +1,23 @@
 class Solution {
+    public void rotate(int[][] M) {
+        int N = M.length;
+        
+        for(int r = 0; r < (N + 1) / 2; r++) {
+            
+            for(int c = 0; c < N / 2; c++) {
+                
+                int temp = M[r][c];
+                M[r][c] = M[N - 1 - c][r];
+                M[N - 1 - c][r] = M[N - 1 - r][N - 1 - c];
+                M[N - 1 - r][N - 1 - c] = M[c][N - 1 - r];
+                M[c][N - 1 - r] = temp;
+
+            }
+            
+        }
+        
+    }
+    
     public void rotate_2(int[][] M) {
         int N = M.length;
         int i = 0, j = N - 1;
@@ -22,22 +41,32 @@ class Solution {
         M[x2][y2] = temp;
     }
     
-    public void rotate(int[][] M) {
-        int N = M.length;
-        
-        for(int r = 0; r < (N + 1) / 2; r++) {
-            
-            for(int c = 0; c < N / 2; c++) {
-                
-                int temp = M[r][c];
-                M[r][c] = M[N - 1 - c][r];
-                M[N - 1 - c][r] = M[N - 1 - r][N - 1 - c];
-                M[N - 1 - r][N - 1 - c] = M[c][N - 1 - r];
-                M[c][N - 1 - r] = temp;
+    public void rotate_3(int[][] M) {
+        this.transpose(M);
+        this.reflect(M);
+    }
 
+    private void transpose(int[][] M) {
+        int N = M.length;
+
+        for(int r = 0; r < N; r++) {
+            for(int c = r + 1; c < N; c++){
+                int temp = M[r][c];
+                M[r][c] = M[c][r];
+                M[c][r] = temp;
             }
-            
         }
-        
+    }
+
+    private void reflect(int[][] M) {
+        int N = M.length;
+
+        for(int r = 0; r < N; r++) {
+            for(int c = 0; c < N / 2; c++) {
+                int temp = M[r][c];
+                M[r][c] = M[r][N - 1 - c];
+                M[r][N - 1 - c] = temp;
+            }
+        }
     }
 }
