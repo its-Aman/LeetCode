@@ -29,7 +29,6 @@ class Solution {
 
         
         if(node.left == null && node.right == null) {
-            System.out.println(mask);
             if(mask == 0 || (mask & (mask - 1)) == 0)
                 ++ans;
             return;
