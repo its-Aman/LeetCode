@@ -1,76 +1,69 @@
 class Solution {
 
-    List<List<Integer>> ans = new ArrayList<>();
+    class PalindromePair {
+        String palindrome;
+        int x;
+        int y;
 
+        PalindromePair(String palindrome, int x, int y) {
+            this.palindrome = palindrome;
+            this.x = x;
+            this.y = y;
+        }
+    }
 
     public List<List<Integer>> palindromePairs(String[] words) {
+        HashMap<String, Integer> wordMap = new HashMap<>();
+        Set<Integer> set = new TreeSet<>();
         int N = words.length;
-
-        if (N < 2)
-            return ans;
-
-        TrieNode root = new TrieNode();
-
-        for (int i = 0; i < N; i++)
-            addWord(root, words[i], i);
-
-        for (int i = 0; i < N; i++)
-            searchWord(root, words[i], i);
-
-        return ans;
-    }
-
-    private void searchWord(TrieNode root, String word, int i) {
-        for (int j = 0; j < word.length(); j++) {
-            if (root.index >= 0 && root.index != i && isPalindrome(word, j, word.length() - 1))
-                ans.add(Arrays.asList(i, root.index));
-
-            root = root.next[word.charAt(j) - 'a'];
-            if (root == null)
-                return;
+        for (int i = 0; i < N; i++) {
+            wordMap.put(words[i], i);
+            set.add(words[i].length());
         }
 
-        for (int j : root.list) {
-            if (i == j)
+        List<List<Integer>> result = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < N; i++) {
+            int length = words[i].length();
+            if (length == 1) {
+                if (wordMap.containsKey("")) {
+                    result.add(Arrays.asList(i, wordMap.get("")));
+                    result.add(Arrays.asList(wordMap.get(""), i));
+                }
                 continue;
+            }
+            sb.setLength(0);
+            sb.append(words[i]);
+            sb.reverse();
+            String reverse = sb.toString();
+            if (wordMap.containsKey(reverse) && wordMap.get(reverse) != i) {
+                result.add(Arrays.asList(i, wordMap.get(reverse)));
+            }
+            for (Integer k : set) {
+                if (k == length) break;
 
-            ans.add(Arrays.asList(i, j));
+                if (isPalindrome(reverse, 0, length - 1 - k)) {
+                    String s1 = reverse.substring(length - k);
+                    if (wordMap.containsKey(s1)) result.add(Arrays.asList(i, wordMap.get(s1)));
+                }
+
+                if (isPalindrome(reverse, k, length - 1)) {
+                    String s2 = reverse.substring(0, k);
+                    if (wordMap.containsKey(s2)) result.add(Arrays.asList(wordMap.get(s2), i));
+                }
+            }
         }
+
+        return result;
     }
 
-    private void addWord(TrieNode root, String word, int idx) {
-        for (int i = word.length() - 1; i >= 0; i--) {
-            int j = word.charAt(i) - 'a';
-            if (root.next[j] == null)
-                root.next[j] = new TrieNode();
-
-            if (isPalindrome(word, 0, i))
-                root.list.add(idx);
-
-            root = root.next[j];
-        }
-        root.list.add(idx);
-        root.index = idx;
-    }
-
-
-    private boolean isPalindrome(String word, int l, int h) {
-        while (l < h)
-            if (word.charAt(l++) != word.charAt(h--))
+    private boolean isPalindrome(String s, int left, int right) {
+        while (left < right)
+            if (s.charAt(left++) != s.charAt(right--))
                 return false;
+
         return true;
-    }
-
-    private static class TrieNode {
-        TrieNode[] next;
-        int index;
-        List<Integer> list;
-
-        TrieNode() {
-            next = new TrieNode[26];
-            index = -1;
-            list = new ArrayList<>();
-        }
     }
     
 }
