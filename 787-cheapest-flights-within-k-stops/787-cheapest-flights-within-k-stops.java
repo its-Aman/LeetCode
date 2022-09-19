@@ -1,5 +1,35 @@
 class Solution {
-    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+    public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+//        return findCheapestPrice_Dijkastra(n, flights, src, dst, k);
+        return findCheapestPrice_BellmanFord(n, flights, src, dst, k);
+    }
+
+    public static int findCheapestPrice_BellmanFord(int n, int[][] flights, int source, int target, int k) {
+        int[] destination = new int[n];
+        Arrays.fill(destination, Integer.MAX_VALUE);
+        destination[source] = 0;
+
+        for (int i = 0; i <= k; i++) {
+            int[] oldDestination = destination.clone();
+            boolean ans = true;
+
+            for (int[] f : flights) {
+                int src = f[0], dest = f[1], cost = f[2];
+                if (oldDestination[src] < Integer.MAX_VALUE && destination[src] + cost < destination[dest]) {
+                    destination[dest] = oldDestination[src] + cost;
+                    ans = false;
+                }
+            }
+
+            if (ans)
+                break;
+        }
+
+
+        return destination[target] == Integer.MAX_VALUE ? -1 : destination[target];
+    }
+
+    public int findCheapestPrice_Dijkastra(int n, int[][] flights, int src, int dst, int K) {
         Map<Integer, List<int[]>> graph = new HashMap<>();
 
         for (int[] f : flights)
