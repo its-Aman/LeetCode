@@ -1,17 +1,13 @@
 class Solution {
     public int findLength(int[] nums1, int[] nums2) {
-        int ans = 0;
+        int N1 = nums1.length, N2 = nums2.length, ans = 0;
+        int[][] dp = new int[N1 + 1][N2 + 1];
 
-        for (int i = 0; i < nums1.length; i++) {
-            for (int j = 0; j < nums2.length; j++) {
-                int x = i, y = j;
-
-                while (x < nums1.length && y < nums2.length && nums1[x] == nums2[y]) {
-                    x++;
-                    y++;
-                }
-
-                ans = Math.max(ans, x - i);
+        for (int i = N1 - 1; i >= 0; i--) {
+            for (int j = N2 - 1; j >= 0; j--) {
+                if(nums1[i] == nums2[j])
+                    dp[i][j] = dp[i + 1][j + 1] + 1;
+                ans = Math.max(ans, dp[i][j]);
             }
         }
 
