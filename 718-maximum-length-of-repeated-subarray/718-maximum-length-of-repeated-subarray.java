@@ -1,5 +1,30 @@
 class Solution {
     public int findLength(int[] nums1, int[] nums2) {
+        return findLength_Sliding_Window(nums1, nums2);
+    }
+
+    public int findLength_Sliding_Window(int[] nums1, int[] nums2) {
+        int N1 = nums1.length, N2 = nums2.length, ans = 0;
+
+        for (int i = 0; i < N1 + N2 - 1; i++) {
+            int x = Math.max(0, (N1 - 1) - i);
+            int y = Math.max(0, i - (N1 - 1));
+            int score = 0;
+
+            for (int xx = x, yy = y; xx < N1 && yy < N2; ++xx, ++yy) {
+                if (nums1[xx] == nums2[yy])
+                    ++score;
+                else
+                    score = 0;
+
+                ans = Math.max(ans, score);
+            }
+        }
+
+        return ans;
+    }
+
+    public int findLength_DP(int[] nums1, int[] nums2) {
         int N1 = nums1.length, N2 = nums2.length, ans = 0;
         
         if(N2 > N1)
