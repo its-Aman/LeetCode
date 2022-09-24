@@ -1,10 +1,12 @@
 class RandomizedSet {
 
     Map<Integer, Integer> map;
+    List<Integer> list;
     Random random;
 
     public RandomizedSet() {
         map = new HashMap<>();
+        list = new ArrayList<>();
         random = new Random();
     }
 
@@ -12,26 +14,29 @@ class RandomizedSet {
         if (map.containsKey(val))
             return false;
 
-        map.put(val, val);
+        map.put(val, list.size());
+        list.add(val);
         return true;
     }
 
     public boolean remove(int val) {
         if (!map.containsKey(val))
             return false;
-
+        
+        int idx = map.get(val);
+        
+        if(idx < list.size()) {
+            list.set(idx, list.get(list.size() - 1));
+            map.put(list.get(idx), idx);
+        }
+        
+        list.remove(list.size() - 1);
         map.remove(val);
         return true;
     }
 
     public int getRandom() {
-        int rand = random.nextInt(map.size());
-        var it = map.keySet().iterator();
-
-        while (it.hasNext() && rand-- > 0)
-            it.next();
-
-        return it.next();
+        return list.get(random.nextInt(list.size()));
     }
 }
 
