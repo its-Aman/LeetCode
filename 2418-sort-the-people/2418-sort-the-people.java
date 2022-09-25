@@ -25,18 +25,19 @@ class Solution {
             minH = Math.min(minH, heights[i]);
         }
 
-        String[] map = new String[maxH - minH + 1];
+        int[] map = new int[maxH - minH + 1];
+        Arrays.fill(map, -1);
 
         for (int i = 0; i < N; i++)
-            map[heights[i] - minH] = names[i];
+            map[heights[i] - minH] = i;
 
         String[] ans = new String[N];
         int idx = 0;
 
         for (int i = map.length - 1; i >= 0; i--)
-            if (map[i] != null)
-                ans[idx++] = map[i];
+            if (map[i] != -1)
+                ans[idx++] = names[map[i]];
 
         return ans;
-    }    
+    }
 }
