@@ -8,13 +8,11 @@ class MyCircularQueue {
     public MyCircularQueue(int k) {
         q = new int[k];
         size = k;
-        front = 0;
         rear = -1;
-        used = 0;
     }
 
     public boolean enQueue(int value) {
-        if (used == size)
+        if (isFull())
             return false;
 
         rear = (rear + 1) % size;
@@ -24,7 +22,7 @@ class MyCircularQueue {
     }
 
     public boolean deQueue() {
-        if (used == 0)
+        if (isEmpty())
             return false;
 
         front = (front + 1) % size;
@@ -33,14 +31,14 @@ class MyCircularQueue {
     }
 
     public int Front() {
-        if (used == 0)
+        if (isEmpty())
             return -1;
 
         return q[front];
     }
 
     public int Rear() {
-        if (used == 0)
+        if (isEmpty())
             return -1;
 
         return q[rear];
