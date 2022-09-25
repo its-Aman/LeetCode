@@ -1,5 +1,64 @@
 class MyCircularQueue {
     int size;
+    int front;
+    int rear;
+    int used;
+    int[] q;
+
+    public MyCircularQueue(int k) {
+        q = new int[k];
+        size = k;
+        front = 0;
+        rear = -1;
+        used = 0;
+    }
+
+    public boolean enQueue(int value) {
+        if (used == size)
+            return false;
+
+        rear = (rear + 1) % size;
+        q[rear] = value;
+        ++used;
+        return true;
+    }
+
+    public boolean deQueue() {
+        if (used == 0)
+            return false;
+
+        front = (front + 1) % size;
+        --used;
+        return true;
+    }
+
+    public int Front() {
+        if (used == 0)
+            return -1;
+
+        return q[front];
+    }
+
+    public int Rear() {
+        if (used == 0)
+            return -1;
+
+        return q[rear];
+    }
+
+    public boolean isEmpty() {
+        return used == 0;
+    }
+
+    public boolean isFull() {
+        return size == used;
+    }
+}
+
+
+/*
+class MyCircularQueue {
+    int size;
     Deque<Integer> q;
 
     public MyCircularQueue(int k) {
@@ -44,6 +103,7 @@ class MyCircularQueue {
         return size == q.size();
     }
 }
+*/
 
 /**
  * Your MyCircularQueue object will be instantiated and called as such:
