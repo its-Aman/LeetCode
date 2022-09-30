@@ -1,18 +1,12 @@
 class ParkingSystem {
-    int[] garage = new int[4];
+    int[] garage;
 
     public ParkingSystem(int big, int medium, int small) {
-        garage[1] = big;
-        garage[2] = medium;
-        garage[3] = small;        
+        garage =  new int[] {big, medium, small};
     }
     
     public boolean addCar(int carType) {
-        if(garage[carType] == 0) 
-            return false;
-
-        --garage[carType];
-        return true;
+        return garage[--carType]-- > 0;
     }
 }
 
