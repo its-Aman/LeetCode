@@ -1,3 +1,8 @@
+// https://www.youtube.com/watch?v=GSBLe8cKu0s&t=405s
+// https://leetcode.com/problems/the-skyline-problem/discuss/61192/Once-for-all-explanation-with-clean-Java-code(O(n2)time-O(n)-space)
+// watch again the same video of Tushar if in confusion.
+// and then read the blog below the video.
+
 class Solution {
     public List<List<Integer>> getSkyline(int[][] buildings) {
         List<List<Integer>> ans = new ArrayList();
