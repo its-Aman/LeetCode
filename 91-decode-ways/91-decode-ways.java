@@ -1,44 +1,38 @@
 class Solution {
-    
+    public int numDecodings2(String s) {
+        int N = s.length();
+        int[] dp = new int[N + 1];
+        
+        dp[N] = 1;
+        
+        for(int i = N - 1; i >= 0; i--) {
+            if(s.charAt(i) == '0') {
+                dp[i] = 0;
+            } else {
+                dp[i] = dp[i + 1];
+                if(i + 1 < s.length() && (s.charAt(i) == '1' || s.charAt(i) == '2' && s.charAt(i + 1) < '7'))
+                dp[i] += dp[i + 2];                
+            }
+        }
+        
+        return s.equals("0") ? 0 : dp[0];
+    }    
+
     public int numDecodings(String s) {
-        if (s.length() == 1)
-            return s.equals("0") ? 0 : 1;
+        int N = s.length();
+        int one = 1, two = 0;
+        
+        for(int i = N - 1; i >= 0; i--) {
+            int curr = s.charAt(i) == '0' ? 0 : one;
+            
+            if(i + 1 < s.length() && (s.charAt(i) == '1' || s.charAt(i) == '2' && s.charAt(i + 1) < '7'))
+                curr += two;
 
-        int[] dp = new int[s.length() + 1];
-        Arrays.fill(dp, -1);
-        return findWays(dp, s, 0);
-    }
-
-    private int findWays(int[] dp, String s, int idx) {
-        if (s == null || s.length() == 0 || idx >= s.length())
-            return 1;
-
-        if (dp[idx] != -1)
-            return dp[idx];
-
-        int currentTotal = 0;
-
-        if (idx + 2 <= s.length()) {
-            String secondStr = s.substring(idx, idx + 2);
-            if (!secondStr.startsWith("0")) {
-                int second = Integer.parseInt(secondStr);
-                if (second >= 1 && second <= 26) {
-                    currentTotal += findWays(dp, s, idx + 2);
-                }
-            }
+            two = one;
+            one = curr;
         }
+        
+        return s.equals("0") ? 0 : one;
+    }    
 
-        if (idx + 1 <= s.length()) {
-            String firstStr = s.substring(idx, idx + 1);
-            if (!firstStr.startsWith("0")) {
-                int first = Integer.parseInt(firstStr);
-                if (first >= 1 && first <= 26) {
-                    currentTotal += findWays(dp, s, idx + 1);
-                }
-            }
-        }
-
-        dp[idx] = currentTotal;
-        return currentTotal;
-    }
 }
