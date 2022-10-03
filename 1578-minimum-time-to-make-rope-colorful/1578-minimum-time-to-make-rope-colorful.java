@@ -1,6 +1,7 @@
 class Solution {
     public int minCost(String colors, int[] neededTime) {
-        return minCost_singlePass(colors, neededTime);
+        // return minCost_singlePass(colors, neededTime);
+        return minCost_2Pointer(colors, neededTime);
     }
 
     public int minCost_singlePass(String colors, int[] neededTime) {
