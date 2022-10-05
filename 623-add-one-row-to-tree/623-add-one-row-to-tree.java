@@ -34,7 +34,7 @@ class Solution {
             return;
         }
                 
-        addOneRow(root.left, val, depth);
-        addOneRow(root.right, val, depth);
+        addRow(root.left, val, depth);
+        addRow(root.right, val, depth);
     }
 }
