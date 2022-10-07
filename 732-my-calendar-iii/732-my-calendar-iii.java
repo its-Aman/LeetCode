@@ -1,7 +1,7 @@
-class MyCalendarThree {
+class MyCalendarThree3 {
     private Map<Integer, Integer> vals, lazy;
 
-    public MyCalendarThree() {
+    public MyCalendarThree3() {
         vals = new HashMap<>();
         lazy = new HashMap<>();
     }
@@ -32,10 +32,10 @@ class MyCalendarThree {
 }
 
 // sweep line
-class MyCalendarThree3 {
+class MyCalendarThree {
     Map<Integer, Integer> times;
 
-    public MyCalendarThree3() {
+    public MyCalendarThree() {
         times = new TreeMap<>();
     }
     
