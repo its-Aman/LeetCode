@@ -10,9 +10,9 @@ class Solution {
             }
         }
         
-        int ans = 0;
+        int ans = 1;
         
-        for(int i = 0; i < N; i++)
+        for(int i : g.keySet())
             ans = Math.max(ans, dfs(i, g, new boolean[N]));
         
         return ans;
