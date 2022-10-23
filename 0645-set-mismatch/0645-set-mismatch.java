@@ -1,24 +1,25 @@
 class Solution {
     public int[] findErrorNums(int[] nums) {
-        Set<Integer> set = new HashSet<>();
         int N = nums.length;
-        int[] ans = new int[2];
+        int[] freq = new int[N+1];
+                
+        for(int num: nums) 
+            ++freq[num];
         
-        long sum = N*(N+1)/2;
-        long allSum = 0;
+        int x = -1, y = -1;
         
-        for(int num: nums) {
-            if(set.contains(num)) {
-                ans[0] = num;
-            } else {
-                set.add(num);
+        for(int num = 1; num < freq.length; num++){
+            if(freq[num] == 2) {
+                x = num;
+                if(y != -1) break;
             }
-
-            allSum += num;   
+            
+            if(freq[num] == 0) {
+                y = num;
+                if(x != -1) break;
+            }
         }
-        
-        ans[1] = (int)sum - (int)allSum + ans[0];
-        
-        return ans;
+
+        return new int[]{x, y};
     }
 }
