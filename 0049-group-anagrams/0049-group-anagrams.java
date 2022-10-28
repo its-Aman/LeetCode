@@ -1,18 +1,19 @@
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        Map<Integer, List<String>> map = new HashMap<>();
+        Map<String, List<String>> map = new HashMap<>();
 
         for (String s : strs) {
-            int[] hash = new int[26];
+            char[] freq = new char[26];
 
             for (char c : s.toCharArray())
-                ++hash[c - 'a'];
+                ++freq[c - 'a'];
 
-            map.computeIfAbsent(Arrays.hashCode(hash), k -> new ArrayList<>()).add(s);
+            map.computeIfAbsent(String.valueOf(freq), k -> new ArrayList<>()).add(s);
         }
 
         return List.copyOf(map.values());
     }
+
     
 //     public List<List<String>> groupAnagrams(String[] strs) {
 //         Map<Integer, List<String>> map = new HashMap<>();
