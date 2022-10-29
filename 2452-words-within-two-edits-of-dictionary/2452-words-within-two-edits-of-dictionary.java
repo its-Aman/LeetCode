@@ -4,6 +4,8 @@ class Solution {
 
         for (String query : queries) {
             for (String word : dictionary) {
+                if (query.length() != word.length()) continue;
+
                 int curr = 0;
 
                 for (int i = 0; i < word.length(); i++)
