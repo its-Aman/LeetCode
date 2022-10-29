@@ -1,18 +1,21 @@
 class Solution {
     public int earliestFullBloom(int[] plantTime, int[] growTime) {
-        int totalDays = 0,
-            N = growTime.length;
-        List<Integer> indexes = new ArrayList<>();
+        int N = plantTime.length;
+        int[][] days = new int[N][2];
         
-        for(int i = 0; i < N; i++) indexes.add(i);
+        for(int i = 0; i < N; i++)
+            days[i] = new int[]{growTime[i], plantTime[i]};
         
-        Collections.sort(indexes, (i, j) -> growTime[j] - growTime[i]);
+        Arrays.sort(days, Comparator.comparing(d -> -d[0]));
+        
+        int plantSum = 0, totalDays = 0;
+        
+        for(int[] day: days) {
+            int grow = day[0],
+                plant = day[1];
 
-        for(int i = 0, currPlantTime = 0; i < N; i++) {
-            int idx = indexes.get(i);
-            int time = currPlantTime + plantTime[idx] + growTime[idx];
-            totalDays = Math.max(totalDays, time);
-            currPlantTime += plantTime[idx];
+            totalDays = Math.max(totalDays, plantSum + grow + plant);
+            plantSum += plant;
         }
         
         return totalDays;
