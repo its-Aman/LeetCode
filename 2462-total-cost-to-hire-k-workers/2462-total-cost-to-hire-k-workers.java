@@ -15,16 +15,16 @@ class Solution {
             while (back.size() < candidates && j >= i)
                 back.offer(costs[j--]);
 
-            int f = !front.isEmpty() ? front.peek() : Integer.MAX_VALUE;
-            int b = !back.isEmpty() ? back.peek() : Integer.MAX_VALUE;
+            if (!front.isEmpty() && !back.isEmpty())
+                if (front.peek() <= back.peek())
+                    ans += front.poll();
+                else
+                    ans += back.poll();
+            else if (back.isEmpty())
+                ans += front.poll();
+            else if (front.isEmpty())
+                ans += back.poll();
 
-            if (f <= b) {
-                ans += f;
-                front.poll();
-            } else {
-                ans += b;
-                back.poll();
-            }
         }
 
         return ans;
