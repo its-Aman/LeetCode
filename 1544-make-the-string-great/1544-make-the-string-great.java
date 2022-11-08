@@ -1,7 +1,24 @@
 class Solution {
-    int diff = 'a' - 'A';
     
     public String makeGood(String s) {
+        Stack<Character> stack = new Stack();
+        
+        for(char c: s.toCharArray()) {
+            if(!stack.isEmpty() && Math.abs(stack.peek() - c) == 32)
+                stack.pop();
+            else
+                stack.push(c);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        
+        for(char c: stack)
+            sb.append(c);
+        
+        return sb.toString();
+    }
+    
+    public String makeGood2(String s) {
         StringBuilder sb = new StringBuilder();
         int N = s.length();
         boolean isGood = false;
@@ -32,6 +49,7 @@ class Solution {
         if(idx + 1 == s.length())
             return false;
         
+        int diff = 'a' - 'A';
         return (Math.abs(s.charAt(idx) - s.charAt(idx + 1)) == diff);
     }
 }
