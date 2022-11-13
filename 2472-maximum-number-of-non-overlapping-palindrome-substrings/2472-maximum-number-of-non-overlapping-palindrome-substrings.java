@@ -1,6 +1,44 @@
+class Solution {
+    boolean[][] isPali;
+    int[] dp;
+
+    public int maxPalindromes(String s, int k) {
+        int N = s.length();
+
+        if (k == 1)
+            return N;
+
+        dp = new int[N];
+        isPali = new boolean[N][N];
+
+        for (int len = 1; len <= k + 1; len++)
+            for (int i = 0, j = i + len - 1; j < N; i++, j++)
+                isPali[i][j] = (len < 3 || isPali[i + 1][j - 1]) && (s.charAt(i) == s.charAt(j));
+
+        return maxPalindromes(s, k, 0);
+    }
+
+    public int maxPalindromes(String s, int k, int idx) {
+        int N = s.length();
+        if (idx + k > N)
+            return 0;
+
+        if (dp[idx] == 0) {
+            dp[idx] = 1 + maxPalindromes(s, k, idx + 1);
+            if (isPali[idx][idx + k - 1])
+                dp[idx] = Math.max(dp[idx], 2 + maxPalindromes(s, k, idx + k));
+            if (idx + k < N && isPali[idx][idx + k])
+                dp[idx] = Math.max(dp[idx], 2 + maxPalindromes(s, k, idx + k + 1));
+        }
+        
+        return dp[idx] - 1;
+    }
+}
+
+
 // https://www.youtube.com/watch?v=0VhLorHKiVM
 
-class Solution {
+class Solution2 {
     boolean[][] isPali, isCalc;
     int[] dp;
 
