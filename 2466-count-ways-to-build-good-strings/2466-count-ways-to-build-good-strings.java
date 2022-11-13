@@ -1,6 +1,40 @@
 class Solution {
     public int countGoodStrings(int low, int high, int zero, int one) {
-        int MOD = 1000000007, ans = 0;
+        return countGoodStrings_top_down(low, high, zero, one);
+    }
+
+    int MOD = 1000000007, ans = 0;
+
+    public int countGoodStrings_top_down(int low, int high, int zero, int one) {
+        int[] dp = new int[high + 1];
+        int ans = 0;
+        
+        Arrays.fill(dp, -1);
+        
+        while(low <= high) {
+            ans = (ans + solve(low, dp, one, zero) % MOD) % MOD;
+            ++low;
+        }
+        
+        return ans;
+        
+    }
+    
+    private int solve(int target, int[] dp, int one, int zero) {
+        if(target == 0)
+            return 1;
+        
+        if(target < 0)
+            return 0;
+        
+        if(dp[target] != -1)
+            return dp[target];
+        
+        return dp[target] = ((solve(target - one, dp, one, zero) % MOD) + (solve(target - zero, dp, one, zero) % MOD)) % MOD;
+    }
+
+    public int countGoodStrings_bottom_up(int low, int high, int zero, int one) {
+        int ans = 0;
         int[] dp = new int[high + 1];
         dp[0] = 1;
         
