@@ -1,4 +1,41 @@
 class Solution {
+        int[] parents;
+    int count = 0;
+
+    public int removeStones(int[][] stones) {
+        int N = stones.length;
+        parents = new int[20_001];
+
+        for (var stone : stones)
+            union(stone[0], stone[1] + 10_000);
+
+        return N - count;
+    }
+
+    private void union(int x, int y) {
+        int xx = find(x), yy = find(y);
+
+        if (xx != yy) {
+            parents[xx] = yy;
+            count--;
+        }
+    }
+
+    private int find(int x) {
+        if (parents[x] == 0) {
+            count++;
+            parents[x] = x;
+        }
+
+        if (x != parents[x])
+            parents[x] = find(parents[x]);
+        return parents[x];
+    }
+
+}
+
+
+class Solution2 {
     int[] parents, size;
 
     public int removeStones(int[][] stones) {
