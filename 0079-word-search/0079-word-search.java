@@ -6,6 +6,20 @@ class Solution {
         R = board.length;
         C = board[0].length;
         
+        int[] freqB = new int['z' - 'A' + 1],
+                freqW = new int['z' - 'A' + 1];
+        
+        for(char c: word.toCharArray())
+            freqW[c-'A']++;
+
+        for(int r = 0; r < R; r++) 
+            for(int c = 0; c < C; c++) 
+                freqB[board[r][c]-'A']++;
+
+        for(char c: word.toCharArray())
+            if(freqB[c - 'A'] < freqW[c-'A'])
+                return false;
+        
         for(int r = 0; r < R; r++) {
             for(int c = 0; c < C; c++) {
                 if(board[r][c] == word.charAt(0)) {
