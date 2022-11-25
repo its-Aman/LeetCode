@@ -1,6 +1,6 @@
 class Solution {
     public int sumSubarrayMins(int[] arr) {
-        return sumSubarrayMins_stackAndDP(arr);
+        return sumSubarrayMins_stackOnly(arr);
     }
 
     public int sumSubarrayMins_stackAndDP(int[] arr) {
@@ -31,7 +31,7 @@ class Solution {
     public int sumSubarrayMins_stackOnly(int[] arr) {
         int MOD = 1000000007;
         int N = arr.length;
-        int ans = 0;
+        long ans = 0;
         Stack<Integer> stack = new Stack<>();
         
         for(int i = 0; i <= N; i++) {
@@ -39,12 +39,14 @@ class Solution {
                 int mid = stack.pop();
                 int left = stack.isEmpty() ? -1 : stack.peek();
 
-                ans = (ans + arr[mid] * (i - mid) * (mid - left)) % MOD;
+                long cnt = (mid - left) * (i - mid) % MOD;
+                ans += (cnt * arr[mid]) % MOD;
+                ans %= MOD;
             }
             
             stack.push(i);
         }
-        
-        return ans;
+
+        return (int)ans;
     }
 }
