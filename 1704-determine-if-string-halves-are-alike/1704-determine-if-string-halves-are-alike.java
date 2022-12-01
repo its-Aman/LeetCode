@@ -2,11 +2,10 @@ class Solution {
     public boolean halvesAreAlike(String s) {
         int N = s.length();
         int x = 0, y = 0;
-        Set<Character> set = new HashSet<>();
-        set.addAll(Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'));
+        char[] ch = s.toCharArray();
         
         for(int i = 0; i < N; i++) {
-            if(set.contains(s.charAt(i)))
+            if(ch[i]=='a'||ch[i]=='e'||ch[i]=='i'||ch[i]=='o'||ch[i]=='u'||ch[i]=='A'||ch[i]=='E'||ch[i]=='I'||ch[i]=='O'||ch[i]=='U')                
                 if(i < N/2) {
                    x++;
                 } else {
