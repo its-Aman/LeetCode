@@ -1,4 +1,43 @@
 class Twitter {
+
+    private Map<Integer, Integer> tweetVsUser = new HashMap<>();
+    private Map<Integer, Set<Integer>> usersVsFollowees = new HashMap<>();
+    LinkedList<Integer> tweets = new LinkedList<>();
+
+    public Twitter() {
+        
+    }
+    
+    public void postTweet(int userId, int tweetId) {
+        tweets.addFirst(tweetId);
+        tweetVsUser.put(tweetId, userId);
+    }
+
+    public List<Integer> getNewsFeed(int userId) {
+        List<Integer> feed = new ArrayList<>();
+
+        for (int tweet : tweets) {
+            if (feed.size() >= 10)
+                return feed;
+            if (tweetVsUser.get(tweet).equals(userId) || usersVsFollowees.getOrDefault(userId, new HashSet<>()).contains(tweetVsUser.get(tweet))) {
+                feed.add(tweet);
+            }
+        }
+
+        return feed;
+    }
+
+    public void follow(int followerId, int followeeId) {
+        usersVsFollowees.computeIfAbsent(followerId, k -> new HashSet<>()).add(followeeId);
+    }
+
+    public void unfollow(int followerId, int followeeId) {
+        usersVsFollowees.getOrDefault(followerId, new HashSet<>()).remove(followeeId);
+    }
+}
+
+/**
+class Twitter {
     private static int timestamp = 0;
     private Map<Integer, User> userMap = new HashMap<>();
 
@@ -87,12 +126,4 @@ class Twitter {
         }
     }
 }
-
-/**
- * Your Twitter object will be instantiated and called as such:
- * Twitter obj = new Twitter();
- * obj.postTweet(userId,tweetId);
- * List<Integer> param_2 = obj.getNewsFeed(userId);
- * obj.follow(followerId,followeeId);
- * obj.unfollow(followerId,followeeId);
- */
+*/
