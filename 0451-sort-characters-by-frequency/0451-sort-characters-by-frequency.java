@@ -4,8 +4,6 @@ class Solution {
         int[] cnt = new int[128];
         s = Arrays.stream(s.split("")).sorted().collect(Collectors.joining());
 
-        System.out.println(s);
-
         for (char c : s.toCharArray())
             cnt[c]++;
 
