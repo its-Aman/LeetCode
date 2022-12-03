@@ -1,21 +1,32 @@
 class Solution {
     public String frequencySort(String s) {
-        Map<Character, Integer> freq = new HashMap<>();
-        PriorityQueue<Pair<Character, Integer>> pq = new PriorityQueue<>(Comparator.comparingInt(f -> -f.getValue()));
+
+        int[] cnt = new int[128];
+        s = Arrays.stream(s.split("")).sorted().collect(Collectors.joining());
+
+        System.out.println(s);
 
         for (char c : s.toCharArray())
-            freq.put(c, freq.getOrDefault(c, 0) + 1);
+            cnt[c]++;
 
-        for (char f : freq.keySet())
-            pq.offer(new Pair<>(f, freq.get(f)));
+        return Arrays.stream(s.split("")).sorted(Comparator.comparingInt(f -> -cnt[f.charAt(0)])).collect(Collectors.joining());
 
-        StringBuilder sb = new StringBuilder();
+        
+//         Map<Character, Integer> freq = new HashMap<>();
 
-        while (!pq.isEmpty()) {
-            var curr = pq.poll();
-            sb.append(curr.getKey().toString().repeat(curr.getValue()));
-        }
+//         for (char c : s.toCharArray())
+//             freq.put(c, freq.getOrDefault(c, 0) + 1);
 
-        return sb.toString();
+//         PriorityQueue<Map.Entry<Character, Integer>> pq = new PriorityQueue<>(Comparator.comparingInt(f -> -f.getValue()));
+//         pq.addAll(freq.entrySet());
+        
+//         StringBuilder sb = new StringBuilder();
+
+//         while (!pq.isEmpty()) {
+//             var curr = pq.poll();
+//             sb.append(curr.getKey().toString().repeat(curr.getValue()));
+//         }
+
+//         return sb.toString();
     }
 }
