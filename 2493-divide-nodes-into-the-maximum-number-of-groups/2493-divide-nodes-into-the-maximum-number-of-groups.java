@@ -1,3 +1,4 @@
+// https://leetcode.com/problems/divide-nodes-into-the-maximum-number-of-groups/discuss/2876532/Java-or-Beats-100-or-dfs-%2B-bfs
 class Solution {
     public int magnificentSets(int n, int[][] edges) {
         Map<Integer, List<Integer>> graph = new HashMap<>();
