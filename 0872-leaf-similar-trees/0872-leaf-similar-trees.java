@@ -14,29 +14,33 @@
  * }
  */
 class Solution {
-    public boolean leafSimilar_2(TreeNode root1, TreeNode root2) {
-        System.out.println(root1.val);
-        System.out.println(root2.val);
-        if(root1 == null && root2 == null)
-            return true;
-
-        if(root1 == null || root2 == null)
-            return false;
-        
-        if(isLeaf(root1) && isLeaf(root2))
-            return root1.val == root2.val;
-
-        if(isLeaf(root1) || isLeaf(root2))
-            return false;
-        
-        return leafSimilar(root1.left, root2.left) && leafSimilar(root1.right, root2.right);
-    }
-    
-    private boolean isLeaf(TreeNode node) {
-        return node.left == null && node.right == null;
-    }
-    
     public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        Stack<TreeNode> s1 = new Stack<>(), 
+                        s2 = new Stack<>();
+        s1.push(root1);
+        s2.push(root2);
+        
+        while(!s1.isEmpty() && !s2.isEmpty())
+            if(dfs(s1) != dfs(s2))
+                return false;
+        
+        return s1.isEmpty() && s2.isEmpty();
+    }
+    
+    private int dfs(Stack<TreeNode> s) {
+        while(true) {
+            var curr = s.pop();
+            
+            if(curr.right != null)
+                s.push(curr.right);
+            if(curr.left != null)
+                s.push(curr.left);
+            if(curr.left == null && curr.right == null)
+                return curr.val;
+        }
+    }
+    
+    public boolean leafSimilar_2(TreeNode root1, TreeNode root2) {
         List<Integer> l1 = new ArrayList<>(),
                         l2 = new ArrayList<>();
         
