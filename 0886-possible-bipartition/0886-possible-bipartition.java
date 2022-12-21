@@ -45,7 +45,8 @@ class DSU {
 
 class Solution {
     public boolean possibleBipartition(int n, int[][] dislikes) {
-        return possibleBipartition_DSU(n, dislikes);
+        // return possibleBipartition_DSU(n, dislikes);
+        return possibleBipartition_BFS_DFS(n, dislikes);
     }
     
     public boolean possibleBipartition_DSU(int n, int[][] dislikes) {
