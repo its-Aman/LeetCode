@@ -88,12 +88,12 @@ class Solution {
         
         for(int i = 1; i <= n; i++) {
             if(color[i] == -1) {
-                if(!dfs(i, 0, g, color)) {
-                    return false;
-                }
-                // if(!bfs(i, g, color)) {
+                // if(!dfs(i, 0, g, color)) {
                 //     return false;
                 // }
+                if(!bfs(i, g, color)) {
+                    return false;
+                }
             }
         }
         
