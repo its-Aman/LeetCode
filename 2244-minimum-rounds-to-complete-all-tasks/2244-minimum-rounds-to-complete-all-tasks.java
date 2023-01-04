@@ -14,11 +14,7 @@ class Solution {
                 return -1;
             }
             
-            if(val % 3 == 0) {
-                ans += val / 3;
-            } else {
-                ans += (val / 3) + 1;                
-            }
+            ans += (val + 2) / 3;                
         }
         
         return ans;
