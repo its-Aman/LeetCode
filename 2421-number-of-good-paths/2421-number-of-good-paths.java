@@ -1,3 +1,5 @@
+// https://www.youtube.com/watch?v=_uVYiM7LmSk
+
 class Solution {
 
     public int numberOfGoodPaths(int[] vals, int[][] edges) {
@@ -13,21 +15,25 @@ class Solution {
             adjList.computeIfAbsent(e[1], k -> new ArrayList<>()).add(e[0]);
         }
 
-        for (int i = 0; i < N; i++)
+        for (int i = 0; i < N; i++) {
             nodeListSortedByValue.computeIfAbsent(vals[i], k -> new ArrayList<>()).add(i);
+        }
 
-        var keys = nodeListSortedByValue.keySet();
-
-        for (var key : keys) {
+        for (var key : nodeListSortedByValue.keySet()) {
             var list = nodeListSortedByValue.get(key);
 
             for (var node : list) {
                 var nbrs = adjList.get(node);
 
-                if (nbrs == null) continue;
+                if (nbrs == null) {
+                    continue;
+                }
 
-                for (int nbr : nbrs)
-                    if (vals[node] >= vals[nbr]) uf.union(node, nbr);
+                for (int nbr : nbrs) {
+                    if (vals[node] >= vals[nbr]) {
+                        uf.union(node, nbr);
+                    }
+                }
             }
 
             if (list.size() > 1) {
@@ -83,69 +89,5 @@ class Solution {
                     ++rank[xx];
             }
         }
-    }
-
-    
-    
-/*------------------------------------------------------------------------------------------*/    
-
-    public int numberOfGoodPaths_(int[] vals, int[][] edges) {
-        int N = vals.length;
-        int ans = 0;
-        Map<Integer, List<Integer>> g = new HashMap<>();
-        List<int[]> okNodes = new ArrayList<>();
-
-        for (int[] e : edges) {
-            g.computeIfAbsent(e[0], k -> new ArrayList<>()).add(e[1]);
-            g.computeIfAbsent(e[1], k -> new ArrayList<>()).add(e[0]);
-        }
-
-        Map<Integer, Integer> uniq = new HashMap<>();
-        for (int i = 0; i < N; i++) {
-            if (uniq.containsKey(vals[i])) {
-                okNodes.add(new int[]{uniq.get(vals[i]), i});
-            } else {
-                uniq.put(vals[i], i);
-            }
-        }
-
-        System.out.println(uniq);
-
-        for (int i = 0; i < okNodes.size(); i++) {
-            int[] ok = okNodes.get(i);
-            int start = ok[0];
-            int end = ok[1];
-            if (go(g, start, end, vals))
-                ans++;
-        }
-
-        return ans + N;
-    }
-
-    private boolean go(Map<Integer, List<Integer>> g, int start, int end, int[] vals) {
-        Set<Integer> seen = new HashSet<>();
-
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(start);
-
-        while (!q.isEmpty()) {
-            int size = q.size();
-
-            while (size-- > 0) {
-                var curr = q.poll();
-                var nbrs = g.getOrDefault(curr, new ArrayList<>());
-                seen.add(curr);
-
-                for (int i = 0; i < nbrs.size(); i++) {
-                    int nbr = nbrs.get(i);
-                    if (!seen.contains(nbr) && vals[start] < vals[nbr]) {
-                        return false;
-                    }
-                    if (nbr == end)
-                        return true;
-                }
-            }
-        }
-        return true;
     }
 }
