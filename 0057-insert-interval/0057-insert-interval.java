@@ -20,15 +20,8 @@ class Solution {
 
         while (i < N) {
             result.add(intervals[i++]); 
-        } 
-        
-        int L = result.size();
-        int[][] ans = new int[L][2];
-        
-        for(i = 0; i < L; i++) {
-            ans[i] = result.get(i);
         }
         
-        return ans;
+        return result.toArray(new int[result.size()][2]);
     }
 }
