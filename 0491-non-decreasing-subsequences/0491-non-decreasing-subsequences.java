@@ -1,26 +1,31 @@
 class Solution {
-    Set<List<Integer>> ans = new HashSet<>();
 
     public List<List<Integer>> findSubsequences(int[] nums) {
         int N = nums.length;
-        findSubsequences(new LinkedList<>(), nums, 0);
-        return new ArrayList<>(ans);
-    }
-
-    public void findSubsequences(List<Integer> curr, int[] nums, int idx) {
-        if (idx == nums.length) {
-            if(curr.size() > 1) {
-                ans.add(List.copyOf(curr));
+        Set<List<Integer>> ans = new HashSet<>();
+        
+        for(int bitmask = 1; bitmask < (1 << N); bitmask++) {
+            List<Integer> curr = new ArrayList<>();
+            
+            for(int i = 0; i < N; i++) {
+                if(((bitmask >> i) & 1) == 1) {
+                    curr.add(nums[i]);
+                }
             }
-            return;
-        }
-
-        if (curr.isEmpty() || curr.get(curr.size() - 1) <= nums[idx]) {
-            curr.add(nums[idx]);
-            findSubsequences(curr, nums, idx + 1);
-            curr.remove(curr.size() - 1);
+            
+            if(curr.size() > 1) {
+                boolean isIncreasing = true;
+                
+                for(int i = 0; i < curr.size() - 1; i++) {
+                    isIncreasing &= curr.get(i) <= curr.get(i + 1);
+                }
+                
+                if(isIncreasing) {
+                    ans.add(curr);
+                }
+            }
         }
         
-        findSubsequences(curr, nums, idx + 1);
+        return new ArrayList<>(ans);
     }    
 }
