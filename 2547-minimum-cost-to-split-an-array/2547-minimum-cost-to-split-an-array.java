@@ -8,12 +8,13 @@ class Solution {
         dp[0] = 0;
 
         for(int i = 0; i < n; i++) {
-            Map<Integer, Integer> freq = new HashMap<>();
+            // Map<Integer, Integer> freq = new HashMap<>();
+            int[] freq = new int[n]; 
             int uniquesCount = 0;
 
             for(int j = i; j < n; j++) {
                 int val = nums[j];
-                int valFreq = freq.getOrDefault(val, 0);
+                int valFreq = freq[val];
                 
                 if(valFreq == 0) uniquesCount++;
                 if(valFreq == 1) uniquesCount--;
@@ -21,7 +22,7 @@ class Solution {
                 int trimmedCnt = (j - i + 1) - uniquesCount;
                 
                 dp[j + 1] = Math.min(dp[j + 1], dp[i] + trimmedCnt + k);
-                freq.put(val, valFreq + 1);
+                freq[val] = valFreq + 1;
             }
         }
 
