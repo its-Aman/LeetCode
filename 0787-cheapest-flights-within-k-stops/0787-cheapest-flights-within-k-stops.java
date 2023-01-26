@@ -1,8 +1,8 @@
 class Solution {
     public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        // return findCheapestPrice_Dijkastra(n, flights, src, dst, k);
+        return findCheapestPrice_Dijkastra(n, flights, src, dst, k);
         // return findCheapestPrice_BellmanFord(n, flights, src, dst, k);
-        return findCheapestPrice_BFS(n, flights, src, dst, k);
+        // return findCheapestPrice_BFS(n, flights, src, dst, k);
     }
 
     public static int findCheapestPrice_BFS(int n, int[][] flights, int src, int dst, int k) {
@@ -79,7 +79,7 @@ class Solution {
         return destination[target] == Integer.MAX_VALUE ? -1 : destination[target];
     }
 
-    public int findCheapestPrice_Dijkastra(int n, int[][] flights, int src, int dst, int K) {
+    public static int findCheapestPrice_Dijkastra(int n, int[][] flights, int src, int dst, int K) {
         Map<Integer, List<int[]>> graph = new HashMap<>();
 
         for (int[] f : flights)
@@ -100,6 +100,8 @@ class Solution {
             if (node == dst)
                 return dist;
 
+            // minDepth[node] < depth means we have already visited this node and no need to 
+            // calculate new value for minDepth since this is already relaxed
             if (depth > K || minDepth[node] != -1 && minDepth[node] < depth)
                 continue;
 
