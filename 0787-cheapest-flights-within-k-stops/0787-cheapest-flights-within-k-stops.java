@@ -1,14 +1,15 @@
 class Solution {
     public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-//        return findCheapestPrice_Dijkastra(n, flights, src, dst, k);
-        return findCheapestPrice_BellmanFord(n, flights, src, dst, k);
+        // return findCheapestPrice_Dijkastra(n, flights, src, dst, k);
+        // return findCheapestPrice_BellmanFord(n, flights, src, dst, k);
+        return findCheapestPrice_BFS(n, flights, src, dst, k);
     }
 
-    public static int findCheapestPrice_BFS(int n, int[][] flights, int src, int dst, int K) {
+    public static int findCheapestPrice_BFS(int n, int[][] flights, int src, int dst, int k) {
         Map<Integer, List<int[]>> g = new HashMap<>();
 
         for (int[] f : flights) {
-            g.computeIfAbsent(f[0], k -> new ArrayList<>()).add(new int[]{f[1], f[2]});
+            g.computeIfAbsent(f[0], val -> new ArrayList<>()).add(new int[]{f[1], f[2]});
         }
 
         int[] dist = new int[n];
@@ -18,7 +19,7 @@ class Solution {
         q.offer(new int[]{src, 0});
         int stops = 0;
         
-        while(stops <= K && !q.isEmpty()) {
+        while(stops <= k && !q.isEmpty()) {
             int size = q.size();
             
             while(size-- > 0) {
@@ -26,20 +27,20 @@ class Solution {
                 int node = curr[0],
                     distance = curr[1];
                 
-                if(!g.containsKey(curr)) {
+                if(!g.containsKey(node)) {
                     continue;
                 }
                 
-                for(var next: g.get(curr)) {
+                for(var next: g.get(node)) {
                     int nextNode = next[0],
                         nextDistance = next[1];
 
-                    if(nextDistance + distance >= dist[distance]) {
+                    if(nextDistance + distance >= dist[nextNode]) {
                         continue;
                     }
                     
-                    dist[distance] = nextDistance + distance;
-                    q.offer(new int[] {nextNode, dist[distance]});
+                    dist[nextNode] = nextDistance + distance;
+                    q.offer(new int[] {nextNode, dist[nextNode]});
                 }
             }
             
@@ -52,7 +53,7 @@ class Solution {
         
         return dist[dst];
     }    
-    
+
     public static int findCheapestPrice_BellmanFord(int n, int[][] flights, int source, int target, int k) {
         int[] destination = new int[n];
         Arrays.fill(destination, Integer.MAX_VALUE);
