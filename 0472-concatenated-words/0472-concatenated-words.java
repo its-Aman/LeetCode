@@ -1,35 +1,37 @@
 class Solution {
+    Set<String> set = new HashSet<>();
+
     public List<String> findAllConcatenatedWordsInADict(String[] words) {
         List<String> ans = new ArrayList<>();
-        Set<String> preWords = new HashSet<>();
-        Arrays.sort(words, Comparator.comparingInt(String::length));
+        int min = Integer.MAX_VALUE;
 
-        for (String word : words) {
-            if (canForm(word, preWords))
-                ans.add(word);
+        for (String w : words) {
+            int N = w.length();
+            min = Math.min(min, N);
 
-            preWords.add(word);
+            if (N > 0) {
+                set.add(w);
+            }
+        }
+
+        for (String w : words) {
+            if (dfs(w, 0, w.length(), min)) {
+                ans.add(w);
+            }
         }
 
         return ans;
     }
 
-    private boolean canForm(String word, Set<String> dict) {
-        if (dict.isEmpty()) return false;
-        int N = word.length();
-        boolean[] dp = new boolean[N + 1];
-        dp[0] = true;
+    private boolean dfs(String word, int start, int end, int min) {
 
-        for (int i = 1; i <= N; i++) {
-            for (int j = i - 1; j >= 0; j--) {
-                if (!dp[j]) continue;
-                if (dict.contains(word.substring(j, i))) {
-                    dp[i] = true;
-                    break;
-                }
+        for (int i = start + min; i <= end - min; i++) {
+            if (set.contains(word.substring(start, i)) &&
+                    (set.contains(word.substring(i, end)) || dfs(word, i, end, min))) {
+                return true;
             }
         }
 
-        return dp[N];
+        return false;
     }
 }
