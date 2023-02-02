@@ -1,8 +1,56 @@
 class CountIntervals {
+
+    private CountIntervals left, right;
+    private int lb, ub, count;
+
+    public CountIntervals() {
+        lb = 1;
+        ub = 1_000_000_000;
+        count = 0;
+    }
+    
+    public CountIntervals(int lb, int ub, int val) {
+        this.lb = lb;
+        this.ub = ub;
+        this.count = val;
+    }
+    
+    public void add(int l, int r) {
+        // interval has already been fully covered before
+        // no need to cover again
+        if (count == ub - lb + 1) {
+            return;
+        }
+        
+        // interval has already been covered by [l, r]
+        // no need to discover further
+        if (l <= lb && ub <= r) {
+            count = ub - lb + 1;
+            return;
+        }
+
+        int mid = lb + (ub - lb) / 2;
+        /* push down */
+        if (left == null) left = new CountIntervals(lb, mid, 0);
+        if (right == null) right = new CountIntervals(mid + 1, ub, 0);
+
+        if (l <= mid) left.add(l, r);
+        if (r > mid) right.add(l, r);
+
+        /* push up */
+        count = left.count + right.count;
+    }
+    
+    public int count() {
+        return count;
+    }
+}
+
+class CountIntervals2 {
     TreeMap<Integer, Integer> map;
     int cnt;
     
-    public CountIntervals() {
+    public CountIntervals2() {
         map = new TreeMap<>();
         cnt = 0;
     }
