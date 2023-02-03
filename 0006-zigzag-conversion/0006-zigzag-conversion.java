@@ -4,13 +4,15 @@ class Solution {
             return s;
         }
         
-        String[] rows = new String[R];
+        StringBuilder[] rows = new StringBuilder[R];
         int idx = 0, backward = -1;
         
-        Arrays.fill(rows, "");
+        for(int r = 0; r < R; r++) {
+            rows[r] = new StringBuilder();
+        }
         
         for(char c: s.toCharArray()) {
-            rows[idx] += c;
+            rows[idx].append(c);
             
             if(idx == 0 || idx == R - 1) {
                 backward *= -1;
@@ -21,7 +23,7 @@ class Solution {
         
         StringBuilder ans = new StringBuilder();
 
-        for(String row: rows) {
+        for(var row: rows) {
             ans.append(row);
         }
 
