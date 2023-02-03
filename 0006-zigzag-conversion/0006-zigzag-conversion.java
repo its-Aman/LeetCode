@@ -4,6 +4,35 @@ class Solution {
             return s;
         }
         
+        String[] rows = new String[R];
+        int idx = 0, backward = -1;
+        
+        Arrays.fill(rows, "");
+        
+        for(char c: s.toCharArray()) {
+            rows[idx] += c;
+            
+            if(idx == 0 || idx == R - 1) {
+                backward *= -1;
+            }
+            
+            idx += backward;
+        }
+        
+        StringBuilder ans = new StringBuilder();
+
+        for(String row: rows) {
+            ans.append(row);
+        }
+
+        return ans.toString();
+    }
+    
+    public String convert3(String s, int R) {
+        if(R == 1) {
+            return s;
+        }
+        
         StringBuilder sb = new StringBuilder();
         int N = s.length();
         int charInSec = 2 * (R - 1);
