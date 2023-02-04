@@ -1,4 +1,45 @@
 class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        int N1 = s1.length();
+        int N2 = s2.length();
+        
+        if(N1 > N2) {
+            return false;
+        }
+
+        int[] m1 = new int[26];
+        int[] m2 = new int[26];
+
+        for(int i = 0; i < N1; i++) {
+            m1[s1.charAt(i) - 'a'] += 1;
+        }
+        
+        for(int i = 0; i <= N2 - N1; i++) {
+            Arrays.fill(m2, 0);
+            
+            for(int j = 0; j < N1; j++) {
+                m2[s2.charAt(j+i) - 'a'] += 1;
+            }
+            
+            boolean isMatch = true;
+            
+            for(int j = 0; j < 26; j++) {
+                if(m1[j] != m2[j]) {
+                    isMatch = false;
+                    break;
+                }
+            }
+            
+            if(isMatch) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+}
+
+class Solution2 {
     int[] ch = new int[26];
     int N1, N2;
     
