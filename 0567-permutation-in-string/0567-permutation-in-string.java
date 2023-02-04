@@ -8,14 +8,13 @@ class Solution {
         }
 
         int[] m1 = new int[26];
-        int[] m2 = new int[26];
 
         for(int i = 0; i < N1; i++) {
             m1[s1.charAt(i) - 'a'] += 1;
         }
         
         for(int i = 0; i <= N2 - N1; i++) {
-            Arrays.fill(m2, 0);
+            int[] m2 = new int[26];
             
             for(int j = 0; j < N1; j++) {
                 m2[s2.charAt(j+i) - 'a'] += 1;
