@@ -8,33 +8,32 @@ class Solution {
         }
 
         int[] m1 = new int[26];
+        int[] m2 = new int[26];
 
         for(int i = 0; i < N1; i++) {
             m1[s1.charAt(i) - 'a'] += 1;
+            m2[s2.charAt(i) - 'a'] += 1;
         }
         
-        for(int i = 0; i <= N2 - N1; i++) {
-            int[] m2 = new int[26];
-            
-            for(int j = 0; j < N1; j++) {
-                m2[s2.charAt(j+i) - 'a'] += 1;
-            }
-            
-            boolean isMatch = true;
-            
-            for(int j = 0; j < 26; j++) {
-                if(m1[j] != m2[j]) {
-                    isMatch = false;
-                    break;
-                }
-            }
-            
-            if(isMatch) {
+        for(int i = 0; i < N2 - N1; i++) {
+            if(isMatch(m1, m2)) {
                 return true;
             }
+            
+            m2[s2.charAt(i + N1) - 'a'] += 1;
+            m2[s2.charAt(i) - 'a'] -= 1;
         }
         
-        return false;
+        return isMatch(m1, m2);
+    }
+    
+    private boolean isMatch(int[] m1, int[] m2) {
+        for(int j = 0; j < 26; j++) {
+            if(m1[j] != m2[j]) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
