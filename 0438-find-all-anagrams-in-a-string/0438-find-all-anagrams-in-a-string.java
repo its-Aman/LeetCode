@@ -4,34 +4,38 @@ class Solution {
         int[] pFreq = new int[26], sFreq = new int[26];
         List<Integer> ans = new ArrayList<>();
         
-        for(char c: p.toCharArray()) {
-            pFreq[c-'a'] += 1;
-            sFreq[c-'a'] += 1;
+        if(pN > sN) {
+            return ans;
+        }
+        
+        for(int i = 0; i < pN; i++) {
+            pFreq[p.charAt(i) - 'a'] += 1;
+            sFreq[s.charAt(i) - 'a'] += 1;
         }
         
         for(int i = 0; i <= sN - pN; i++) {
-            if(pFreq[s.charAt(i)-'a'] > 0) {
-                boolean isAnagram = true;
-                
-                for(int j = 0; j < pN; j++) {
-                    sFreq[s.charAt(i + j)-'a'] -= 1;
-
-                    if(sFreq[s.charAt(i + j)-'a'] < 0) {
-                        isAnagram = false;
-                        break;
-                    }
-
-                }
-    
-                if(isAnagram) {
-                    ans.add(i);
-                }
-                
-                for(int j = 0; j < 26; j++){
-                    sFreq[j] = pFreq[j];
+            boolean isAnagram = true;
+            
+            for(int j = 0; j < 26; j++) {
+                if(pFreq[j] != sFreq[j]) {
+                    isAnagram = false;
+                    break;
                 }
             }
-        }
+
+            if(isAnagram) {
+                ans.add(i);
+            }
+
+            sFreq[s.charAt(i)-'a'] -= 1;
+
+            if(i + pN >= sN){
+                break;
+            }
+
+            sFreq[s.charAt(i + pN)-'a'] += 1;
+
+            }
         
         return ans;
     }
