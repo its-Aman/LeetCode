@@ -1,5 +1,25 @@
 class Solution {
     public int singleNonDuplicate(int[] nums) {
+        int N = nums.length, l = 0, r = N - 1;
+        
+        while(l < r) {
+            int m = l + ((r-l)>>1);
+
+            if(m % 2 == 1) {
+                m--;
+            }
+            
+            if(nums[m] != nums[m+1]) {
+                r = m;
+            } else {
+                l = m + 2;
+            }
+        }
+        
+        return nums[l];
+    }
+    
+    public int singleNonDuplicate2(int[] nums) {
         int N = nums.length, l = 0, r = N;
         
         if(N == 1) {
