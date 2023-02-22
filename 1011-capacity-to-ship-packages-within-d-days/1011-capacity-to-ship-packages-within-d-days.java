@@ -30,6 +30,10 @@ class Solution {
                 init = w;
                 D -= 1;
             }
+            
+            if(w > c || D < 0) {
+                return false;
+            }
         }
         
         return (D > 0);
