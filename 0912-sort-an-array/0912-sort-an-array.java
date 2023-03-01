@@ -115,32 +115,31 @@ class HeapSort {
 }
 
 class CountingSort {
-    HashMap<Integer, Integer> cnt;
-    int min, max;
-    
-    public CountingSort() {
-        cnt = new HashMap<>();
-        min = Integer.MAX_VALUE;
-        max = Integer.MIN_VALUE;
-    }
     
     public int[] sort(int[] nums) {
-        int N = nums.length;
+        int N = nums.length,
+            min = nums[0],
+            max = nums[0];
         
         for(int i = 0; i < N; i++) {
             min = Math.min(min, nums[i]);
             max = Math.max(max, nums[i]);
-            cnt.put(nums[i], cnt.getOrDefault(nums[i], 0) + 1);
         }
         
-        int idx = 0;
-        for(int val = min; val <= max; val++) {
-            while(cnt.getOrDefault(val, 0) > 0) {
+        int[] cnt = new int[max - min + 1];
+        
+        for(int num: nums) {
+            cnt[num - min]++;
+        }
+        
+        for(int val = min, idx = 0; val <= max; val++) {
+            while(cnt[val - min] > 0) {
                 nums[idx] = val;
                 idx++;
-                cnt.put(val, cnt.get(val) - 1);
+                cnt[val - min]--;
             }
         }
+        
         return nums;
     }
 }
