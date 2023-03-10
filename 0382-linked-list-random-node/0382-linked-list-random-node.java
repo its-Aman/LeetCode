@@ -9,33 +9,25 @@
  * }
  */
 class Solution {
-    int[] list;
-    int N;
-    Random rand;
+    ListNode H;
     
     public Solution(ListNode head) {
-        ListNode cnt = head;
-        rand = new Random();
-        
-        while(cnt != null) {
-            cnt = cnt.next;
-            N++;
-        }
-        
-        list = new int[N];
-        cnt = head;
-        int i = 0;
-        
-        while(i < N) {
-            list[i] = cnt.val;
-            i++;
-            cnt = cnt.next;
-        }
+        H = head;
     }
     
     public int getRandom() {
-        int n = rand.nextInt(N);
-        return list[n];
+        int scope = 1, pick = 0;
+        ListNode curr = H;
+        
+        while(curr != null) {
+            if(Math.random() < (1.0 / scope)) {
+                pick = curr.val;
+            }
+            scope++;
+            curr = curr.next;
+        }
+        
+        return pick;
     }
 }
 
