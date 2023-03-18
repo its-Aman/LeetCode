@@ -1,3 +1,35 @@
+class BrowserHistory {
+    ArrayList<String> list;
+    int curr, last;
+        
+    public BrowserHistory(String homepage) {
+        list = new ArrayList<>();
+        list.add(homepage);
+    }
+    
+    public void visit(String url) {
+        curr++;
+        
+        if(list.size() > curr) {
+            list.add(curr, url);    
+        } else {
+            list.add(url);
+        }
+        
+        last = curr;
+    }
+    
+    public String back(int steps) {
+        curr = Math.max(0, curr - steps);
+        return list.get(curr);
+    }
+    
+    public String forward(int steps) {
+        curr = Math.min(last, curr + steps);
+        return list.get(curr);
+    }
+}
+
 class DLNode {
     public String val;
     public DLNode p, n;
@@ -7,26 +39,24 @@ class DLNode {
     }
 }
 
-class BrowserHistory {
-    DLNode ptr, root = new DLNode("");
+class BrowserHistory1 {
+    DLNode ptr, root;
     
-    public BrowserHistory(String homepage) {
-        DLNode node = new DLNode(homepage);
-        root.n = node;
-        node.p = root;
-        ptr = node;
+    public BrowserHistory1(String homepage) {
+        root = new DLNode(homepage);
+        ptr = root;
     }
     
     public void visit(String url) {
         DLNode v = new DLNode(url);
-        v.p = ptr;
         ptr.n = v;
+        v.p = ptr;
         ptr = ptr.n;
     }
     
     public String back(int steps) {
         
-        while(steps-- > 0 && ptr.p.val != "") {
+        while(steps-- > 0 && ptr.p != null) {
             ptr = ptr.p;
         }
                 
@@ -41,15 +71,6 @@ class BrowserHistory {
         return ptr.val;
     }
 }
-
-/**
- * Your BrowserHistory object will be instantiated and called as such:
- * BrowserHistory obj = new BrowserHistory(homepage);
- * obj.visit(url);
- * String param_2 = obj.back(steps);
- * String param_3 = obj.forward(steps);
- */
-
 
 class BrowserHistory2 {
     Stack<String> f, b;
@@ -91,11 +112,3 @@ class BrowserHistory2 {
         return f.peek();
     }
 }
-
-/**
- * Your BrowserHistory object will be instantiated and called as such:
- * BrowserHistory obj = new BrowserHistory(homepage);
- * obj.visit(url);
- * String param_2 = obj.back(steps);
- * String param_3 = obj.forward(steps);
- */
