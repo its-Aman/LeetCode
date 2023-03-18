@@ -1,6 +1,8 @@
-[
-leetcode.com,
-google.com,
-facebook.com, <-
-youtube.com,
-]
+["BrowserHistory","visit","visit","visit","back","back","forward","visit","forward","back","back"]
+[["leetcode.com"],["google.com"],["facebook.com"],["youtube.com"],[1],[1],[1],["linkedin.com"],[2],[2],[7]]
+["BrowserHistory","back","back","visit","forward","visit","visit","visit","back","visit","visit","visit","back","visit","visit","visit","visit","back","visit","visit","visit","visit","visit","visit","visit","back","forward","back","forward","visit","back","visit","visit"]
+[["icpbj.com"],[1],[10],["xbepk.com"],[8],["kls.com"],["dlkwxpf.com"],["pnep.com"],[9],["rmis.com"],["bxf.com"],["dz.com"],[2],["acuqsax.com"],["dcvo.com"],["ijbg.com"],["nlott.com"],[7],["dd.com"],["vssnq.com"],["teur.com"],["pn.com"],["szi.com"],["brhldg.com"],["yulyoqv.com"],[4],[10],[8],[5],["av.com"],[3],["okr.com"],["meli.com"]]
+["BrowserHistory","visit","back","back","back","forward","forward","visit","visit","visit","visit","visit","visit","visit","visit","back","visit","forward","back","back","forward","visit","visit","visit","back","visit","forward","visit","visit","visit","visit","back","back","visit","forward","back","visit","visit","back","forward","forward"]
+[["vvlf.com"],["rwrjffk.com"],[9],[6],[10],[6],[5],["af.com"],["jjuulz.com"],["vqthh.com"],["viw.com"],["mvvxuo.com"],["sezid.com"],["ncbnmr.com"],["qehugwp.com"],[7],["wg.com"],[9],[6],[4],[2],["foy.com"],["szi.com"],["yqxprn.com"],[9],["pmgoa.com"],[3],["dkik.com"],["mxlcs.com"],["mvs.com"],["uuto.com"],[4],[1],["mdhkz.com"],[9],[9],["zwcc.com"],["afsdng.com"],[6],[1],[3]]
+["BrowserHistory","forward","forward","visit","visit","back","visit","visit","visit","visit","visit","forward","visit","back","visit","visit","forward","visit","back","visit","forward","visit","back","back","visit","visit","back","visit","back","visit","visit","visit","back","back","forward","visit"]
+[["spzn.com"],[6],[3],["yglghy.com"],["bdsrnfr.com"],[5],["ei.com"],["expmyxq.com"],["ue.com"],["thkhs.com"],["laoy.com"],[6],["fdzqi.com"],[3],["wdh.com"],["nsxsf.com"],[9],["pqeqm.com"],[4],["yyfhv.com"],[3],["tvidl.com"],[8],[9],["ifn.com"],["fqaock.com"],[7],["ow.com"],[1],["fdg.com"],["xsub.com"],["cxmc.com"],[3],[7],[10],["omsh.com"]]
