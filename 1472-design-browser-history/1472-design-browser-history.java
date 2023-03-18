@@ -1,8 +1,61 @@
+class DLNode {
+    public String val;
+    public DLNode p, n;
+
+    public DLNode(String s) {
+        val = s;
+    }
+}
+
 class BrowserHistory {
+    DLNode ptr, root = new DLNode("");
+    
+    public BrowserHistory(String homepage) {
+        DLNode node = new DLNode(homepage);
+        root.n = node;
+        node.p = root;
+        ptr = node;
+    }
+    
+    public void visit(String url) {
+        DLNode v = new DLNode(url);
+        v.p = ptr;
+        ptr.n = v;
+        ptr = ptr.n;
+    }
+    
+    public String back(int steps) {
+        
+        while(steps-- > 0 && ptr.p.val != "") {
+            ptr = ptr.p;
+        }
+                
+        return ptr.val;
+    }
+    
+    public String forward(int steps) {
+        while(steps-- > 0 && ptr.n != null) {
+            ptr = ptr.n;
+        }
+
+        return ptr.val;
+    }
+}
+
+/**
+ * Your BrowserHistory object will be instantiated and called as such:
+ * BrowserHistory obj = new BrowserHistory(homepage);
+ * obj.visit(url);
+ * String param_2 = obj.back(steps);
+ * String param_3 = obj.forward(steps);
+ */
+
+
+class BrowserHistory2 {
     Stack<String> f, b;
     String start;
 
-    public BrowserHistory(String homepage) {
+    public BrowserHistory2(String homepage) {
         f = new Stack<>();
         b = new Stack<>();
 
