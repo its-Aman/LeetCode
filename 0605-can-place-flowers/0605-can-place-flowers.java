@@ -8,7 +8,11 @@ class Solution {
             
             if((pre | flowerbed[i] | post) == 0) {
                 n--;
-                flowerbed[i] = 1;
+                flowerbed[i++] = 1;
+            }
+            
+            if(n == 0) {
+                return true;
             }
         }
         
