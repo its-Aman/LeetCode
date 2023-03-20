@@ -1,21 +1,27 @@
 class Solution {
-    int ans = 0;
+    int[] set = new int[1001];
     
     public int beautifulSubsets(int[] nums, int k) {
         Arrays.sort(nums);
-        backtrack(new HashSet<>(), 0, nums, k);
-        return ans - 1;
+        return backtrack(0, nums, k) - 1;
     }
     
-    private void backtrack(Set<Integer> set, int i, int[] nums, int k) {
-        ans++;
+    private int backtrack(int i, int[] nums, int k) {
         
-        for(int j = i; j < nums.length; j++) {
-            if(!set.contains(nums[j] - k)) {
-                set.add(nums[j]);
-                backtrack(set, j + 1, nums, k);
-                set.remove(nums[j]);
-            }
+        if(i == nums.length) {
+            return 1;
         }
+        
+        int take = 0;
+        
+        if(nums[i] - k < 0 || set[nums[i] - k] == 0) {
+            set[nums[i]]++;
+            take = backtrack(i + 1, nums, k);
+            set[nums[i]]--;
+        }
+        
+        int notTake = backtrack(i + 1, nums, k);
+        
+        return take + notTake;
     }
 }
