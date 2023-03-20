@@ -1,27 +1,28 @@
+// https://leetcode.com/problems/the-number-of-beautiful-subsets/discuss/3314006/Smart-Arrangement-vs.-Bitmask-DFS
+
 class Solution {
-    int[] set = new int[1001];
-    
     public int beautifulSubsets(int[] nums, int k) {
-        Arrays.sort(nums);
-        return backtrack(0, nums, k) - 1;
+        return beautifulSubsets(nums, k, 0, 0);
     }
-    
-    private int backtrack(int i, int[] nums, int k) {
-        
-        if(i == nums.length) {
-            return 1;
+
+    private int beautifulSubsets(int[] nums, int k, int i, int mask) {
+        if (i == nums.length) {
+            return mask > 0 ? 1 : 0;
         }
-        
-        int take = 0;
-        
-        if(nums[i] - k < 0 || set[nums[i] - k] == 0) {
-            set[nums[i]]++;
-            take = backtrack(i + 1, nums, k);
-            set[nums[i]]--;
+
+        boolean isBeautiful = true;
+
+        for (int j = 0; j < i && isBeautiful; ++j) {
+            isBeautiful = (((1 << j) & mask) == 0) || Math.abs(nums[j] - nums[i]) != k;
         }
-        
-        int notTake = backtrack(i + 1, nums, k);
-        
+
+        int take = beautifulSubsets(nums, k, i + 1, mask);
+        int notTake = 0;
+
+        if (isBeautiful) {
+            notTake = beautifulSubsets(nums, k, i + 1, mask + (1 << i));
+        }
+
         return take + notTake;
     }
 }
