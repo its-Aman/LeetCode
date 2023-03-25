@@ -47,16 +47,22 @@ class Solution {
         }
         
         long ans = 0;
-        long[] cnts = new long[n];
+        int[] cnts = new int[n];
         
         for(int i = 0; i < n; i++) {
             cnts[uf.find(i)]++;    
         }
         
-        for(long cnt: cnts) {
-            ans += cnt * (n - cnt);
+        for(int cnt: cnts) {
+            if(cnt == 0) {
+                continue;
+            }
+            
+            long c = n - cnt;
+            ans += cnt * c;
+            n -= cnt;
         }
         
-        return ans / 2;
+        return ans;
     }
 }
