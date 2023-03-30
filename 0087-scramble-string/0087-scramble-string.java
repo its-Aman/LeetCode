@@ -1,5 +1,5 @@
 class Solution {
-    public boolean isScramble(String s1, String s2) {
+    public boolean isScramble2(String s1, String s2) {
         if (s1.length() != s2.length()) {
             return false;
         }
@@ -26,19 +26,18 @@ class Solution {
         return dp[0][0][N];
     }
 
-    public boolean isScramble2(String s1, String s2) {
+    public boolean isScramble(String s1, String s2) {
         int N = s1.length();
         boolean[][][] dp = new boolean[N + 1][N][N];
-        char[] c1 = s1.toCharArray(), c2 = s2.toCharArray();
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                dp[i][j][1] = c1[i] == c2[j];
+                dp[1][i][j] = s1.charAt(i) == s2.charAt(j);
             }
         }
 
         for (int length = 2; length <= N; length++) {
-            for (int i = 0; i < N; i++) {
+            for (int i = 0; i < N + 1 - length; i++) {
                 for (int j = 0; j < N + 1 - length; j++) {
                     for (int newLength = 1; newLength < length; newLength++) {
                         boolean[] dp1 = dp[newLength][i];
