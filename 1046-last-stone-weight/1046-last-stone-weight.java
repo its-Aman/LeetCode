@@ -6,23 +6,17 @@ class Solution {
             pq.offer(-stone);
         }
         
-        while(!pq.isEmpty()) {
-            if(pq.size() == 1) {
-                return -pq.poll();
-            }
-            
+        while(pq.size() != 1) {
             int x = -pq.poll();
             int y = -pq.poll();
             
             if(x!=y) {
-               pq.offer(-Math.abs(x-y)); 
-            }
-            
-            if(pq.isEmpty()) {
-                return 0;
+               pq.offer(y-x); 
+            } else {
+                pq.offer(0);
             }
         }
         
-        return 0;
+        return -pq.poll();
     }
 }
