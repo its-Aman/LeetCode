@@ -1,26 +1,32 @@
 class SmallestInfiniteSet {
-    boolean[] set = new boolean[1001];
-    int idx = 1;
+    SortedSet<Integer> set;
+    int k;
 
     public SmallestInfiniteSet() {
-        for(int i=0; i<set.length; i++) {
-            set[i] = true;
-        }
+        set = new TreeSet<>();
+        k = 1;
     }
     
     public int popSmallest() {
-        for(int i=1; i<set.length; i++) {
-            if(set[i] == true) {
-                set[i] = false;
-                return i;
-            }
+        int ans;
+        
+        if(!set.isEmpty()) {
+            ans = set.first();
+            set.remove(ans);
+        } else {
+            ans = k;
+            k++;
         }
         
-        return -1;
+        return ans;
     }
     
     public void addBack(int num) {
-        set[num] = true;
+        if(k <= num || set.contains(num)) {
+            return;
+        }
+        
+        set.add(num);
     }
 }
 
