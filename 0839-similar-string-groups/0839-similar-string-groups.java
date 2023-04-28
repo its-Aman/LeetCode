@@ -8,7 +8,7 @@ class Solution {
         init(N);
         
         for(int i=0; i<N; i++) {
-            for(int j=0; j<N; j++) {
+            for(int j=i+1; j<N; j++) {
                 if(isSimilar(strs[i], strs[j])) {
                     union(i, j);
                 }
