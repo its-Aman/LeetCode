@@ -1,5 +1,6 @@
 class Solution {
     int[] par, cnt;
+    int ans;
     
     public int numSimilarGroups(String[] strs) {
         int N = strs.length;
@@ -20,42 +21,41 @@ class Solution {
     private void init(int N) {
         par = new int[N];
         cnt = new int[N];
+        ans = N;
         
         while(N-- > 0) {
             par[N] = N;
-            cnt[N] = 1;
         }
     }
     
     private int find(int x) {
         if(x != par[x]) {
             par[x] = find(par[x]);
+            x = par[x];
         }
         
-        return par[x];
+        return x;
     }
     
     private void union(int x, int y) {
         int xx = find(x);
         int yy = find(y);
+        
+        if(xx == yy) {
+            return;
+        }
 
         if(cnt[xx] > cnt[yy]) {
             par[yy] = xx;
+            cnt[xx]++;
         } else {
             par[xx] = yy;
-            cnt[xx]++;
+            cnt[yy]++;
         }
+        ans--;
     }
     
-    private int countParants() {
-        int ans = 0;
-        
-        for(int i=0; i<par.length; i++) {
-            if(i == par[i]) {
-                ans++;
-            }
-        }
-        
+    private int countParants() {        
         return ans;
     }
     
