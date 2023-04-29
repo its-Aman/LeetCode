@@ -1,59 +1,46 @@
 class Solution {
-    public boolean[] distanceLimitedPathsExist(int n, int[][] edgeList, int[][] queries) {
-        int N = queries.length;
-        boolean[] ans = new boolean[N];
-        int[][] queriesI = new int[N][4];
-        UnionFind uf = new UnionFind(n);
+    int[] par, size, weight;
 
-        for (int i = 0; i < N; i++) {
-            queriesI[i][0] = queries[i][0];
-            queriesI[i][1] = queries[i][1];
-            queriesI[i][2] = queries[i][2];
-            queriesI[i][3] = i;
+    public boolean[] distanceLimitedPathsExist(int n, int[][] edgeList, int[][] queries) {
+        boolean[] ans = new boolean[queries.length];
+        init(n);
+        Arrays.sort(edgeList, Comparator.comparingInt(a -> a[2]));
+
+        for (var edge : edgeList) {
+            union(edge[0], edge[1], edge[2]);
         }
 
-        Arrays.sort(edgeList, Comparator.comparingInt(a -> a[2]));
-        Arrays.sort(queriesI, Comparator.comparingInt(a -> a[2]));
-
-        for (int qI = 0, eI = 0; qI < N; qI++) {
-            int p = queriesI[qI][0],
-                    q = queriesI[qI][1],
-                    dis = queriesI[qI][2],
-                    i = queriesI[qI][3];
-
-            while (eI < edgeList.length && edgeList[eI][2] < dis) {
-                uf.union(edgeList[eI][0], edgeList[eI][1]);
-                eI++;
-            }
-            ans[i] = uf.isConnected(p, q);
+        for (int i = 0; i < queries.length; i++) {
+            ans[i] = find(queries[i][0], queries[i][2]) == find(queries[i][1], queries[i][2]);
         }
 
         return ans;
     }
-}
 
-class UnionFind {
-    int[] par, size;
-
-    UnionFind(int N) {
+    private void init(int N) {
         par = new int[N];
         size = new int[N];
+        weight = new int[N];
 
         while (N-- > 0) {
             par[N] = N;
         }
+
     }
 
-    public int find(int x) {
-        if (par[x] != x) {
-            par[x] = find(par[x]);
+    public int find(int x, int limit) {
+        while (x != par[x]) {
+            if (weight[x] >= limit) {
+                break;
+            }
+            x = par[x];
         }
 
-        return par[x];
+        return x;
     }
 
-    public void union(int x, int y) {
-        int xx = find(x), yy = find(y);
+    public void union(int x, int y, int limit) {
+        int xx = find(x, Integer.MAX_VALUE), yy = find(y, Integer.MAX_VALUE);
 
         if (xx == yy) {
             return;
@@ -61,15 +48,14 @@ class UnionFind {
 
         if (size[xx] > size[yy]) {
             par[yy] = xx;
-        } else if (size[xx] < size[yy]) {
-            par[xx] = yy;
+            weight[yy] = limit;
         } else {
             par[xx] = yy;
-            size[yy]++;
-        }
-    }
+            weight[xx] = limit;
 
-    public boolean isConnected(int x, int y) {
-        return find(x) == find(y);
+            if (size[xx] == size[yy]) {
+                size[yy]++;
+            }
+        }
     }
 }
