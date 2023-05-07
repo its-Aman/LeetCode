@@ -2,20 +2,18 @@ class Solution {
     public int[] distinctDifferenceArray(int[] nums) {
         int N = nums.length;
         int[] ans = new int[N];
-        int[] cnt1 = new int[51], cnt2 = new int[51];
-
+        Set<Integer> set = new HashSet<>();
 
         for (int i = 0; i < N; i++) {
-            cnt1[nums[i]]++;
+            set.add(nums[i]);
+            ans[i] = set.size();
         }
+        
+        set.clear();
 
-        for (int i = 0; i < N; i++) {
-            cnt2[nums[i]]++;
-            cnt1[nums[i]]--;
-            for (int j = 0; j < 51; j++) {
-                ans[i] += cnt2[j] > 0 ? 1 : 0;
-                ans[i] -= cnt1[j] > 0 ? 1 : 0;
-            }
+        for (int i = N-1; i >= 0; i--) {
+            ans[i] -= set.size();
+            set.add(nums[i]);            
         }
 
         return ans;
