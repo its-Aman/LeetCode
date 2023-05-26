@@ -1,32 +1,23 @@
 class Solution {
     public int stoneGameII(int[] piles) {
-        int N = piles.length;
-        int[][][] dp = new int[2][N+1][N+1];
+        int[] presum = Arrays.copyOf(piles, piles.length);
         
-        for(int p=0; p<2; p++) {
-            for(int i=0; i<=N; i++) {
-                for(int m=0; m<=N; m++) {
-                    dp[p][i][m] = -1;
-                }
-            }
-        }
-        return dfs(piles, dp, 0, 0, 1);
+        for (int i = presum.length - 2; i >= 0; i--) presum[i] += presum[i + 1];
+        
+        return dfs(presum, 1, 0, new int[piles.length][piles.length]);
     }
     
-    private int dfs(int[] piles, int[][][] dp, int p, int i, int m) {
-        if(i == piles.length) return 0;
+    private int dfs(int[] presum, int m, int p, int[][] memo) {
+        if (p + 2 * m >= presum.length) return presum[p];
+
+        if (memo[p][m] > 0) return memo[p][m];
         
-        if(dp[p][i][m] != -1) return dp[p][i][m];
-        
-        int res = p == 1 ? 1000000 : -1, s=0;
-        
-        for(int x=1; x<=Math.min(2*m, piles.length-i); x++) {
-            s += piles[i+x-1];
-            
-            if(p==0) res = Math.max(res, s+dfs(piles, dp, 1, i+x, Math.max(m,x)));
-            if(p==1) res = Math.min(res, dfs(piles, dp, 0, i+x, Math.max(m,x)));
+        int res = 0, take = 0;
+
+        for (int i = 1; i <= 2 * m; i++) {
+            take = presum[p] - presum[p + i];
+            res = Math.max(res, take + presum[p + i] - dfs(presum, Math.max(i, m), p + i, memo));
         }
-        
-        return dp[p][i][m]=res;
+        return memo[p][m] = res;
     }
 }
