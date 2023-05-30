@@ -1,20 +1,28 @@
 class MyHashSet {
-    boolean[] set;
+    int[] set;
 
     public MyHashSet() {
-        set = new boolean[1000001];
+        set = new int[31251];
     }
     
     public void add(int key) {
-        set[key] = true;
+        set[getIdx(key)] |= getMask(key);
     }
     
     public void remove(int key) {
-        set[key] = false;
+        set[getIdx(key)] &= (~getMask(key));
     }
     
     public boolean contains(int key) {
-        return set[key];
+        return (set[getIdx(key)] & getMask(key)) != 0;
+    }
+    
+    private int getIdx(int key) {
+        return key/32;
+    }
+
+    private int getMask(int key) {
+        return 1<<(key%32);
     }
 }
 
