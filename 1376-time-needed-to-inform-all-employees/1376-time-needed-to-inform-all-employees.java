@@ -1,6 +1,23 @@
 class Solution {
 
     public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            if (informTime[i] == 0) continue;
+            ans = Math.max(ans, dfs(i, manager, informTime));
+        }
+        return ans;
+    }
+
+    private int dfs(int emp, int[] manager, int[] informTime) {
+        if (manager[emp] != -1) {
+            informTime[emp] += dfs(manager[emp], manager, informTime);
+            manager[emp] = -1;
+        }
+        return informTime[emp];
+    }
+
+    public int numOfMinutes0(int n, int headID, int[] manager, int[] informTime) {
         List<List<Integer>> g = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             g.add(new ArrayList<>());
