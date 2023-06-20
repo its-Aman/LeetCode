@@ -2,25 +2,24 @@ class Solution {
     public int[] getAverages(int[] nums, int k) {
         int N = nums.length;
         int[] ans = new int[N];
-        long sumL=0, sumR=0;
         
-        for(int i=0; i<N; i++) {
-            sumL += nums[i];
+        Arrays.fill(ans, -1);
+        
+        if(k+k+1>N) return ans;
+        
+        double sum=0;
 
-            if(i+k<N) {
-                sumR += nums[i+k];
-            }
+        for(int i=0; i<k+k+1; i++) sum += nums[i];
+        
+        double avg = sum/(k+k+1);
+        ans[k] = (int)avg;
 
-            if(i-k < 0) {
-                ans[i] = -1;
-            } else if(i+k>=N) {
-                ans[i] = -1;
-            } else {
-                ans[i] = (int)((sumL+sumR-nums[i])/(k+k+1));
+        for(int i=k+k+1, c=0; i<N; i++, c++) {
+            sum += nums[i];
+            sum -= nums[c];
 
-                sumL -= nums[i-k];
-                sumR -= nums[i];
-            }
+            avg = sum/(k+k+1);
+            ans[k+c+1] = (int)avg;
         }
         
         return ans;
