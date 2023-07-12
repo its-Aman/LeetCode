@@ -12,8 +12,7 @@ func eventualSafeNodes(graph [][]int) []int {
 	}
 
 	for i := 0; i < N; i++ {
-		for j := 0; j < len(graph[i]); j++ {
-			node := graph[i][j]
+		for _, node := range graph[i] {
 			adj[node] = append(adj[node], i)
 			in[i]++
 		}
@@ -31,19 +30,19 @@ func eventualSafeNodes(graph [][]int) []int {
 		node := item.(int)
 		safe[node] = true
 
-		for idx := 0; idx < len(adj[node]); idx++ {
-			in[adj[node][idx]]--
+		for _, nbr := range adj[node] {
+			in[nbr]--
 
-			if in[adj[node][idx]] == 0 {
-				q.Enqueue(adj[node][idx])
+			if in[nbr] == 0 {
+				q.Enqueue(nbr)
 			}
 		}
 	}
 
 	ans := make([]int, 0)
 
-	for i := 0; i < N; i++ {
-		if safe[i] {
+	for i, isSafe := range safe {
+		if isSafe {
 			ans = append(ans, i)
 		}
 	}
