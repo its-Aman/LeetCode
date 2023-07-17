@@ -7,6 +7,42 @@
  */
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+	dummy := new(ListNode)
+	num, list := 0, dummy
+
+	reverse := func(h *ListNode) (prev *ListNode) {
+		for h != nil {
+			nxt := h.Next
+			h.Next = prev
+			prev = h
+			h = nxt
+		}
+		return
+	}
+
+	r1, r2 := reverse(l1), reverse(l2)
+
+	for r1 != nil || r2 != nil || num != 0 {
+
+		if r1 != nil {
+			num += r1.Val
+			r1 = r1.Next
+		}
+
+		if r2 != nil {
+			num += r2.Val
+			r2 = r2.Next
+		}
+
+		list.Next = &ListNode{num % 10, nil}
+		num /= 10
+		list = list.Next
+	}
+
+	return reverse(dummy.Next)
+}
+
+func addTwoNumbers2(l1 *ListNode, l2 *ListNode) *ListNode {
 	ans, sum := &ListNode{}, 0
 	head := &ListNode{-1, ans}
 	s1, s2, s3 := list.New(), list.New(), list.New()
